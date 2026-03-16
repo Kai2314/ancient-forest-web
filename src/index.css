@@ -1,0 +1,75 @@
+:root {
+  --woodland-dark: #0a1f14;
+  --woodland-moss: #2d5a27;
+  --gold-accent: #d4af37;
+  --blood-ochre: #8b0000;
+  --parchment: #f4ecd8;
+  --text-main: #e0e0e0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--woodland-dark);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at center, rgba(45, 90, 39, 0.1) 0%, transparent 80%);
+}
+
+.mystery-board {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  padding: 30px;
+  height: 100vh;
+  background-image: url('/wood_texture.jpg'); /* Planned placeholder */
+  background-size: cover;
+}
+
+.panel {
+  background: rgba(10, 31, 20, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+}
+
+.character-card {
+  background: var(--parchment);
+  color: #2c2c2c;
+  padding: 10px;
+  border: 1px solid #ccc;
+  transform: rotate(-2deg);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.character-card:hover {
+  transform: rotate(0deg) scale(1.05);
+  z-index: 10;
+}
+
+.dossier-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  filter: sepia(0.3) contrast(1.1);
+  border-bottom: 2px solid #222;
+}
+
+.dossier-name {
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  text-align: center;
+  border-bottom: 1px dashed #555;
+}
