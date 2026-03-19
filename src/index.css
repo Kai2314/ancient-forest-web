@@ -33,6 +33,28 @@ body {
   background-size: cover;
 }
 
+/* Responsive Layout */
+@media (max-width: 1024px) {
+  .mystery-board {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+    overflow-y: visible;
+  }
+
+  .panel {
+    height: auto;
+    max-height: 500px; /* Limit height of side panels on mobile */
+  }
+
+  /* Specific order for mobile: Map (Center) first, then Investigators, then Tabs */
+  .center-panel {
+    order: -1; 
+  }
+}
+
 .panel {
   background: rgba(10, 31, 20, 0.8);
   border: 1px solid rgba(212, 175, 55, 0.3);
@@ -273,6 +295,7 @@ body {
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

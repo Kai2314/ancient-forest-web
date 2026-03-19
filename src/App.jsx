@@ -154,7 +154,7 @@ function App() {
       </div>
 
       {/* Center: Main Focus */}
-      <div className="panel" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto'}}>
+      <div className="panel center-panel" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto'}}>
         {activeDossier ? (
           <div className="dossier-detail" style={{background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)'}}>
             <h1 style={{fontFamily: 'Cinzel', borderBottom: '2px solid #222'}}>{activeDossier.name}</h1>
@@ -247,7 +247,7 @@ function App() {
         ) : (
           <div className="map-view">
             <h1 style={{color: 'var(--gold-accent)', fontFamily: 'Cinzel'}}>古茂密林地圖 (Forest Map)</h1>
-            <div style={{marginTop: '20px', width: '800px', height: '500px', background: 'rgba(255,255,255,0.05)', border: '2px dashed var(--gold-accent)', overflow: 'hidden'}}>
+            <div style={{marginTop: '20px', width: '100%', maxWidth: '800px', height: 'auto', aspectRatio: '16/10', background: 'rgba(255,255,255,0.05)', border: '2px dashed var(--gold-accent)', overflow: 'hidden'}}>
               <img src="/forest_map.png" alt="Forest Map" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
             </div>
           </div>
