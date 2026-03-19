@@ -72,9 +72,9 @@ function App() {
   ];
 
   const suspects = [
-    { id: 'harris', name: '哈里斯 (Harris)', role: '綁匪首領', image: 'suspect3.png', desc: '鎮上臭名昭彰的小混混頭目，自大且衝動。聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。', fate: { status: '被捕', color: '#ff9800' } },
+    { id: 'harris', name: '哈里斯 (Harris)', role: '綁匪首領', image: 'suspect2.png', desc: '鎮上臭名昭彰的小混混頭目，自大且衝動。聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。', fate: { status: '被捕', color: '#ff9800' } },
     { id: 'kidnapper1', name: '克雷頓 (Clayton)', role: '綁匪成員', image: 'suspect1.png', desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。', fate: { status: '重傷被捕', color: '#ff9800' } },
-    { id: 'kidnapper2', name: '多布斯 (Dobbs)', role: '看守人', image: 'suspect2.png', desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被監刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。', fate: { status: '死亡', color: '#f44336' } },
+    { id: 'kidnapper2', name: '多布斯 (Dobbs)', role: '看守人', image: 'suspect3.png', desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被監刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。', fate: { status: '死亡', color: '#f44336' } },
     { id: 'kimbo', name: '劉金寶 (Liu Kimbo)', role: '異變的工員', image: 'kimbo.png', desc: '蒼浩與二虎的同鄉，原為水庫工員，後被邪神影響。眼神冷淡疏離，瘋狂崇拜「主」。常駕駛著載滿炸藥與藍色礦石的卡車。', fate: { status: '崩潰', color: '#9e9e9e', detail: '礦坑被炸毀後，與領班卡爾跪在廢墟前絕望痛哭，喃喃說著「我們失敗了，再也無法回到主的恩寵之中」。' } },
     { id: 'erhu', name: '二虎 (Erhu)', role: '異變的好友 (活屍)', image: 'erhu.png', desc: '蒼浩尋找已久的好友。三個月前為了尋找金寶進入森林卻失蹤。再次現身時已成了面色慘白的「活屍」，胸口巨大的傷口流出詭異藍光。雖然身體已死，但保有最後一絲保護蒼浩的友情。', fate: { status: '異變 (非人)', color: '#9e9e9e', detail: '在關鍵時刻救下蒼浩，對他說：「趕快離開，我已經回不去了。來世有機會再做兄弟吧。照顧好我的家人，別讓他們知道我的事情。」說完便消失在林中。' } }
   ];
