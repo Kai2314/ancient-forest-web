@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './index.css';
+
+const SFX = {
+  SWORD: '/sounds/sword_clash.mp3',
+  GAVEL: '/sounds/gavel_hit.mp3',
+  SHOTGUN: '/sounds/shotgun_cock.mp3',
+  COIN: '/sounds/coin_clink.mp3',
+  POISON: '/sounds/poison_drip.mp3',
+  PARCHMENT: '/sounds/parchment_rustle.mp3',
+  SANITY: '/sounds/sanity_loss.mp3',
+  HALLUCINATION: '/sounds/hallucination.mp3'
+};
 
 function App() {
   const [activeDossier, setActiveDossier] = useState(null);
@@ -7,6 +18,24 @@ function App() {
   const [activeSuspect, setActiveSuspect] = useState(null);
   const [activeEvent, setActiveEvent] = useState(null);
   const [rightTab, setRightTab] = useState('clues');
+  const centerPanelRef = useRef(null);
+
+  // Audio player utility
+  const playSfx = useCallback((path) => {
+    if (!path) return;
+    const audio = new Audio(path);
+    audio.volume = 0.5;
+    audio.play().catch(e => console.log("Audio play blocked by browser:", e));
+  }, []);
+
+  // Auto-scroll to center panel on mobile when something is selected
+  useEffect(() => {
+    if (activeDossier || activeClue || activeSuspect || activeEvent) {
+      if (window.innerWidth <= 1024) {
+        centerPanelRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [activeDossier, activeClue, activeSuspect, activeEvent]);
 
   const clearCenter = () => {
     setActiveDossier(null);
@@ -20,10 +49,11 @@ function App() {
       id: 'canghao', 
       name: '蒼浩 (Cang Hao)', 
       role: '武術家 / 尋人者', 
-      image: 'cang_hao_full.png',
+      image: 'cang_hao_sword.png',
       desc: '精通武術的華人，此行主要目的是尋找三個月前失蹤的好友二虎。',
       fate: { status: '生還', color: '#4caf50', detail: '回國後寫信隱瞞好友死訊，模仿二虎筆跡定期寫信給二虎的爸媽與劉奶奶，獨自背負痛苦。' },
-      stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 }
+      stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 },
+      sound: SFX.SWORD
     },
     { 
       id: 'scott', 
@@ -32,7 +62,8 @@ function App() {
       image: 'scott.png',
       desc: '利用法律權威取得資源，致力於維護森林的法治與秩序。',
       fate: { status: '生還', color: '#4caf50', detail: '果斷炸毀礦坑封印邪神。簡死後，致力於以法律手段起訴盧卡斯集團，為族人奪回被侵佔的土地。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '教育 (EDU)': 80 }
+      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '教育 (EDU)': 80 },
+      sound: SFX.GAVEL
     },
     { 
       id: 'miller', 
@@ -41,7 +72,8 @@ function App() {
       image: 'miller.png',
       desc: '經驗豐富的追蹤者，受雇前來調查連環失蹤案，對森林的危險有著直覺般的警覺。',
       fate: { status: '生還', color: '#4caf50', detail: '利用盧卡斯的犯罪紀錄成功勒索了一萬美元賞金，隨後瀟灑地離開了被寧頓小鎮。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 65, '聆聽 (Listen)': 60, '力量 (STR)': 27, '心理 (Psych)': 30 }
+      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 65, '聆聽 (Listen)': 60, '力量 (STR)': 27, '心理 (Psych)': 30 },
+      sound: SFX.SHOTGUN
     },
     { 
       id: 'bigb', 
@@ -50,7 +82,8 @@ function App() {
       image: 'bigb.png',
       desc: '充滿好奇心的紈絝子弟，來到班寧頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
       fate: { status: '生還', color: '#4caf50', detail: '與青梅竹馬簡死別後感到深深的懺悔與遺憾，決定回到父親身邊重新開始生活。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 80, '外貌 (APP)': 35, '說服 (Persuade)': 70, '威嚇 (Intim)': 56 }
+      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 80, '外貌 (APP)': 35, '說服 (Persuade)': 70, '威嚇 (Intim)': 56 },
+      sound: SFX.COIN
     },
     { 
       id: 'annie', 
@@ -142,7 +175,7 @@ function App() {
         <h2 style={{color: 'var(--gold-accent)', marginBottom: '15px'}}>調查小組 (Investigators)</h2>
         <div style={{display: 'flex', flexDirection: 'column', gap: '25px'}}>
           {investigators.map(inv => (
-            <div key={inv.id} className="character-card" onClick={() => {clearCenter(); setActiveDossier(inv);}}>
+            <div key={inv.id} className="character-card" onClick={() => {playSfx(inv.sound); clearCenter(); setActiveDossier(inv);}}>
               <img src={inv.image} alt={inv.name} className="dossier-image" />
               <div className="dossier-name">{inv.name}</div>
               {inv.fate && (
@@ -154,7 +187,7 @@ function App() {
       </div>
 
       {/* Center: Main Focus */}
-      <div className="panel center-panel" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto'}}>
+      <div className="panel center-panel" ref={centerPanelRef} style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto'}}>
         {activeDossier ? (
           <div className="dossier-detail" style={{background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)'}}>
             <h1 style={{fontFamily: 'Cinzel', borderBottom: '2px solid #222'}}>{activeDossier.name}</h1>
@@ -273,7 +306,7 @@ function App() {
                   <div 
                     key={clue.id} 
                     className="list-item clue-item"
-                    onClick={() => {clearCenter(); setActiveClue(clue);}}
+                    onClick={() => {playSfx(SFX.PARCHMENT); clearCenter(); setActiveClue(clue);}}
                   >
                     {clue.name}
                   </div>
@@ -290,7 +323,7 @@ function App() {
                   <div 
                     key={suspect.id}
                     className="list-item suspect-item"
-                    onClick={() => {clearCenter(); setActiveSuspect(suspect);}}
+                    onClick={() => {playSfx(SFX.SANITY); clearCenter(); setActiveSuspect(suspect);}}
                   >
                     <span>{suspect.name}</span>
                     {suspect.fate && (
@@ -306,7 +339,7 @@ function App() {
                   <div 
                     key={npc.id}
                     className="list-item npc-item"
-                    onClick={() => {clearCenter(); setActiveSuspect(npc);}}
+                    onClick={() => {playSfx(SFX.SANITY); clearCenter(); setActiveSuspect(npc);}}
                   >
                     <span>{npc.name}</span>
                     {npc.fate && (
@@ -326,7 +359,7 @@ function App() {
                   <div 
                     key={event.id} 
                     className="timeline-event"
-                    onClick={() => {clearCenter(); setActiveEvent(event);}}
+                    onClick={() => {playSfx(SFX.HALLUCINATION); clearCenter(); setActiveEvent(event);}}
                   >
                     <div className="timeline-marker">{idx + 1}</div>
                     <div className="timeline-content">

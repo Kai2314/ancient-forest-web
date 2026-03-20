@@ -49,10 +49,10 @@ body {
     max-height: 500px; /* Limit height of side panels on mobile */
   }
 
-  /* Specific order for mobile: Map (Center) first, then Investigators, then Tabs */
-  .center-panel {
-    order: -1; 
-  }
+  /* Specific order for mobile: Investigators, then Tabs, then Details/Map at the bottom */
+  .panel:nth-child(1) { order: 1; }
+  .panel:nth-child(3) { order: 2; }
+  .center-panel { order: 3; }
 }
 
 .panel {
