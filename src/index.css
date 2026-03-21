@@ -183,6 +183,8 @@ body {
   background: rgba(255,255,255,0.05);
   border-left: 3px solid var(--gold-accent);
   color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .clue-item:hover {
@@ -308,4 +310,458 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- New Atmosphere & Layout Styles --- */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--dark-bg);
+  overflow: hidden;
+}
+
+/* --- UI/UX Visual Polish --- */
+:root {
+  --font-heading: 'Cinzel', 'Noto Serif TC', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
+  font-family: var(--font-heading);
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #050805;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  color: var(--gold-accent);
+}
+
+.loading-content {
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.splash-title {
+  font-size: 2.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px var(--gold-accent);
+  animation: splashFade 2s ease-in-out infinite alternate;
+}
+
+@keyframes splashFade {
+  from { opacity: 0.5; filter: blur(2px); }
+  to { opacity: 1; filter: blur(0px); }
+}
+
+.loading-bar-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-bar {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gold-accent);
+  box-shadow: 0 0 15px var(--gold-accent);
+  animation: loadingAnim 2.5s linear forwards;
+}
+
+@keyframes loadingAnim {
+  to { left: 0%; }
+}
+
+.loading-text {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+/* Enhanced Map View */
+.map-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.map-container-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+/* Mist/Fog Effect over Map */
+.map-fog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url('https://www.transparenttextures.com/patterns/dust.png');
+  opacity: 0.3;
+  z-index: 5;
+  mix-blend-mode: overlay;
+  animation: fogDrift 30s linear infinite;
+}
+
+@keyframes fogDrift {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+
+.map-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+  z-index: 6;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.map-interaction-prompt {
+  margin-top: 15px;
+  color: var(--gold-accent);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-interaction-prompt::before, .map-interaction-prompt::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold-accent);
+  opacity: 0.3;
+}
+
+/* --- Edit Mode Styles --- */
+.top-controls {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 9999;
+  display: flex;
+  gap: 10px;
+}
+
+.music-toggle-btn, .edit-toggle-btn {
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.music-toggle-btn:hover, .edit-toggle-btn:hover {
+  background: var(--gold-accent);
+  color: #000;
+  box-shadow: 0 0 20px var(--gold-accent);
+  transform: translateY(-2px);
+}
+
+.map-hotspot.edit-mode {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 0, 0, 0.5);
+  border: 2px solid white;
+  z-index: 1000;
+}
+
+.map-hotspot.dragging {
+  background: white;
+  box-shadow: 0 0 30px white;
+  scale: 1.5;
+}
+
+.edit-coordinates-panel {
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--blood-ochre);
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: tooltipFadeIn 0.3s ease-out;
+}
+
+.copy-coords-btn {
+  background: var(--gold-accent);
+  color: #000;
+  border: none;
+  padding: 6px 12px;
+  font-family: var(--font-heading);
+  font-weight: bold;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.copy-coords-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 15px var(--gold-accent);
+  transform: scale(1.05);
+}
+
+.coords-code-block {
+  background: #0a0a0a;
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  user-select: all;
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 1px inset #333;
+}
+
+
+
+.music-toggle { display: none; } /* Hide old solo button */
+
+
+/* --- Interactive Map & Dice Roller --- */
+.map-hotspot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--gold-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--gold-accent);
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.map-hotspot:hover {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: #fff;
+  box-shadow: 0 0 20px #fff;
+}
+
+.hotspot-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--gold-accent);
+  animation: hotspot-pulse-key 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes hotspot-pulse-key {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+
+/* --- Hotspot Labels --- */
+.hotspot-label {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  color: var(--gold-accent);
+  text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 1px 3px #000;
+  pointer-events: none;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  transition: opacity 0.3s;
+}
+
+.map-hotspot:hover .hotspot-label {
+  opacity: 1;
+  color: #fff;
+  text-shadow: 0 0 10px var(--gold-accent), 0 1px 3px #000;
+}
+
+/* --- Hotspot Tooltip Preview Card --- */
+.hotspot-tooltip {
+  position: absolute;
+  z-index: 100;
+  width: 220px;
+  background: rgba(10, 20, 14, 0.92);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.15);
+  pointer-events: none;
+  animation: tooltipFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Tooltip positioning variants */
+.tooltip-top {
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-left {
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-right {
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.1) saturate(1.1);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.tooltip-info {
+  padding: 8px 10px;
+}
+
+.tooltip-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--gold-accent);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.tooltip-name-en {
+  font-size: 0.65rem;
+  color: rgba(224, 224, 224, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.dice-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid var(--gold-accent);
+  padding: 20px;
+  text-align: center;
+  z-index: 10000;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px var(--gold-accent);
+  animation: dicePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 4px;
+}
+
+@keyframes dicePop {
+  from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.roll-value {
+  font-size: 3rem;
+  font-family: 'Cinzel', serif;
+  color: var(--gold-accent);
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px var(--gold-accent);
+}
+
+.roll-target {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+.roll-type {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.roll-type.success { color: #4caf50; }
+.roll-type.hard { color: #2196f3; }
+.roll-type.extreme { color: #ffeb3b; }
+.roll-type.critical { color: #f44336; animation: flash 0.5s infinite; }
+.roll-type.failure { color: #757575; }
+.roll-type.fumble { color: #000; background: #f44336; padding: 2px 8px; }
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.roll-btn {
+  background: none;
+  border: 1px solid rgba(193, 154, 107, 0.3);
+  color: var(--parchment);
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.2s;
+  border-radius: 3px;
+}
+
+.roll-btn:hover {
+  border-color: var(--gold-accent);
+  color: var(--gold-accent);
+  background: rgba(193, 154, 107, 0.1);
 }
