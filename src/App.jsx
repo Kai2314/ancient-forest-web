@@ -14,6 +14,119 @@ const SFX = {
   DICE_ROLL: '/sounds/dice_roll.mp3'
 };
 
+const SKILL_NARRATIVES = {
+  canghao: {
+    '敏捷 (DEX)': {
+      success: '你如鬼魅般閃過攻擊，迅速奪取敵方武器並反制。',
+      failure: '你在攀爬枯樹時腳下一滑，從高處摔落，感到一陣劇烈疼痛。(-1 HP)'
+    },
+    '體質 (CON)': {
+      success: '你不眠不休地追趕槍聲來源，依然保持清醒與體力。',
+      failure: '長時間的森林追蹤耗盡了你的體能，你感到極度疲憊。(明日所有檢定增加懲罰骰)'
+    },
+    '追蹤 (Track)': {
+      success: '你在泥土中發現了新鮮的彈殼與破碎的衣料，確定了綁匪的方向。',
+      failure: '森林的迷霧干擾了你的判斷，你帶領小隊走進了一片死胡同，遭到同伴的質疑。'
+    },
+    '心理 (Psych)': {
+      success: '你看出斯科特的手在微微顫抖，察覺到他內心深處的恐懼。',
+      failure: '劉金寶冷淡的眼神讓你感到困惑，你無法判斷他是否在撒謊。'
+    },
+    '理智 (SAN)': {
+      success: '你緊握雙拳，在恐怖的畫作面前強撐意志，守住了最後的理智。',
+      failure: '藝術家營地的慘狀或二虎異變的模樣讓你心碎，恐慌奪走了你的冷靜。(SAN值損失)'
+    }
+  },
+  scott: {
+    '敏捷 (DEX)': {
+      success: '你迅速在灌木叢中找到隱蔽點，避開了搜救隊的視線。',
+      failure: '陷入瘋狂的蒼浩突然揮拳，你反應不及，被打得眼冒金星。(-3 HP)'
+    },
+    '幸運 (LUK)': {
+      success: '你試著推門，發現長生木屋的後門並未上鎖。',
+      failure: '你的腳步聲驚動了附近的獵人，整支小隊陷入了重重包圍。'
+    },
+    '聆聽 (Listen)': {
+      success: '你聽到了遠處卡車引擎的轟鳴聲，確定了水庫工人的蹤跡。',
+      failure: '森林的風聲蓋過了一切，你完全沒注意到安妮悄悄靠近的腳步聲。'
+    },
+    '追蹤 (Track)': {
+      success: '你蹲下身辨識出血跡，斷定這絕非野獸所為。',
+      failure: '由於光線灰暗加上疲勞，你無法在紛亂的足跡中指明方向。'
+    },
+    '說服 (Persuade)': {
+      success: '你利用法官的威信與誠意，成功說服森林裡的獵人父子提供關鍵情報。',
+      failure: '獵人父子對你的法律說詞感到反感，拒絕合作甚至威脅要將你們逐出森林。'
+    }
+  },
+  miller: {
+    '敏捷 (DEX)': {
+      success: '你像影子一樣繞到綁匪克雷頓背後，冰冷的槍管抵住他的後腦。',
+      failure: '一名南北戰爭活屍突然撲向你，將你壓死在腐爛的樹葉堆中。'
+    },
+    '射擊 (Shoot)': {
+      success: '砰！你精準地擊碎了活屍的腦殼，救下了受困的夥伴。',
+      failure: '你的子彈射向天空，或是被樹木遮擋，看著獵物從眼皮底下逃脫。'
+    },
+    '偵查 (Spot)': {
+      success: '你敏銳地察覺到斜前方樹林中的黑影，及時發出警告。',
+      failure: '你忽略了營地帳篷內的血跡，完全沒意識到這是一場死亡盛宴的開端。'
+    },
+    '心理 (Psych)': {
+      success: '你看出對方的微表情在撒謊，這名綁匪顯然還有所隱瞞。',
+      failure: '你被對方的慘狀所迷惑，沒能察覺到他袖口下藏著的尖刀。'
+    },
+    '意志 (POW)': {
+      success: '你閉上眼睛，強行驅散了眼前的幻象，守住了自我的存在。',
+      failure: '你產生了幻覺，竟將被害者看成了昔日死去的愛人，陷入短暫瘋狂。'
+    }
+  },
+  bigb: {
+    '敏捷 (DEX)': {
+      success: '你迅速閃到大樹後方，躲過了卡爾射來的密集成群子彈。',
+      failure: '你不小心踩到了乾枯的樹枝，發出的聲響引來了盧卡斯手下的注意。'
+    },
+    '幸運 (LUK)': {
+      success: '你隨手拿起望遠鏡一瞄，正好看到了灌木叢中槍口的閃光。',
+      failure: '你成了森林生物或敵人的首要目標，運氣似乎在此刻用盡了。'
+    },
+    '說服 (Persuade)': {
+      success: '你撒了一個完美的謊言，讓商店主人相信你是某個貴族的有錢兒子，這才順利買到精良的獵槍。',
+      failure: '你試圖冒充水庫工員被當場拆穿，差點被警衛送進牢房。'
+    },
+    '隱蔽 (Stealth)': {
+      success: '你與米勒成功潛伏在路邊，等待卡車進入力場中心進行奇襲。',
+      failure: '你試圖潛入礦區時被探照燈捕捉，引發了一場混亂的交火。'
+    },
+    '體質 (CON)': {
+      success: '你忍受著傷痛，一步步帶領簡逃離那片充滿不詳的古老森林。',
+      failure: '看到滿地的鮮血與尖刺，強烈的恐懼讓你雙腿發軟，當場癱倒在地。(-3 SAN)'
+    }
+  },
+  annie: {
+    '敏捷 (DEX)': {
+      success: '你身輕如燕，在混亂的交火中穿梭，成功脫離包圍。',
+      failure: '你的行動發出了太大的噪音，被迫在狹窄的山洞中迎接敵人的正面痛擊。'
+    },
+    '醫學 (Medicine)': {
+      success: '你細心地包紮了同伴的傷口，讓他們原本暗淡的眼神重新燃起希望。',
+      failure: '你的手在顫抖，藥劑的調配出現誤差，導致受傷者傷勢惡化。(-2 HP)'
+    },
+    '投擲 (Throw)': {
+      success: '你精準地將炸藥包扔向卡車底盤，巨大的火球瞬間吞噬了敵影。',
+      failure: '你的手在顫抖，炸藥包並未命中目標，反而暴露了你隱藏的位置。'
+    },
+    '偵查 (Spot)': {
+      success: '你在樹縫間發現了被遺棄的手提包，裡面裝著簡的隨身物品。',
+      failure: '你漏掉了草叢中關鍵的足跡，使得搜救隊在原地徘徊了數小時。'
+    },
+    '心理 (Psych)': {
+      success: '你完美的偽裝讓所有人相信你只是個溫順的女僕，而非復仇女神。',
+      failure: '你的秘密在與米勒對視時出現了破綻，他可能已經開始懷疑你的真身。'
+    }
+  }
+};
+
 function App() {
   const [activeDossier, setActiveDossier] = useState(null);
   const [activeClue, setActiveClue] = useState(null);
@@ -96,7 +209,17 @@ function App() {
         else if (finalVal <= statValue) successType = 'success';
         else if (finalVal >= 96) successType = 'fumble';
         
-        setRollResult({ val: finalVal, type: successType, stat: statName, target: statValue });
+        // Find narrative
+        let narrative = "";
+        if (activeDossier && SKILL_NARRATIVES[activeDossier.id]) {
+          const charNarratives = SKILL_NARRATIVES[activeDossier.id];
+          if (charNarratives[statName]) {
+            const isSuccess = ['critical', 'extreme', 'hard', 'success'].includes(successType);
+            narrative = isSuccess ? charNarratives[statName].success : charNarratives[statName].failure;
+          }
+        }
+
+        setRollResult({ val: finalVal, type: successType, stat: statName, target: statValue, narrative });
         setIsRolling(false);
       }
     }, 60);
@@ -137,7 +260,7 @@ function App() {
       image: 'scott.png',
       desc: '利用法律權威取得資源，致力於維護森林的法治與秩序。',
       fate: { status: '生還', color: '#4caf50', detail: '果斷炸毀礦坑封印邪神。簡死後，致力於以法律手段起訴盧卡斯集團，為族人奪回被侵佔的土地。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '教育 (EDU)': 80 },
+      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '說服 (Persuade)': 65 },
       sound: SFX.GAVEL
     },
     { 
@@ -147,7 +270,7 @@ function App() {
       image: 'miller.png',
       desc: '經驗豐富的追蹤者，受雇前來調查連環失蹤案，對森林的危險有著直覺般的警覺。',
       fate: { status: '生還', color: '#4caf50', detail: '利用盧卡斯的犯罪紀錄成功勒索了一萬美元賞金，隨後瀟灑地離開了貝靈頓小鎮。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 65, '聆聽 (Listen)': 60, '力量 (STR)': 27, '心理 (Psych)': 30 },
+      stats: { '敏捷 (DEX)': 60, '射擊 (Shoot)': 75, '偵查 (Spot)': 60, '心理 (Psych)': 45, '意志 (POW)': 55 },
       sound: SFX.SHOTGUN
     },
     { 
@@ -157,7 +280,7 @@ function App() {
       image: 'bigb.png',
       desc: '充滿好奇心的紈絝子弟，來到班寧頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
       fate: { status: '生還', color: '#4caf50', detail: '與青梅竹馬簡死別後感到深深的懺悔與遺憾，決定回到父親身邊重新開始生活。' },
-      stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 80, '外貌 (APP)': 35, '說服 (Persuade)': 70, '威嚇 (Intim)': 56 },
+      stats: { '說服 (Persuade)': 70, '隱蔽 (Stealth)': 60, '體質 (CON)': 65, '敏捷 (DEX)': 60, '幸運 (LUK)': 80 },
       sound: SFX.COIN
     },
     { 
@@ -167,7 +290,7 @@ function App() {
       image: 'annie.png',
       desc: '外表溫柔內心堅韌的女僕，實為盧卡斯當年拋棄的私生女。在紛亂的調查中，她隱藏著驚天的復仇計畫。',
       fate: { status: '入獄', color: '#f44336', detail: '在撤離途中於飲水下毒殺害簡，揭露自己為盧卡斯私生女的身世。被捕後預計服刑 10-15 年，盧卡斯在遺書中為她留下遺產與頂級律師團隊。' },
-      stats: { '敏捷 (DEX)': 70, '幸運 (LUK)': 60, '聆聽 (Listen)': 60, '力量 (STR)': 50, '偵查 (Spot)': 45 },
+      stats: { '醫學 (Medicine)': 70, '投擲 (Throw)': 60, '心理 (Psych)': 65, '偵查 (Spot)': 55, '敏捷 (DEX)': 70 },
       sound: SFX.VIAL
     }
   ];
@@ -689,6 +812,11 @@ function App() {
              rollResult.type === 'success' ? '成功' :
              rollResult.type === 'fumble' ? '大失敗！' : '失敗'}
           </div>
+          {rollResult.narrative && (
+            <div className="roll-narrative">
+              {rollResult.narrative}
+            </div>
+          )}
           {!isRolling && <div style={{marginTop: '15px', fontSize: '0.7rem', color: '#666'}}>點擊關閉</div>}
         </div>
       )}

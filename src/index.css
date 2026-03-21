@@ -699,15 +699,33 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid var(--gold-accent);
-  padding: 20px;
+  width: 320px;
+  background: rgba(10, 15, 10, 0.96);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--gold-accent);
+  padding: 30px 20px;
   text-align: center;
   z-index: 10000;
-  box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px var(--gold-accent);
-  animation: dicePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 4px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 20px rgba(212, 175, 55, 0.3);
+  animation: dicePop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 8px;
+}
+
+.roll-narrative {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #eee;
+  font-style: italic;
+  animation: narrativeFade 0.5s ease-out forwards;
+  text-shadow: 1px 1px 2px #000;
+}
+
+@keyframes narrativeFade {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes dicePop {
