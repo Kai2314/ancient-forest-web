@@ -295,21 +295,109 @@ function App() {
     }
   ];
 
+
   const clues = [
-    { id: 'photo', name: '📜 被剪下的警察局照片', image: 'clue_photo.png', desc: '一張合照，其中一個人的部分被刻意剪掉了，邊緣殘留著焦慮的撕痕。' },
-    { id: 'ore', name: '💎 藍色礦石樣本 (Moonlight)', image: 'clue_ore.png', desc: '散發著微弱藍光與不詳共鳴的礦石，長時間直視會感到輕微眩暈。被稱為「月光石」，從水庫礦區深處挖出。' },
-    { id: 'painting', name: '🎨 藝術家賽斯的畫作', image: 'clue_painting.png', desc: '扭曲的森林景象，彷彿樹木正在活過來。' },
-    { id: 'nightmare', name: '🌙 噩夢畫冊', image: 'clue_nightmare.png', desc: '在失蹤藝術家營地發現的畫作合集。詭異的是，這些畫精確地描繪了每位調查員的噩夢場景——湖中升起的觸手、枯黃森林中的小屋、金屬尖刺穿胸的恐怖景象。斯科特看到後當場陷入短暫瘋狂。' },
-    { id: 'ancientmap', name: '🗺️ 活屍木屋中的地圖', image: 'clue_ancient_map.png', desc: '從南北戰爭活屍的木屋牆壁上取下的手繪地圖。標示了湖泊、礦坑挖掘地、及一條通往深處的秘密路徑。正是這張地圖引導調查員們找到了邪教獻祭的現場。' }
+    { 
+      id: 'blue-ore', 
+      name: '💎 水庫礦區與「藍色礦石」的秘密',
+      image: 'clue_ore.png',
+      desc: '這是整個故事的核心物資。',
+      details: [
+        '官方掩蓋的礦藏：調查員在圖書館發現，盧卡斯的自來水公司在修築水庫時，於地基作業中發現了奇特的礦藏。',
+        '「金礦」謠言：盧卡斯對外聲稱礦石是「貴金屬」，導致鎮上流傳水庫挖到金礦的謠言，這也是哈里斯三人組決定綁架簡小姐的直接動機。',
+        '超自然能量：蒼浩在礦區目睹地洞中散發出的藍光，後來更在神祕木屋的棺材中發現相同的藍色螢光，顯示礦石與不死的超自然力量有關。'
+      ]
+    },
+    {
+      id: 'nightmare',
+      name: '🎨 集體噩夢與藝術家的畫作',
+      image: 'clue_nightmare.png',
+      desc: '這是揭示邪神影響的精神線索。',
+      details: [
+        '預知性的噩夢：所有調查員與進入森林的平民（如獵人小孩）都會夢見湖泊、荒廢木屋、身穿軍服的腐爛人臉以及胸口被刺穿的劇痛。',
+        '藝術家的證言：在第七章中，眾人發現了失蹤藝術家的營地，其畫作精確描繪了調查員們夢境中的恐怖景觀（如湖中升起的怪物），證實噩夢並非偶然，而是某種力量的感召。',
+        '賽斯的日記：日記中記錄了藝術家團隊進入森林後，精神逐漸被噩夢侵蝕並走向崩潰的過程。'
+      ]
+    },
+    {
+      id: 'spikes',
+      name: '📌 神祕的「尖刺」（Metal Spikes）',
+      image: 'clue_spikes_new_v2.png',
+      desc: '這是解開活屍化與控制機制的實體線索。',
+      details: [
+        '靈魂束縛的媒介：調查員在湖邊祭壇目睹被尖刺貫穿胸膛的活人。這些人即便受到致命傷也無法死去。',
+        '死亡的解脫：線索指出，被尖刺穿透者會感受到靈魂被灼燒，唯有拔除尖刺，受害者才能真正死去。蒼浩的好友二虎也是因掙脫了這種尖刺而逃脫，但身體已發生異變。'
+      ]
+    },
+    {
+      id: 'secrets',
+      name: '🕵️ 盧卡斯的個人秘密與身世真相',
+      image: 'clue_lucas_tabloid.png',
+      desc: '這是推動人性悲劇劇情的線索。',
+      details: [
+        '外遇雜誌與私生女：斯科特在圖書館發現盧卡斯數年前的外遇八卦。這項線索在結局與安妮的身世相呼應——安妮其實是盧卡斯的私生女，潛入盧卡斯家是為了替被拋棄的母親復仇。',
+        '侵佔原住民土地的紀錄：斯科特持有的盧卡斯企業犯罪紀錄，揭示了盧卡斯如何非法奪取土地並殺害族人，這成為最後米勒勒索盧卡斯，以及斯科特決定起訴盧卡斯的重要證據。'
+      ]
+    },
+    {
+      id: 'history',
+      name: '🗺️ 環境與歷史線索',
+      images: ['clue_forest_lake.png', 'clue_cabin_coffin.png'],
+      desc: '揭露森林深處被遺忘的歷史。',
+      details: [
+        '印地安人禁忌：當地原住民傳說指出，湖泊是邪教或惡魔的領地，連族人都不敢靠近。',
+        '南北戰爭的逃兵：歷史紀錄顯示，曾有戰敗的南方軍團躲入這片森林，這解釋了為何調查員會遇到身穿該時期軍裝的「活屍士兵」。'
+      ]
+    }
   ];
 
   const suspects = [
-    { id: 'harris', name: '哈里斯 (Harris)', role: '綁匪首領', image: 'suspect2.png', desc: '鎮上臭名昭彰的小混混頭目，自大且衝動。聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。', fate: { status: '被捕', color: '#ff9800' } },
-    { id: 'kidnapper1', name: '克雷頓 (Clayton)', role: '綁匪成員', image: 'suspect1.png', desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。', fate: { status: '重傷被捕', color: '#ff9800' } },
-    { id: 'kidnapper2', name: '多布斯 (Dobbs)', role: '看守人', image: 'suspect3.png', desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被監刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。', fate: { status: '死亡', color: '#f44336' } },
-    { id: 'kimbo', name: '劉金寶 (Liu Kimbo)', role: '異變的工員', image: 'kimbo.png', desc: '蒼浩與二虎的同鄉，原為水庫工員，後被邪神影響。眼神冷淡疏離，瘋狂崇拜「主」。常駕駛著載滿炸藥與藍色礦石的卡車。', fate: { status: '崩潰', color: '#9e9e9e', detail: '礦坑被炸毀後，與領班卡爾跪在廢墟前絕望痛哭，喃喃說著「我們失敗了，再也無法回到主的恩寵之中」。' } },
-    { id: 'erhu', name: '二虎 (Erhu)', role: '異變的好友 (活屍)', image: 'erhu.png', desc: '蒼浩尋找已久的好友。三個月前為了尋找金寶進入森林卻失蹤。再次現身時已成了面色慘白的「活屍」，胸口巨大的傷口流出詭異藍光。雖然身體已死，但保有最後一絲保護蒼浩的友情。', fate: { status: '異變 (非人)', color: '#9e9e9e', detail: '在關鍵時刻救下蒼浩，對他說：「趕快離開，我已經回不去了。來世有機會再做兄弟吧。照顧好我的家人，別讓他們知道我的事情。」說完便消失在林中。' } }
+    { 
+      id: 'harris', 
+      name: '哈里斯 (Harris)', 
+      role: '綁匪首領', 
+      image: 'suspect2.png', 
+      desc: '聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。', 
+      fate: { status: '被捕', color: '#ff9800' } 
+    },
+    { 
+      id: 'kidnapper1', 
+      name: '克雷頓 (Clayton)', 
+      role: '綁匪成員', 
+      image: 'suspect1.png', 
+      desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。', 
+      fate: { status: '重傷被捕', color: '#ff9800' } 
+    },
+    { 
+      id: 'kidnapper2', 
+      name: '多布斯 (Dobbs)', 
+      role: '看守人', 
+      image: 'suspect3.png', 
+      desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被尖刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。', 
+      fate: { status: '死亡', color: '#f44336' } 
+    },
+    { 
+      id: 'kimbo', 
+      name: '劉金寶 (Liu Kimbo)', 
+      role: '異變的工員', 
+      image: 'kimbo.png', 
+      desc: '蒼浩與二虎的同鄉，原為水庫工員，後被邪神影響。眼神冷淡疏離，瘋狂崇拜「主」。常駕駛著載滿炸藥與藍色礦石的卡車。', 
+      fate: { status: '崩潰', color: '#9e9e9e', detail: '礦坑被炸毀後，與領班卡爾跪在廢墟前絕望痛哭，喃喃說著「我們失敗了，再也無法回到主的恩寵之中」。' } 
+    },
+    { 
+      id: 'erhu', 
+      name: '二虎 (Erhu)', 
+      role: '異變的好友 (活屍)', 
+      image: 'erhu.png', 
+      desc: '蒼浩尋找已久的好友。三個月前為了尋找金寶進入森林卻失蹤。再次現身時已成了面色慘白的「活屍」，胸口巨大的傷口流出詭異藍光。雖然身體已死，但保有最後一絲保護蒼浩的友情。', 
+      fate: { 
+        status: '異變 (非人)', 
+        color: '#9e9e9e', 
+        detail: '在關鍵時刻救下蒼浩，對他說：「趕快離開，我已經回不去了。來世有機會再做兄弟吧。照顧好我的家人。」說完便消失在林中。' 
+      }
+    }
   ];
+
 
   const npcs = [
     { id: 'jane', name: '簡 (Jane)', role: '富豪之女 / 人質', image: 'jane.png', desc: '盧卡斯的女兒，約18-20歲。被哈里斯的三人組綁架，是整場搜救行動的核心。與大B是青梅竹馬。個性有些傲嬌冷淡，但對安妮展露了罕見的溫柔。', fate: { status: '死亡', color: '#f44336', detail: '雖從綁匪手中獲救，卻在撤離森林途中遭安妮在飲水中下毒。她在斯科特懷裡失去心跳，最終死在未婚夫的臂彎之中。' } },
@@ -322,6 +410,7 @@ function App() {
       chapter: '序章',
       title: '搜救通報會',
       date: '6月20日',
+      image: 'event_prologue_sketch.png',
       summary: '富豪盧卡斯的女兒簡被哈里斯的三人組綁架。在贖金交易失敗後，綁匪帶著簡逃入森林。警長召集搜救隊，五位調查員在貝靈頓警察局集結。',
       detail: '6月13日，簡在為水庫工人送餐途中被劫。6月19日贖金交易當晚，哈里斯突然精神失常與警方交火後逃入森林。盧卡斯懸賞五千美元，並提供每人每日25美元補助。蒼浩、斯科特、米勒、大B、安妮五人組成搜救小隊，從森林西南方向東北方收網。'
     },
@@ -362,8 +451,8 @@ function App() {
       chapter: '第五章',
       title: '調查員內戰-有功夫無懦夫',
       date: '6月20日 深夜',
-      summary: '營地爭吵引發內戰，米勒展示功夫壓制大B，隊伍在緊繃中紮營。',
-      detail: '夜幕降臨，衆人在森林中紮營升起營火。由於大B的傲慢與種族偏見言論，引發米勒強烈不滿。雙方爆發衝突，米勒以驚人的功夫身手迅速壓制大B，令其啞口無言。儘管內部關係緊繃，衆人仍意識到森林潛在的威脅（包括喬治提到的精神感應異常），最終決定輪流守夜，在不安中迎接森林的第一個夜晚。'
+      summary: '營地爭吵引發內戰，蒼浩展示功夫壓制大B，隊伍在緊繃中紮營。',
+      detail: '夜幕降臨，衆人在森林中紮營升起營火。由於大B的傲慢與種族偏見言論，引發蒼浩強烈不滿。雙方爆發衝突，蒼浩以驚人的功夫身手迅速壓制大B，令其啞口無言。儘管內部關係緊繃，衆人仍意識到森林潛在的威脅（包括喬治提到的精神感應異常），最終決定輪流守夜，在不安中迎接森林的第一個夜晚。'
     },
     {
       id: 'event2',
@@ -410,8 +499,8 @@ function App() {
       chapter: '第十一至十四章',
       title: '活屍、獻祭與監禁',
       date: '6月22日',
-      summary: '調查員在木屋中發現南北戰爭時代的「活屍」棺材，在湖畔目睹五人被監刺穿胸釘在木樁上的血腥獻祭場景。他們也被邪教信徒俘虜監禁。',
-      detail: '木屋中的活屍身穿南北戰爭軍服，即使被打爛了頭卻似乎不會真正死去。湖畔的獻祭場景最為恐怖——六根柱子中五根釘滿活人，監刺從胸口貫穿，血液滿溢卻仍在掙扎尖叫。部分內臟從腹中滑出但他們竟然都還活著。調查員的理智備受打擊，蒼浩再次陷入瘋狂。'
+      summary: '調查員在木屋中發現南北戰爭時代的「活屍」棺材，在湖畔目睹五人被尖刺穿胸釘在木樁上的血腥獻祭場景。他們也被邪教信徒俘虜監禁。',
+      detail: '木屋中的活屍身穿南北戰爭軍服，即使被打爛了頭卻似乎不會真正死去。湖畔的獻祭場景最為恐怖——六根柱子中五根釘滿活人，尖刺從胸口貫穿，血液滿溢卻仍在掙扎尖叫。部分內臟從腹中滑出但他們竟然都還活著。調查員的理智備受打擊，蒼浩再次陷入瘋狂。'
     },
     {
       id: 'event-chapter15',
@@ -664,14 +753,29 @@ function App() {
                 onClick={() => { setActiveSuspect(null); setRollResult(null); }}
                 style={{marginTop: '30px', background: '#333', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel'}}
               >
-                隱藏嫌疑人
+                {npcs.some(n => n.id === activeSuspect.id) ? "隱藏關鍵人物" : "隱藏嫌疑人"}
               </button>
             </div>
           ) : activeClue ? (
             <div className="clue-detail" style={{background: 'var(--parchment)', color: '#222', padding: '20px', maxWidth: '600px', transform: 'rotate(-1deg)', textAlign: 'center'}}>
               <h1 style={{fontFamily: 'Cinzel', borderBottom: '1px solid #222', marginBottom: '15px'}}>{activeClue.name}</h1>
-              <img src={activeClue.image} alt={activeClue.name} style={{width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
-              <p style={{marginTop: '15px', lineHeight: '1.6'}}>{activeClue.desc}</p>
+              {activeClue.images ? (
+                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px'}}>
+                  {activeClue.images.map((img, idx) => (
+                    <img key={idx} src={img} alt={activeClue.name} style={{width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)'}} />
+                  ))}
+                </div>
+              ) : (
+                <img src={activeClue.image} alt={activeClue.name} style={{width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
+              )}
+              <p style={{marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold'}}>{activeClue.desc}</p>
+              {activeClue.details && (
+                <ul style={{textAlign: 'left', marginTop: '15px', paddingLeft: '20px', listStyleType: 'square'}}>
+                  {activeClue.details.map((detail, idx) => (
+                    <li key={idx} style={{marginBottom: '10px', fontSize: '0.95rem', lineHeight: '1.5'}}>{detail}</li>
+                  ))}
+                </ul>
+              )}
               <button 
                 onClick={() => { setActiveClue(null); setRollResult(null); }}
                 style={{marginTop: '20px', background: '#333', color: 'white', border: 'none', padding: '8px 15px', cursor: 'pointer'}}
@@ -686,6 +790,9 @@ function App() {
                 <span style={{fontFamily: 'Cinzel', fontSize: '0.8rem', color: 'var(--blood-ochre)'}}>{activeEvent.chapter}</span>
               </div>
               <p style={{marginTop: '10px', fontStyle: 'italic', color: '#888', fontSize: '0.85rem'}}>📅 {activeEvent.date}</p>
+              {activeEvent.image && (
+                <img src={activeEvent.image} alt={activeEvent.title} style={{width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
+              )}
               <p style={{marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem'}}>{activeEvent.detail}</p>
               <button 
                 onClick={() => { setActiveEvent(null); setRollResult(null); }}
