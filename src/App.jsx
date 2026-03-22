@@ -179,7 +179,7 @@ function App() {
     const audio = new Audio(path);
     audio.volume = 0.5;
     audio.play().catch(e => console.log("Audio play blocked by browser:", e));
-    
+
     if (maxDuration) {
       setTimeout(() => {
         audio.pause();
@@ -201,14 +201,14 @@ function App() {
       if (count > 12) {
         clearInterval(interval);
         const finalVal = Math.floor(Math.random() * 100) + 1;
-        
+
         let successType = 'failure';
         if (finalVal === 1) successType = 'critical';
         else if (finalVal <= Math.floor(statValue / 5)) successType = 'extreme';
         else if (finalVal <= Math.floor(statValue / 2)) successType = 'hard';
         else if (finalVal <= statValue) successType = 'success';
         else if (finalVal >= 96) successType = 'fumble';
-        
+
         // Find narrative
         let narrative = "";
         if (activeDossier && SKILL_NARRATIVES[activeDossier.id]) {
@@ -243,50 +243,50 @@ function App() {
   };
 
   const investigators = [
-    { 
-      id: 'canghao', 
-      name: '蒼浩 (Cang Hao)', 
-      role: '武術家 / 尋人者', 
+    {
+      id: 'canghao',
+      name: '蒼浩 (Cang Hao)',
+      role: '武術家 / 尋人者',
       image: 'cang_hao_sword.png',
       desc: '精通武術的華人，此行主要目的是尋找三個月前失蹤的好友二虎。',
       fate: { status: '生還', color: '#4caf50', detail: '回國後寫信隱瞞好友死訊，模仿二虎筆跡定期寫信給二虎的爸媽與劉奶奶，獨自背負痛苦。' },
       stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 },
       sound: SFX.SWORD
     },
-    { 
-      id: 'scott', 
-      name: '斯科特 (Scott)', 
-      role: '原住民法官', 
+    {
+      id: 'scott',
+      name: '斯科特 (Scott)',
+      role: '原住民法官',
       image: 'scott.png',
       desc: '利用法律權威取得資源，致力於維護森林的法治與秩序。',
       fate: { status: '生還', color: '#4caf50', detail: '果斷炸毀礦坑封印邪神。簡死後，致力於以法律手段起訴盧卡斯集團，為族人奪回被侵佔的土地。' },
       stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '說服 (Persuade)': 65 },
       sound: SFX.GAVEL
     },
-    { 
-      id: 'miller', 
-      name: '米勒 (Miller)', 
-      role: '賞金獵人', 
+    {
+      id: 'miller',
+      name: '米勒 (Miller)',
+      role: '賞金獵人',
       image: 'miller.png',
       desc: '經驗豐富的追蹤者，受雇前來調查連環失蹤案，對森林的危險有著直覺般的警覺。',
       fate: { status: '生還', color: '#4caf50', detail: '利用盧卡斯的犯罪紀錄成功勒索了一萬美元賞金，隨後瀟灑地離開了貝靈頓小鎮。' },
       stats: { '敏捷 (DEX)': 60, '射擊 (Shoot)': 75, '偵查 (Spot)': 60, '心理 (Psych)': 45, '意志 (POW)': 55 },
       sound: SFX.SHOTGUN
     },
-    { 
-      id: 'bigb', 
-      name: '大B (Big B)', 
-      role: '富家子弟', 
+    {
+      id: 'bigb',
+      name: '大B (Big B)',
+      role: '富家子弟',
       image: 'bigb.png',
       desc: '充滿好奇心的紈絝子弟，來到班寧頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
       fate: { status: '生還', color: '#4caf50', detail: '與青梅竹馬簡死別後感到深深的懺悔與遺憾，決定回到父親身邊重新開始生活。' },
       stats: { '說服 (Persuade)': 70, '隱蔽 (Stealth)': 60, '體質 (CON)': 65, '敏捷 (DEX)': 60, '幸運 (LUK)': 80 },
       sound: SFX.COIN
     },
-    { 
-      id: 'annie', 
-      name: '安妮 (Annie)', 
-      role: '女僕 / 復仇者', 
+    {
+      id: 'annie',
+      name: '安妮 (Annie)',
+      role: '女僕 / 復仇者',
       image: 'annie.png',
       desc: '外表溫柔內心堅韌的女僕，實為盧卡斯當年拋棄的私生女。在紛亂的調查中，她隱藏著驚天的復仇計畫。',
       fate: { status: '入獄', color: '#f44336', detail: '在撤離途中於飲水下毒殺害簡，揭露自己為盧卡斯私生女的身世。被捕後預計服刑 10-15 年，盧卡斯在遺書中為她留下遺產與頂級律師團隊。' },
@@ -297,8 +297,8 @@ function App() {
 
 
   const clues = [
-    { 
-      id: 'blue-ore', 
+    {
+      id: 'blue-ore',
       name: '💎 水庫礦區與「藍色礦石」的秘密',
       image: 'clue_ore.png',
       desc: '這是整個故事的核心物資。',
@@ -352,48 +352,48 @@ function App() {
   ];
 
   const suspects = [
-    { 
-      id: 'harris', 
-      name: '哈里斯 (Harris)', 
-      role: '綁匪首領', 
-      image: 'suspect2.png', 
-      desc: '聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。', 
-      fate: { status: '被捕', color: '#ff9800' } 
+    {
+      id: 'harris',
+      name: '哈里斯 (Harris)',
+      role: '綁匪首領',
+      image: 'suspect2.png',
+      desc: '聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。',
+      fate: { status: '被捕', color: '#ff9800' }
     },
-    { 
-      id: 'kidnapper1', 
-      name: '克雷頓 (Clayton)', 
-      role: '綁匪成員', 
-      image: 'suspect1.png', 
-      desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。', 
-      fate: { status: '重傷被捕', color: '#ff9800' } 
+    {
+      id: 'kidnapper1',
+      name: '克雷頓 (Clayton)',
+      role: '綁匪成員',
+      image: 'suspect1.png',
+      desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。',
+      fate: { status: '重傷被捕', color: '#ff9800' }
     },
-    { 
-      id: 'kidnapper2', 
-      name: '多布斯 (Dobbs)', 
-      role: '看守人', 
-      image: 'suspect3.png', 
-      desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被尖刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。', 
-      fate: { status: '死亡', color: '#f44336' } 
+    {
+      id: 'kidnapper2',
+      name: '多布斯 (Dobbs)',
+      role: '看守人',
+      image: 'suspect3.png',
+      desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被尖刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。',
+      fate: { status: '死亡', color: '#f44336' }
     },
-    { 
-      id: 'kimbo', 
-      name: '劉金寶 (Liu Kimbo)', 
-      role: '異變的工員', 
-      image: 'kimbo.png', 
-      desc: '蒼浩與二虎的同鄉，原為水庫工員，後被邪神影響。眼神冷淡疏離，瘋狂崇拜「主」。常駕駛著載滿炸藥與藍色礦石的卡車。', 
-      fate: { status: '崩潰', color: '#9e9e9e', detail: '礦坑被炸毀後，與領班卡爾跪在廢墟前絕望痛哭，喃喃說著「我們失敗了，再也無法回到主的恩寵之中」。' } 
+    {
+      id: 'kimbo',
+      name: '劉金寶 (Liu Kimbo)',
+      role: '異變的工員',
+      image: 'kimbo.png',
+      desc: '蒼浩與二虎的同鄉，原為水庫工員，後被邪神影響。眼神冷淡疏離，瘋狂崇拜「主」。常駕駛著載滿炸藥與藍色礦石的卡車。',
+      fate: { status: '崩潰', color: '#9e9e9e', detail: '礦坑被炸毀後，與領班卡爾跪在廢墟前絕望痛哭，喃喃說著「我們失敗了，再也無法回到主的恩寵之中」。' }
     },
-    { 
-      id: 'erhu', 
-      name: '二虎 (Erhu)', 
-      role: '異變的好友 (活屍)', 
-      image: 'erhu.png', 
-      desc: '蒼浩尋找已久的好友。三個月前為了尋找金寶進入森林卻失蹤。再次現身時已成了面色慘白的「活屍」，胸口巨大的傷口流出詭異藍光。雖然身體已死，但保有最後一絲保護蒼浩的友情。', 
-      fate: { 
-        status: '異變 (非人)', 
-        color: '#9e9e9e', 
-        detail: '在關鍵時刻救下蒼浩，對他說：「趕快離開，我已經回不去了。來世有機會再做兄弟吧。照顧好我的家人。」說完便消失在林中。' 
+    {
+      id: 'erhu',
+      name: '二虎 (Erhu)',
+      role: '異變的好友 (活屍)',
+      image: 'erhu.png',
+      desc: '蒼浩尋找已久的好友。三個月前為了尋找金寶進入森林卻失蹤。再次現身時已成了面色慘白的「活屍」，胸口巨大的傷口流出詭異藍光。雖然身體已死，但保有最後一絲保護蒼浩的友情。',
+      fate: {
+        status: '異變 (非人)',
+        color: '#9e9e9e',
+        detail: '在關鍵時刻救下蒼浩，對他說：「趕快離開，我已經回不去了。來世有機會再做兄弟吧。照顧好我的家人。」說完便消失在林中。'
       }
     }
   ];
@@ -417,19 +417,20 @@ function App() {
     {
       id: 'event-chapter1',
       chapter: '第一章',
-      title: '密林入口',
-      date: '6月20日 中午',
-      image: 'event_chapter1_v5.png',
-      summary: '調查員抵達密林入口，發現了一頂破損的帽子與樹幹上詭異的小刀刻痕。',
-      detail: '中午12時，搜救小隊抵達班寧頓森林西南入口。斯科特在路邊灌木叢發現了一頂屬於看守人多布斯的帽子，上面沾染了少量乾涸的血跡。樹幹上刻著一個倒置的十字與某些難以辨認的符號，蒼浩察覺到空氣中瀰漫著一股令人不安的腐朽味。'
+      title: '買個槍也男上加男',
+      date: '6月20日 下午',
+      images: ['event_chapter1_v13.png', 'event_chapter1_v12.png', 'event_chapter1_v11.png'],
+      summary: '斯科特調查森林歷史；大B與米勒籌措武裝；蒼浩與安妮在街上採購補給資料。',
+      detail: '下午14時，搜救隊分頭行動。斯科特在圖書館發現了南北戰爭期間南軍利用森林躲藏的隱秘歷史。另一邊，大B靠著「富家子弟」的氣勢，在亞瑟槍店成功買到威力強大的散彈槍與步槍，米勒也在此時籌備了野外生存的望遠鏡和小刀。與此同時，蒼浩與安妮在貝靈頓鎮的街道上採購了大量野外生存所需的臘腸、醫藥箱與提燈，確保搜救行動的後勤保障。'
     },
     {
       id: 'event-chapter2',
       chapter: '第二章',
-      title: '買個槍也男上加男',
-      date: '6月20日 下午',
-      summary: '斯科特在圖書館調查森林歷史與盧卡斯的計畫；大B與米勒前往亞瑟槍店籌備武裝。',
-      detail: '斯科特在圖書館發現1861-1865年南北戰爭期間，敗退的南軍曾利用森林地形躲藏並撤往加拿大的歷史。同時，盧卡斯董事長的伐木公司在東北角修建水庫地基時，發現了神祕礦藏並派遣地質學家小隊進入。另一邊，大B靠著「富家子弟」的氣勢，在亞瑟槍店成功買到威力強大的散彈槍與步槍，米勒也在此時籌備了野外生存必備的物資。'
+      title: '密林入口',
+      date: '6月20日 中午',
+      image: 'event_chapter2_v7.png',
+      summary: '調查員抵達密林入口，斯科特發現血跡與腳印，提議搜救追蹤方向。',
+      detail: '中午12時，搜救小隊抵達班寧頓森林西南入口。斯科特在路邊發現了連串的足跡與斑駁的血跡，經過冷靜觀察後，他精確地指出了綁匪逃竄的方向，並向眾人提議以此作為追蹤目標展開搜救。'
     },
     {
       id: 'event-chapter3',
@@ -618,14 +619,14 @@ function App() {
 
   const handleMapMouseMove = (e) => {
     if (!isEditMode || !draggedId || !mapContainerRef.current) return;
-    
+
     const rect = mapContainerRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    setLocations(prev => prev.map(loc => 
-      loc.id === draggedId 
-        ? { ...loc, top: `${Math.max(0, Math.min(100, y)).toFixed(1)}%`, left: `${Math.max(0, Math.min(100, x)).toFixed(1)}%` } 
+
+    setLocations(prev => prev.map(loc =>
+      loc.id === draggedId
+        ? { ...loc, top: `${Math.max(0, Math.min(100, y)).toFixed(1)}%`, left: `${Math.max(0, Math.min(100, x)).toFixed(1)}%` }
         : loc
     ));
   };
@@ -651,14 +652,14 @@ function App() {
   return (
     <div className="app-container">
       <div className="top-controls">
-        <button 
+        <button
           className="music-toggle-btn"
           onClick={() => setIsMusicOn(!isMusicOn)}
           title={isMusicOn ? "關閉環境音" : "開啟環境音"}
         >
           {isMusicOn ? "背景音效: ON 🔊" : "背景音效: OFF 🔇"}
         </button>
-        <button 
+        <button
           className="edit-toggle-btn"
           onClick={() => setIsEditMode(!isEditMode)}
           style={{ background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)' }}
@@ -670,14 +671,14 @@ function App() {
       <div className="mystery-board">
         {/* Sidebar: Investigators */}
         <div className="panel">
-          <h2 style={{color: 'var(--gold-accent)', marginBottom: '15px'}}>調查小組 (Investigators)</h2>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '25px'}}>
+          <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>調查小組 (Investigators)</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
             {investigators.map(inv => (
-              <div key={inv.id} className="character-card" onClick={() => {playSfx(inv.sound, 3000); clearCenter(); setActiveDossier(inv);}}>
+              <div key={inv.id} className="character-card" onClick={() => { playSfx(inv.sound, 3000); clearCenter(); setActiveDossier(inv); }}>
                 <img src={inv.image} alt={inv.name} className="dossier-image" />
                 <div className="dossier-name">{inv.name}</div>
                 {inv.fate && (
-                  <div className="fate-tag" style={{background: inv.fate.color}}>{inv.fate.status}</div>
+                  <div className="fate-tag" style={{ background: inv.fate.color }}>{inv.fate.status}</div>
                 )}
               </div>
             ))}
@@ -685,23 +686,23 @@ function App() {
         </div>
 
         {/* Center: Main Focus */}
-        <div className="panel center-panel" ref={centerPanelRef} style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto'}}>
+        <div className="panel center-panel" ref={centerPanelRef} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto' }}>
           {activeDossier ? (
-            <div className="dossier-detail" style={{background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)'}}>
-              <h1 style={{fontFamily: 'Cinzel', borderBottom: '2px solid #222'}}>{activeDossier.name}</h1>
-              <p style={{marginTop: '15px', fontStyle: 'italic', color: '#555'}}>{activeDossier.role}</p>
-              
+            <div className="dossier-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)' }}>
+              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid #222' }}>{activeDossier.name}</h1>
+              <p style={{ marginTop: '15px', fontStyle: 'italic', color: '#555' }}>{activeDossier.role}</p>
+
               {activeDossier.stats && (
-                <div style={{marginTop: '20px', padding: '15px', border: '1px solid #ccc', background: 'rgba(0,0,0,0.05)'}}>
-                  <h3 style={{fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--blood-ochre)'}}>能力屬性 (Ability Attributes)</h3>
+                <div style={{ marginTop: '20px', padding: '15px', border: '1px solid #ccc', background: 'rgba(0,0,0,0.05)' }}>
+                  <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--blood-ochre)' }}>能力屬性 (Ability Attributes)</h3>
                   {Object.entries(activeDossier.stats).map(([stat, val]) => (
-                    <div key={stat} style={{marginBottom: '8px', position: 'relative'}}>
-                      <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '2px', alignItems: 'center'}}>
+                    <div key={stat} style={{ marginBottom: '8px', position: 'relative' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '2px', alignItems: 'center' }}>
                         <span>{stat}</span>
-                        <div style={{display: 'flex', alignItems: 'center'}}>
-                          <span style={{fontWeight: 'bold', color: 'var(--blood-ochre)'}}>{val}</span>
-                          <button 
-                            className="roll-btn" 
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ fontWeight: 'bold', color: 'var(--blood-ochre)' }}>{val}</span>
+                          <button
+                            className="roll-btn"
                             onClick={() => handleRoll(stat, val)}
                             title={`進行 ${stat} 檢定`}
                           >
@@ -709,95 +710,101 @@ function App() {
                           </button>
                         </div>
                       </div>
-                      <div style={{width: '100%', height: '6px', background: '#ddd', borderRadius: '3px'}}>
-                        <div style={{width: `${val}%`, height: '100%', background: 'var(--blood-ochre)', borderRadius: '3px'}}></div>
+                      <div style={{ width: '100%', height: '6px', background: '#ddd', borderRadius: '3px' }}>
+                        <div style={{ width: `${val}%`, height: '100%', background: 'var(--blood-ochre)', borderRadius: '3px' }}></div>
                       </div>
                     </div>
                   ))}
                 </div>
               )}
 
-              <p style={{marginTop: '20px', lineHeight: '1.6', fontSize: '0.95rem'}}>{activeDossier.desc}</p>
+              <p style={{ marginTop: '20px', lineHeight: '1.6', fontSize: '0.95rem' }}>{activeDossier.desc}</p>
 
               {activeDossier.fate && (
                 <div className="fate-detail-box">
-                  <h3 style={{fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px'}}>
-                    <span className="fate-tag" style={{background: activeDossier.fate.color, display: 'inline-block', marginRight: '8px'}}>{activeDossier.fate.status}</span>
+                  <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px' }}>
+                    <span className="fate-tag" style={{ background: activeDossier.fate.color, display: 'inline-block', marginRight: '8px' }}>{activeDossier.fate.status}</span>
                     最終命運
                   </h3>
-                  <p style={{fontSize: '0.9rem', lineHeight: '1.6', color: '#444'}}>{activeDossier.fate.detail}</p>
+                  <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeDossier.fate.detail}</p>
                 </div>
               )}
 
-              <button 
+              <button
                 onClick={() => { setActiveDossier(null); setRollResult(null); }}
-                style={{marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel'}}
+                style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 關閉卷宗
               </button>
             </div>
           ) : activeSuspect ? (
-            <div className="suspect-detail" style={{background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(-2deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)', border: '2px solid var(--blood-ochre)'}}>
-              <h1 style={{fontFamily: 'Cinzel', borderBottom: '2px solid var(--blood-ochre)', color: 'var(--blood-ochre)'}}>{activeSuspect.name}</h1>
-              <p style={{marginTop: '15px', fontStyle: 'italic'}}>{activeSuspect.role}</p>
+            <div className="suspect-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(-2deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)', border: '2px solid var(--blood-ochre)' }}>
+              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid var(--blood-ochre)', color: 'var(--blood-ochre)' }}>{activeSuspect.name}</h1>
+              <p style={{ marginTop: '15px', fontStyle: 'italic' }}>{activeSuspect.role}</p>
               {activeSuspect.fate && (
-                <div className="fate-tag" style={{background: activeSuspect.fate.color, display: 'inline-block', marginTop: '10px'}}>{activeSuspect.fate.status}</div>
+                <div className="fate-tag" style={{ background: activeSuspect.fate.color, display: 'inline-block', marginTop: '10px' }}>{activeSuspect.fate.status}</div>
               )}
-              <p style={{marginTop: '20px', lineHeight: '1.6'}}>{activeSuspect.desc}</p>
+              <p style={{ marginTop: '20px', lineHeight: '1.6' }}>{activeSuspect.desc}</p>
               {activeSuspect.fate?.detail && (
                 <div className="fate-detail-box">
-                  <p style={{fontSize: '0.9rem', lineHeight: '1.6', color: '#444'}}>{activeSuspect.fate.detail}</p>
+                  <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeSuspect.fate.detail}</p>
                 </div>
               )}
-              <img src={activeSuspect.image} alt={activeSuspect.name} style={{width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
-              <button 
+              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
+              <button
                 onClick={() => { setActiveSuspect(null); setRollResult(null); }}
-                style={{marginTop: '30px', background: '#333', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel'}}
+                style={{ marginTop: '30px', background: '#333', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 {npcs.some(n => n.id === activeSuspect.id) ? "隱藏關鍵人物" : "隱藏嫌疑人"}
               </button>
             </div>
           ) : activeClue ? (
-            <div className="clue-detail" style={{background: 'var(--parchment)', color: '#222', padding: '20px', maxWidth: '600px', transform: 'rotate(-1deg)', textAlign: 'center'}}>
-              <h1 style={{fontFamily: 'Cinzel', borderBottom: '1px solid #222', marginBottom: '15px'}}>{activeClue.name}</h1>
+            <div className="clue-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '20px', maxWidth: '600px', transform: 'rotate(-1deg)', textAlign: 'center' }}>
+              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #222', marginBottom: '15px' }}>{activeClue.name}</h1>
               {activeClue.images ? (
-                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px'}}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px' }}>
                   {activeClue.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={activeClue.name} style={{width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)'}} />
+                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} />
                   ))}
                 </div>
               ) : (
-                <img src={activeClue.image} alt={activeClue.name} style={{width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
+                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
               )}
-              <p style={{marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold'}}>{activeClue.desc}</p>
+              <p style={{ marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold' }}>{activeClue.desc}</p>
               {activeClue.details && (
-                <ul style={{textAlign: 'left', marginTop: '15px', paddingLeft: '20px', listStyleType: 'square'}}>
+                <ul style={{ textAlign: 'left', marginTop: '15px', paddingLeft: '20px', listStyleType: 'square' }}>
                   {activeClue.details.map((detail, idx) => (
-                    <li key={idx} style={{marginBottom: '10px', fontSize: '0.95rem', lineHeight: '1.5'}}>{detail}</li>
+                    <li key={idx} style={{ marginBottom: '10px', fontSize: '0.95rem', lineHeight: '1.5' }}>{detail}</li>
                   ))}
                 </ul>
               )}
-              <button 
+              <button
                 onClick={() => { setActiveClue(null); setRollResult(null); }}
-                style={{marginTop: '20px', background: '#333', color: 'white', border: 'none', padding: '8px 15px', cursor: 'pointer'}}
+                style={{ marginTop: '20px', background: '#333', color: 'white', border: 'none', padding: '8px 15px', cursor: 'pointer' }}
               >
                 收回線索
               </button>
             </div>
           ) : activeEvent ? (
-            <div className="event-detail" style={{background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '600px', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)'}}>
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #222', paddingBottom: '10px'}}>
-                <h1 style={{fontFamily: 'Cinzel', fontSize: '1.3rem'}}>{activeEvent.title}</h1>
-                <span style={{fontFamily: 'Cinzel', fontSize: '0.8rem', color: 'var(--blood-ochre)'}}>{activeEvent.chapter}</span>
+            <div className="event-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '600px', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #222', paddingBottom: '10px' }}>
+                <h1 style={{ fontFamily: 'Cinzel', fontSize: '1.3rem' }}>{activeEvent.title}</h1>
+                <span style={{ fontFamily: 'Cinzel', fontSize: '0.8rem', color: 'var(--blood-ochre)' }}>{activeEvent.chapter}</span>
               </div>
-              <p style={{marginTop: '10px', fontStyle: 'italic', color: '#888', fontSize: '0.85rem'}}>📅 {activeEvent.date}</p>
-              {activeEvent.image && (
-                <img src={activeEvent.image} alt={activeEvent.title} style={{width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)'}} />
+              <p style={{ marginTop: '10px', fontStyle: 'italic', color: '#888', fontSize: '0.85rem' }}>📅 {activeEvent.date}</p>
+              {activeEvent.images ? (
+                <div style={{ display: 'grid', gridTemplateColumns: activeEvent.images.length >= 3 ? 'repeat(3, 1fr)' : activeEvent.images.length > 1 ? '1fr 1fr' : '1fr', gap: '10px', marginTop: '15px' }}>
+                  {activeEvent.images.map((img, idx) => (
+                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} />
+                  ))}
+                </div>
+              ) : activeEvent.image && (
+                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
               )}
-              <p style={{marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem'}}>{activeEvent.detail}</p>
-              <button 
+              <p style={{ marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem' }}>{activeEvent.detail}</p>
+              <button
                 onClick={() => { setActiveEvent(null); setRollResult(null); }}
-                style={{marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel'}}
+                style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 關閉事件
               </button>
@@ -807,30 +814,30 @@ function App() {
               <div className="map-container-wrapper">
                 <div className="map-fog"></div>
                 <div className="map-vignette"></div>
-                <div 
+                <div
                   ref={mapContainerRef}
                   onMouseMove={handleMapMouseMove}
                   onMouseUp={handleMapMouseUp}
                   onMouseLeave={handleMapMouseUp}
                   style={{
-                    width: '100%', 
-                    height: 'auto', 
-                    aspectRatio: '16/10', 
-                    background: 'rgba(255,255,255,0.05)', 
-                    border: isEditMode ? '2px solid red' : '2px solid var(--gold-accent)', 
+                    width: '100%',
+                    height: 'auto',
+                    aspectRatio: '16/10',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: isEditMode ? '2px solid red' : '2px solid var(--gold-accent)',
                     position: 'relative',
                     cursor: isEditMode ? 'crosshair' : 'default',
                     overflow: 'visible'
                   }}
                 >
-                  <img src="/forest_map.png" alt="Forest Map" style={{width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none'}} />
-                  
+                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+
                   {/* Interactive Hotspots */}
                   {locations.map(loc => (
                     <div
                       key={loc.id}
                       className={`map-hotspot ${isEditMode ? 'edit-mode' : ''} ${draggedId === loc.id ? 'dragging' : ''}`}
-                      style={{top: loc.top, left: loc.left}}
+                      style={{ top: loc.top, left: loc.left }}
                       onClick={() => handleHotspotClick(loc)}
                       onMouseDown={(e) => handleMapMouseDown(e, loc.id)}
                       onMouseEnter={() => !isEditMode && setHoveredHotspot(loc.id)}
@@ -858,9 +865,9 @@ function App() {
 
               {isEditMode && (
                 <div className="edit-coordinates-panel">
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
-                    <h3 style={{margin: 0, fontSize: '1rem'}}>📍 熱點座標更新 (更新後請複製)</h3>
-                    <button 
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <h3 style={{ margin: 0, fontSize: '1rem' }}>📍 熱點座標更新 (更新後請複製)</h3>
+                    <button
                       onClick={() => {
                         const code = locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n');
                         navigator.clipboard.writeText(code);
@@ -874,7 +881,7 @@ function App() {
                   <pre className="coords-code-block">
                     {locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n')}
                   </pre>
-                  <p style={{fontSize: '0.8rem', opacity: 0.7, marginTop: '5px'}}>※ 拖曳地圖上的紅圈即可即時更新上方數值</p>
+                  <p style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '5px' }}>※ 拖曳地圖上的紅圈即可即時更新上方數值</p>
                 </div>
               )}
             </div>
@@ -882,7 +889,7 @@ function App() {
         </div>
 
         {/* Right: Tabbed Panel */}
-        <div className="panel" style={{display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
+        <div className="panel" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {/* Tab Bar */}
           <div className="tab-bar">
             <button className={`tab-btn ${rightTab === 'clues' ? 'active' : ''}`} onClick={() => setRightTab('clues')}>📜 線索</button>
@@ -891,16 +898,16 @@ function App() {
           </div>
 
           {/* Tab Content */}
-          <div style={{overflowY: 'auto', flex: 1, paddingTop: '15px'}}>
+          <div style={{ overflowY: 'auto', flex: 1, paddingTop: '15px' }}>
             {rightTab === 'clues' && (
               <div>
-                <h2 style={{color: 'var(--gold-accent)', marginBottom: '15px'}}>案件線索 (Clues)</h2>
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>案件線索 (Clues)</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {clues.map(clue => (
-                    <div 
-                      key={clue.id} 
+                    <div
+                      key={clue.id}
                       className="list-item clue-item"
-                      onClick={() => {playSfx(SFX.PARCHMENT); clearCenter(); setActiveClue(clue);}}
+                      onClick={() => { playSfx(SFX.PARCHMENT); clearCenter(); setActiveClue(clue); }}
                     >
                       {clue.name}
                     </div>
@@ -911,33 +918,33 @@ function App() {
 
             {rightTab === 'suspects' && (
               <div>
-                <h2 style={{color: 'var(--blood-ochre)', marginBottom: '15px'}}>嫌疑人 (Suspects)</h2>
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '25px'}}>
+                <h2 style={{ color: 'var(--blood-ochre)', marginBottom: '15px' }}>嫌疑人 (Suspects)</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '25px' }}>
                   {suspects.map(suspect => (
-                    <div 
+                    <div
                       key={suspect.id}
                       className="list-item suspect-item"
-                      onClick={() => {playSfx(suspect.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(suspect);}}
+                      onClick={() => { playSfx(suspect.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(suspect); }}
                     >
                       <span>{suspect.name}</span>
                       {suspect.fate && (
-                        <span className="fate-tag-small" style={{background: suspect.fate.color}}>{suspect.fate.status}</span>
+                        <span className="fate-tag-small" style={{ background: suspect.fate.color }}>{suspect.fate.status}</span>
                       )}
                     </div>
                   ))}
                 </div>
 
-                <h2 style={{color: '#7986cb', marginBottom: '15px'}}>關鍵人物 (Key NPCs)</h2>
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                <h2 style={{ color: '#7986cb', marginBottom: '15px' }}>關鍵人物 (Key NPCs)</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {npcs.map(npc => (
-                    <div 
+                    <div
                       key={npc.id}
                       className="list-item npc-item"
-                      onClick={() => {playSfx(npc.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(npc);}}
+                      onClick={() => { playSfx(npc.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(npc); }}
                     >
                       <span>{npc.name}</span>
                       {npc.fate && (
-                        <span className="fate-tag-small" style={{background: npc.fate.color}}>{npc.fate.status}</span>
+                        <span className="fate-tag-small" style={{ background: npc.fate.color }}>{npc.fate.status}</span>
                       )}
                     </div>
                   ))}
@@ -947,11 +954,11 @@ function App() {
 
             {rightTab === 'chronicle' && (
               <div>
-                <h2 style={{color: 'var(--gold-accent)', marginBottom: '15px'}}>事件簿 (Chronicle)</h2>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>事件簿 (Chronicle)</h2>
                 <div className="timeline">
                   {storyEvents.map((event, idx) => (
-                    <div 
-                      key={event.id} 
+                    <div
+                      key={event.id}
                       className="timeline-event"
                       onClick={() => { clearCenter(); setActiveEvent(event); }}
                     >
@@ -973,23 +980,23 @@ function App() {
       {/* Dice Roll Overlay */}
       {rollResult && (
         <div className="dice-overlay" onClick={() => !isRolling && setRollResult(null)}>
-          <div style={{fontSize: '0.8rem', color: '#888', marginBottom: '5px'}}>{rollResult.stat} 檢定</div>
+          <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '5px' }}>{rollResult.stat} 檢定</div>
           <div className="roll-value">{rollResult.val}</div>
           <div className="roll-target">目標值: {rollResult.target}</div>
           <div className={`roll-type ${rollResult.type}`}>
-            {rollResult.type === 'rolling' ? '擲骰中...' : 
-             rollResult.type === 'critical' ? '極限大成功！' :
-             rollResult.type === 'extreme' ? '極限成功' :
-             rollResult.type === 'hard' ? '困難成功' :
-             rollResult.type === 'success' ? '成功' :
-             rollResult.type === 'fumble' ? '大失敗！' : '失敗'}
+            {rollResult.type === 'rolling' ? '擲骰中...' :
+              rollResult.type === 'critical' ? '極限大成功！' :
+                rollResult.type === 'extreme' ? '極限成功' :
+                  rollResult.type === 'hard' ? '困難成功' :
+                    rollResult.type === 'success' ? '成功' :
+                      rollResult.type === 'fumble' ? '大失敗！' : '失敗'}
           </div>
           {rollResult.narrative && (
             <div className="roll-narrative">
               {rollResult.narrative}
             </div>
           )}
-          {!isRolling && <div style={{marginTop: '15px', fontSize: '0.7rem', color: '#666'}}>點擊關閉</div>}
+          {!isRolling && <div style={{ marginTop: '15px', fontSize: '0.7rem', color: '#666' }}>點擊關閉</div>}
         </div>
       )}
     </div>
