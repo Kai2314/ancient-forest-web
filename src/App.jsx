@@ -572,7 +572,7 @@ function App() {
       chapter: '第十八章',
       title: '分頭突圍',
       date: '6月22日',
-      image: 'event_chapter18_v1.png',
+      image: 'event_chapter18_v1_new.png',
       summary: '礦區混亂之際，各路人馬分別逃脫，安妮在湖邊與蒼浩及米勒重新會合。',
       detail: '藉由安妮製造的爆破，斯科特、簡小姐與大 B 及獵人霍爾父子趁亂從木屋後方的側邊小路逃出了礦區。'
     },
@@ -617,7 +617,7 @@ function App() {
       chapter: '第二十三章',
       title: '終焉封印與最終集結',
       date: '6月22日',
-      image: 'event_chapter23_new.png',
+      image: 'event_chapter18_v1.png',
       summary: '調查小組利用炸藥徹底封印礦坑地洞，眾人在晨曦中的岔路口完成最後集結。',
       detail: '斯科特與大 B 將剩餘的炸藥推入佈滿藍光礦石的地洞。隨著一聲悶響，礦脈連同邪神的觸鬚被永久埋葬。次日凌晨，六位調查員在森林出口的岔路口重聚。疲倦與釋然交織在每個人臉上。獵人勞生父子決定回歸平靜生活，而調查員們則帶著各自的秘密準備離開這片被詛咒的土地。'
     },
