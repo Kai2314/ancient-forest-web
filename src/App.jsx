@@ -177,7 +177,7 @@ function App() {
   const playSfx = useCallback((path, maxDuration = null) => {
     if (!path) return;
     const audio = new Audio(path);
-    audio.volume = 0.5;
+    audio.volume = 0.8;
     audio.play().catch(e => console.log("Audio play blocked by browser:", e));
 
     if (maxDuration) {
@@ -1052,7 +1052,7 @@ function App() {
                     <div
                       key={suspect.id}
                       className="list-item suspect-item"
-                      onClick={() => { playSfx(suspect.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(suspect); }}
+                       onClick={() => { playSfx(suspect.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(suspect); }}
                     >
                       <span>{suspect.name}</span>
                       {suspect.fate && (
@@ -1068,7 +1068,7 @@ function App() {
                     <div
                       key={npc.id}
                       className="list-item npc-item"
-                      onClick={() => { playSfx(npc.sound || SFX.SANITY, 3000); clearCenter(); setActiveSuspect(npc); }}
+                       onClick={() => { playSfx(npc.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(npc); }}
                     >
                       <span>{npc.name}</span>
                       {npc.fate && (
