@@ -33,8 +33,8 @@ body {
   background-size: cover;
 }
 
-/* Responsive Layout */
-@media (max-width: 1024px) {
+/* Responsive Layout - Tablet (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
   .mystery-board {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -46,13 +46,88 @@ body {
 
   .panel {
     height: auto;
-    max-height: 500px; /* Limit height of side panels on mobile */
+    max-height: 500px;
   }
 
-  /* Specific order for mobile: Investigators, then Tabs, then Details/Map at the bottom */
+  /* Specific order for tablet: Investigators, then Tabs, then Details/Map at the bottom */
   .panel:nth-child(1) { order: 1; }
   .panel:nth-child(3) { order: 2; }
   .center-panel { order: 3; }
+}
+
+/* Responsive Layout - Mobile (<= 768px) */
+@media (max-width: 768px) {
+  .mystery-board {
+    display: block;
+    height: auto;
+    padding: 60px 10px 80px 10px; /* Increased top padding to clear fixed buttons */
+    overflow-y: auto;
+  }
+
+  .app-container {
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .panel {
+    height: calc(100dvh - 130px);
+    margin-bottom: 0;
+    max-height: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  /* Custom visible scrollbar for mobile panels */
+  .panel::-webkit-scrollbar {
+    width: 3px;
+  }
+  .panel::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.55);
+    border-radius: 2px;
+  }
+
+  /* Adjust top controls for mobile */
+  .top-controls {
+    top: 8px;
+    right: 8px;
+    gap: 5px;
+  }
+  .music-toggle-btn, .edit-toggle-btn {
+    padding: 5px 9px;
+    font-size: 0.65rem;
+  }
+
+  /* Map and Hotspots for touch */
+  .map-hotspot {
+    width: 20px; /* Larger touch target */
+    height: 20px;
+  }
+  .hotspot-tooltip {
+    display: none !important; /* Disable hover tooltips on mobile */
+  }
+  
+  /* Dice Overlay responsiveness */
+  .dice-overlay {
+    width: 90vw;
+    max-width: 360px;
+    padding: 20px 15px;
+  }
+  .roll-value {
+    font-size: 2.5rem;
+  }
+
+  /* Remove paper rotations for better readability on small screens */
+  .character-card, .dossier-detail, .suspect-detail, .clue-detail, .fate-cover {
+    transform: none !important;
+  }
+
+  .splash-title {
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+  }
 }
 
 .panel {
@@ -859,3 +934,58 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   color: var(--gold-accent);
   background: rgba(193, 154, 107, 0.1);
 }
+
+/* ===== Mobile Navigation Bar ===== */
+.mobile-nav {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: rgba(10, 31, 20, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--gold-accent);
+  display: none; /* Overridden in media query */
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 768px) {
+  .mobile-nav {
+    display: flex;
+  }
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  padding: 8px 0;
+}
+
+.nav-item.active {
+  opacity: 1;
+  color: var(--gold-accent);
+}
+
+.nav-icon {
+  font-size: 1.4rem;
+}
+
+.nav-label {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+}
+

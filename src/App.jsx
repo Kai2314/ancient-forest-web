@@ -142,6 +142,8 @@ function App() {
   const [draggedId, setDraggedId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFateRevealed, setIsFateRevealed] = useState(false);
+  const [mobilePanelView, setMobilePanelView] = useState('center');
+  const [previousPanelView, setPreviousPanelView] = useState('center');
   const centerPanelRef = useRef(null);
   const mapContainerRef = useRef(null);
   const ambientRef = useRef(null);
@@ -173,7 +175,7 @@ function App() {
           // Fallback: try to play on next user interaction
           const handleFirstInteraction = () => {
             if (isMusicOn && ambientRef.current) {
-              ambientRef.current.play().catch(() => {});
+              ambientRef.current.play().catch(() => { });
               window.removeEventListener('click', handleFirstInteraction);
               window.removeEventListener('keydown', handleFirstInteraction);
             }
@@ -239,10 +241,12 @@ function App() {
     }, 60);
   };
 
-  // Auto-scroll to center panel on mobile when something is selected
+  // Auto-scroll or switch view on mobile when something is selected
   useEffect(() => {
     if (activeDossier || activeClue || activeSuspect || activeEvent) {
-      if (window.innerWidth <= 1024) {
+      if (window.innerWidth <= 768) {
+        setMobilePanelView('center');
+      } else if (window.innerWidth <= 1024) {
         centerPanelRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
     }
@@ -264,7 +268,7 @@ function App() {
       role: '武術家 / 尋人者',
       image: 'cang_hao_sword.png',
       desc: '精通武術的華人，此行主要目的是尋找三個月前失蹤的好友二虎。',
-      fate: { status: '生還', color: '#4caf50', detail: '回國後寫信隱瞞好友死訊，模仿二虎筆跡定期寫信給二虎的爸媽與劉奶奶，獨自背負痛苦。' },
+      fate: { status: '生還', color: '#4caf50', detail: '決定寫信隱瞞好友死訊，模仿二虎筆跡定期寫信給二虎的爸媽與劉奶奶，獨自背負痛苦。' },
       stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 },
       sound: SFX.SWORD
     },
@@ -752,6 +756,11 @@ function App() {
       const target = storyEvents.find(e => e.id === loc.linkId);
       if (target) setActiveEvent(target);
     }
+    if (window.innerWidth <= 768) {
+      setMobilePanelView('center');
+      // From map hotspot, we don't necessarily want to "return" to side panels
+      setPreviousPanelView('center');
+    }
   };
 
   const handleMapMouseDown = (e, id) => {
@@ -813,11 +822,19 @@ function App() {
 
       <div className="mystery-board">
         {/* Sidebar: Investigators */}
-        <div className="panel">
+        <div className={`panel ${mobilePanelView !== 'left' ? 'mobile-hidden' : ''}`}>
           <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>調查小組 (Investigators)</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
             {investigators.map(inv => (
-              <div key={inv.id} className="character-card" onClick={() => { playSfx(inv.sound, 3000); clearCenter(); setActiveDossier(inv); }}>
+              <div key={inv.id} className="character-card" onClick={() => {
+                playSfx(inv.sound, 3000);
+                clearCenter();
+                setActiveDossier(inv);
+                if (window.innerWidth <= 768) {
+                  setPreviousPanelView('left');
+                  setMobilePanelView('center');
+                }
+              }}>
                 <img src={inv.image} alt={inv.name} className="dossier-image" />
                 <div className="dossier-name">{inv.name}</div>
                 {inv.fate && (
@@ -829,7 +846,7 @@ function App() {
         </div>
 
         {/* Center: Main Focus */}
-        <div className="panel center-panel" ref={centerPanelRef} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto' }}>
+        <div className={`panel center-panel ${mobilePanelView !== 'center' ? 'mobile-hidden' : ''}`} ref={centerPanelRef} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto' }}>
           {activeDossier ? (
             <div className="dossier-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)' }}>
               <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid #222' }}>{activeDossier.name}</h1>
@@ -882,7 +899,11 @@ function App() {
               )}
 
               <button
-                onClick={() => { setActiveDossier(null); setRollResult(null); }}
+                onClick={() => {
+                  setActiveDossier(null);
+                  setRollResult(null);
+                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
+                }}
                 style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 關閉卷宗
@@ -911,7 +932,11 @@ function App() {
               )}
               <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
               <button
-                onClick={() => { setActiveSuspect(null); setRollResult(null); }}
+                onClick={() => {
+                  setActiveSuspect(null);
+                  setRollResult(null);
+                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
+                }}
                 style={{ marginTop: '30px', background: '#333', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 {npcs.some(n => n.id === activeSuspect.id) ? "隱藏關鍵人物" : "隱藏嫌疑人"}
@@ -938,7 +963,11 @@ function App() {
                 </ul>
               )}
               <button
-                onClick={() => { setActiveClue(null); setRollResult(null); }}
+                onClick={() => {
+                  setActiveClue(null);
+                  setRollResult(null);
+                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
+                }}
                 style={{ marginTop: '20px', background: '#333', color: 'white', border: 'none', padding: '8px 15px', cursor: 'pointer' }}
               >
                 收回線索
@@ -962,7 +991,11 @@ function App() {
               )}
               <p style={{ marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem' }}>{activeEvent.detail}</p>
               <button
-                onClick={() => { setActiveEvent(null); setRollResult(null); }}
+                onClick={() => {
+                  setActiveEvent(null);
+                  setRollResult(null);
+                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
+                }}
                 style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
               >
                 關閉事件
@@ -1048,7 +1081,7 @@ function App() {
         </div>
 
         {/* Right: Tabbed Panel */}
-        <div className="panel" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div className={`panel ${mobilePanelView !== 'right' ? 'mobile-hidden' : ''}`} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {/* Tab Bar */}
           <div className="tab-bar">
             <button className={`tab-btn ${rightTab === 'clues' ? 'active' : ''}`} onClick={() => setRightTab('clues')}>📜 線索</button>
@@ -1066,7 +1099,15 @@ function App() {
                     <div
                       key={clue.id}
                       className="list-item clue-item"
-                      onClick={() => { playSfx(SFX.PARCHMENT); clearCenter(); setActiveClue(clue); }}
+                      onClick={() => {
+                        playSfx(SFX.PARCHMENT);
+                        clearCenter();
+                        setActiveClue(clue);
+                        if (window.innerWidth <= 768) {
+                          setPreviousPanelView('right');
+                          setMobilePanelView('center');
+                        }
+                      }}
                     >
                       {clue.name}
                     </div>
@@ -1083,7 +1124,15 @@ function App() {
                     <div
                       key={suspect.id}
                       className="list-item suspect-item"
-                      onClick={() => { playSfx(suspect.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(suspect); }}
+                      onClick={() => {
+                        playSfx(suspect.sound || SFX.PARCHMENT, 3000);
+                        clearCenter();
+                        setActiveSuspect(suspect);
+                        if (window.innerWidth <= 768) {
+                          setPreviousPanelView('right');
+                          setMobilePanelView('center');
+                        }
+                      }}
                     >
                       <span>{suspect.name}</span>
                       {suspect.fate && (
@@ -1099,7 +1148,15 @@ function App() {
                     <div
                       key={npc.id}
                       className="list-item npc-item"
-                      onClick={() => { playSfx(npc.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(npc); }}
+                      onClick={() => {
+                        playSfx(npc.sound || SFX.PARCHMENT, 3000);
+                        clearCenter();
+                        setActiveSuspect(npc);
+                        if (window.innerWidth <= 768) {
+                          setPreviousPanelView('right');
+                          setMobilePanelView('center');
+                        }
+                      }}
                     >
                       <span>{npc.name}</span>
                       {npc.fate && (
@@ -1119,7 +1176,14 @@ function App() {
                     <div
                       key={event.id}
                       className="timeline-event"
-                      onClick={() => { clearCenter(); setActiveEvent(event); }}
+                      onClick={() => {
+                        clearCenter();
+                        setActiveEvent(event);
+                        if (window.innerWidth <= 768) {
+                          setPreviousPanelView('right');
+                          setMobilePanelView('center');
+                        }
+                      }}
                     >
                       <div className="timeline-marker">{idx + 1}</div>
                       <div className="timeline-content">
@@ -1135,6 +1199,31 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation Bar */}
+      <nav className="mobile-nav">
+        <button
+          className={`nav-item ${mobilePanelView === 'left' ? 'active' : ''}`}
+          onClick={() => setMobilePanelView('left')}
+        >
+          <span className="nav-icon">🕵️</span>
+          <span className="nav-label">調查員</span>
+        </button>
+        <button
+          className={`nav-item ${mobilePanelView === 'center' ? 'active' : ''}`}
+          onClick={() => setMobilePanelView('center')}
+        >
+          <span className="nav-icon">🗺️</span>
+          <span className="nav-label">地圖/詳情</span>
+        </button>
+        <button
+          className={`nav-item ${mobilePanelView === 'right' ? 'active' : ''}`}
+          onClick={() => setMobilePanelView('right')}
+        >
+          <span className="nav-icon">📜</span>
+          <span className="nav-label">線索/人物</span>
+        </button>
+      </nav>
 
       {/* Dice Roll Overlay */}
       {rollResult && (
