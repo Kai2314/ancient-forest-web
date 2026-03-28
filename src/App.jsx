@@ -10,8 +10,9 @@ const SFX = {
   PARCHMENT: '/sounds/parchment_rustle.mp3',
   SANITY: '/sounds/sanity_loss.mp3',
   HALLUCINATION: '/sounds/hallucination.mp3',
-  AMBIENT: '/sounds/forest_ambient.mp3',
-  DICE_ROLL: '/sounds/dice_roll.mp3'
+  AMBIENT: '/sounds/HouseontheHill_Everet_Almond.m4a',
+  DICE_ROLL: '/sounds/dice_roll.mp3',
+  PAPER_TEAR: '/sounds/paper_tear.mp3'
 };
 
 const SKILL_NARRATIVES = {
@@ -133,13 +134,14 @@ function App() {
   const [activeSuspect, setActiveSuspect] = useState(null);
   const [activeEvent, setActiveEvent] = useState(null);
   const [rightTab, setRightTab] = useState('clues');
-  const [isMusicOn, setIsMusicOn] = useState(false);
+  const [isMusicOn, setIsMusicOn] = useState(true);
   const [rollResult, setRollResult] = useState(null);
   const [isRolling, setIsRolling] = useState(false);
   const [hoveredHotspot, setHoveredHotspot] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [draggedId, setDraggedId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFateRevealed, setIsFateRevealed] = useState(false);
   const centerPanelRef = useRef(null);
   const mapContainerRef = useRef(null);
   const ambientRef = useRef(null);
@@ -166,7 +168,19 @@ function App() {
   useEffect(() => {
     if (ambientRef.current) {
       if (isMusicOn) {
-        ambientRef.current.play().catch(e => console.log("Ambient play blocked:", e));
+        ambientRef.current.play().catch(e => {
+          console.log("Ambient play blocked:", e);
+          // Fallback: try to play on next user interaction
+          const handleFirstInteraction = () => {
+            if (isMusicOn && ambientRef.current) {
+              ambientRef.current.play().catch(() => {});
+              window.removeEventListener('click', handleFirstInteraction);
+              window.removeEventListener('keydown', handleFirstInteraction);
+            }
+          };
+          window.addEventListener('click', handleFirstInteraction);
+          window.addEventListener('keydown', handleFirstInteraction);
+        });
       } else {
         ambientRef.current.pause();
       }
@@ -177,7 +191,7 @@ function App() {
   const playSfx = useCallback((path, maxDuration = null) => {
     if (!path) return;
     const audio = new Audio(path);
-    audio.volume = 0.8;
+    audio.volume = 0.3;
     audio.play().catch(e => console.log("Audio play blocked by browser:", e));
 
     if (maxDuration) {
@@ -240,6 +254,7 @@ function App() {
     setActiveSuspect(null);
     setActiveEvent(null);
     setRollResult(null);
+    setIsFateRevealed(false);
   };
 
   const investigators = [
@@ -527,9 +542,9 @@ function App() {
       chapter: '第十三章',
       title: '監禁與失蹤的簡小姐',
       date: '6月22日',
-      image: 'event_chapter12_v1.png',
+      image: 'event_chapter13_v4.png',
       summary: '哈里斯投降後揭露簡小姐已神祕失蹤。斯科特急於搜救卻反被俘虜，但在礦區發現了被囚禁的眾人。',
-      detail: '哈里斯（Harris）最終投降，他精神失常地聲稱昨晚小組被無數亡靈包圍。簡小姐在混亂中失蹤，安妮發現繩索是被自行鬆開的。心急如焚的斯科特獨自衝向礦區搜救小姐，卻被礦區勘探員包圍並俘虜。他在四號小木屋發現了失蹤已久的霍爾父子與簡小姐。'
+      detail: '哈里斯（Harris）最終投降，他精神失常地聲稱昨晚小組被無數亡靈包圍。簡小姐在混亂中失蹤，安妮發現繩索是被自行鬆開的。心急如焚的斯科特獨自衝向礦區搜救小姐，卻被礦區勘探員包圍並俘虜。他在四號小木屋發現了被繩索綑綁、動彈不得的霍爾父子、簡小姐與斯科特自己。'
     },
     {
       id: 'event-chapter14',
@@ -849,12 +864,20 @@ function App() {
               <p style={{ marginTop: '20px', lineHeight: '1.6', fontSize: '0.95rem' }}>{activeDossier.desc}</p>
 
               {activeDossier.fate && (
-                <div className="fate-detail-box">
-                  <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px' }}>
-                    <span className="fate-tag" style={{ background: activeDossier.fate.color, display: 'inline-block', marginRight: '8px' }}>{activeDossier.fate.status}</span>
-                    最終命運
-                  </h3>
-                  <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeDossier.fate.detail}</p>
+                <div className="fate-reveal-container">
+                  <div
+                    className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`}
+                    onClick={() => { if (!isFateRevealed) { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); } }}
+                  >
+                    <span>點擊撕開命運真相</span>
+                  </div>
+                  <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`}>
+                    <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px' }}>
+                      <span className="fate-tag" style={{ background: activeDossier.fate.color, display: 'inline-block', marginRight: '8px' }}>{activeDossier.fate.status}</span>
+                      最終命運
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeDossier.fate.detail}</p>
+                  </div>
                 </div>
               )}
 
@@ -874,8 +897,16 @@ function App() {
               )}
               <p style={{ marginTop: '20px', lineHeight: '1.6' }}>{activeSuspect.desc}</p>
               {activeSuspect.fate?.detail && (
-                <div className="fate-detail-box">
-                  <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeSuspect.fate.detail}</p>
+                <div className="fate-reveal-container">
+                  <div
+                    className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`}
+                    onClick={() => { if (!isFateRevealed) { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); } }}
+                  >
+                    <span>點擊撕開命運真相</span>
+                  </div>
+                  <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`}>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeSuspect.fate.detail}</p>
+                  </div>
                 </div>
               )}
               <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
@@ -1052,7 +1083,7 @@ function App() {
                     <div
                       key={suspect.id}
                       className="list-item suspect-item"
-                       onClick={() => { playSfx(suspect.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(suspect); }}
+                      onClick={() => { playSfx(suspect.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(suspect); }}
                     >
                       <span>{suspect.name}</span>
                       {suspect.fate && (
@@ -1068,7 +1099,7 @@ function App() {
                     <div
                       key={npc.id}
                       className="list-item npc-item"
-                       onClick={() => { playSfx(npc.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(npc); }}
+                      onClick={() => { playSfx(npc.sound || SFX.PARCHMENT, 3000); clearCenter(); setActiveSuspect(npc); }}
                     >
                       <span>{npc.name}</span>
                       {npc.fate && (
