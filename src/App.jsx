@@ -297,7 +297,7 @@ function App() {
       name: '大B (Big B)',
       role: '富家子弟',
       image: 'bigb.png',
-      desc: '充滿好奇心的紈絝子弟，來到班寧頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
+      desc: '充滿好奇心的紈絝子弟，來到貝靈頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
       fate: { status: '生還', color: '#4caf50', detail: '與青梅竹馬簡死別後感到深深的懺悔與遺憾，決定回到父親身邊重新開始生活。' },
       stats: { '說服 (Persuade)': 70, '隱蔽 (Stealth)': 60, '體質 (CON)': 65, '敏捷 (DEX)': 60, '幸運 (LUK)': 80 },
       sound: SFX.COIN
@@ -308,7 +308,7 @@ function App() {
       role: '女僕 / 復仇者',
       image: 'annie.png',
       desc: '外表溫柔內心堅韌的女僕，實為盧卡斯當年拋棄的私生女。在紛亂的調查中，她隱藏著驚天的復仇計畫。',
-      fate: { status: '入獄', color: '#f44336', detail: '在撤離途中於飲水下毒殺害簡，揭露自己為盧卡斯私生女的身世。被捕後預計服刑 10-15 年，盧卡斯在遺書中為她留下遺產與頂級律師團隊。' },
+      fate: { status: '入獄', color: '#f44336', detail: '在撤離途中於飲水下毒殺害簡，被其他調查員搜出身上的毒藥。回到鎮上後被捕後預計服刑 10-15 年，也揭露自己為盧卡斯私生女的身世，盧卡斯在遺書中為她留下遺產與頂級律師團隊。' },
       stats: { '醫學 (Medicine)': 70, '投擲 (Throw)': 60, '心理 (Psych)': 65, '偵查 (Spot)': 55, '敏捷 (DEX)': 70 },
       sound: SFX.VIAL
     }
@@ -835,7 +835,7 @@ function App() {
                   setMobilePanelView('center');
                 }
               }}>
-                <img src={inv.image} alt={inv.name} className="dossier-image" />
+                <img src={inv.image} alt={inv.name} className="dossier-image" loading="lazy" />
                 <div className="dossier-name">{inv.name}</div>
                 {inv.fate && (
                   <div className="fate-tag" style={{ background: inv.fate.color }}>{inv.fate.status}</div>
@@ -930,7 +930,7 @@ function App() {
                   </div>
                 </div>
               )}
-              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
+              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
               <button
                 onClick={() => {
                   setActiveSuspect(null);
@@ -948,11 +948,11 @@ function App() {
               {activeClue.images ? (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px' }}>
                   {activeClue.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} />
+                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
                   ))}
                 </div>
               ) : (
-                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
+                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
               )}
               <p style={{ marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold' }}>{activeClue.desc}</p>
               {activeClue.details && (
@@ -983,11 +983,11 @@ function App() {
               {activeEvent.images ? (
                 <div style={{ display: 'grid', gridTemplateColumns: activeEvent.images.length >= 3 ? 'repeat(3, 1fr)' : activeEvent.images.length > 1 ? '1fr 1fr' : '1fr', gap: '10px', marginTop: '15px' }}>
                   {activeEvent.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} />
+                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
                   ))}
                 </div>
               ) : activeEvent.image && (
-                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} />
+                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
               )}
               <p style={{ marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem' }}>{activeEvent.detail}</p>
               <button
@@ -1022,7 +1022,7 @@ function App() {
                     overflow: 'visible'
                   }}
                 >
-                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
 
                   {/* Interactive Hotspots */}
                   {locations.map(loc => (
@@ -1039,7 +1039,7 @@ function App() {
                       <div className="hotspot-label">{loc.name}</div>
                       {!isEditMode && hoveredHotspot === loc.id && (
                         <div className={`hotspot-tooltip tooltip-${loc.tooltipPos}`}>
-                          <img src={loc.image} alt={loc.name} className="tooltip-image" />
+                          <img src={loc.image} alt={loc.name} className="tooltip-image" loading="lazy" />
                           <div className="tooltip-info">
                             <div className="tooltip-name">{loc.name}</div>
                             <div className="tooltip-name-en">{loc.nameEn}</div>
