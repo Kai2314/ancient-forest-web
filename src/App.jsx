@@ -956,9 +956,18 @@ function App() {
                         <h2 style={{ margin: '15px 0', fontSize: '2.5rem', fontFamily: 'Cinzel' }}>{activeSuspect.name}</h2>
                         <div style={{ borderTop: '2px solid #ccc', paddingTop: '20px', lineHeight: '1.8', fontSize: '1.05rem' }}>{activeSuspect.desc}</div>
                         {activeSuspect.fate && (
-                          <div style={{ marginTop: '25px', padding: '20px', background: '#e0e0e0', borderLeft: `6px solid ${activeSuspect.fate.color}` }}>
-                            <strong style={{ fontSize: '1.1rem' }}>最終結局: {activeSuspect.fate.status}</strong>
-                            {activeSuspect.fate.detail && <p style={{ fontSize: '0.95rem', marginTop: '8px' }}>{activeSuspect.fate.detail}</p>}
+                          <div className="fate-reveal-container" style={{ marginTop: '25px', minHeight: '80px' }}>
+                            <div className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`} 
+                              onClick={() => { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); }}
+                              style={{ background: '#1a1a1a', color: '#d4af37', border: '1px solid #333' }}
+                            >
+                              <span>⚠️ 點擊撕開 ⚠️<br />查看人物最終命運</span>
+                            </div>
+                            <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`} 
+                              style={{ padding: '20px', background: '#e0e0e0', borderLeft: `6px solid ${activeSuspect.fate.color}`, margin: 0 }}>
+                              <strong style={{ fontSize: '1.1rem' }}>最終結局: {activeSuspect.fate.status}</strong>
+                              {activeSuspect.fate.detail && <p style={{ fontSize: '0.95rem', marginTop: '8px' }}>{activeSuspect.fate.detail}</p>}
+                            </div>
                           </div>
                         )}
                       </div>
