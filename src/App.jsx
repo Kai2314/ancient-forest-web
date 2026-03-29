@@ -681,7 +681,7 @@ function App() {
       name: '貝靈頓警察局',
       nameEn: 'Beilington Police Station',
       image: '/警察局內部.jpg',
-      top: '88.4%', left: '27.2%',
+      top: '67.6%', left: '28.0%',
       tooltipPos: 'top',
       linkType: 'event', linkId: 'event1',
       sound: null
@@ -691,7 +691,7 @@ function App() {
       name: '調查員紮營地',
       nameEn: 'Investigator Campsite',
       image: '/紮營地.jpg',
-      top: '40.1%', left: '34.4%',
+      top: '44.6%', left: '32.3%',
       tooltipPos: 'top',
       linkType: 'event', linkId: 'event2',
       sound: null
@@ -701,7 +701,7 @@ function App() {
       name: '第一個森林追蹤點',
       nameEn: 'First Forest Tracking Point',
       image: '/第一個森林追蹤點.jpg',
-      top: '67.9%', left: '31.0%',
+      top: '61.9%', left: '37.1%',
       tooltipPos: 'top',
       linkType: 'event', linkId: 'event3',
       sound: null
@@ -711,7 +711,7 @@ function App() {
       name: '散落的畫 (藝術家營地)',
       nameEn: 'Scattered Paintings',
       image: '/散落的畫.jpg',
-      top: '16.5%', left: '47.9%',
+      top: '26.3%', left: '48.5%',
       tooltipPos: 'right',
       linkType: 'clue', linkId: 'painting',
       sound: SFX.PARCHMENT
@@ -721,7 +721,7 @@ function App() {
       name: '槍戰地點',
       nameEn: 'Gunfight Location',
       image: '/槍戰地點.jpg',
-      top: '54.9%', left: '42.0%',
+      top: '48.2%', left: '43.7%',
       tooltipPos: 'right',
       linkType: 'event', linkId: 'event4',
       sound: null
@@ -731,7 +731,7 @@ function App() {
       name: '湖邊獻祭場',
       nameEn: 'Lakeside Ritual Site',
       image: '/湖邊.jpg',
-      top: '64.2%', left: '63.6%',
+      top: '60.0%', left: '65.8%',
       tooltipPos: 'left',
       linkType: 'event', linkId: 'event5',
       sound: null
@@ -741,7 +741,7 @@ function App() {
       name: '藍色水晶洞窟 (礦區)',
       nameEn: 'Blue Crystal Cave',
       image: '/藍色水晶洞窟.jpg',
-      top: '12%', left: '79%',
+      top: '30.1%', left: '79.0%',
       tooltipPos: 'left',
       linkType: 'clue', linkId: 'ore',
       sound: SFX.HALLUCINATION
@@ -1086,100 +1086,108 @@ function App() {
 
           {/* --- [B] Dynamic Contextual Sidebar (Right) --- */}
           <aside className={`dynamic-sidebar ${mobilePanelView === 'right' || mobilePanelView === 'left' ? '' : 'mobile-hidden'}`}>
-            
-            {/* 1. Investigator List */}
-            {activeNav === 'investigators' && (
-              <>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>調查員卷宗</h2>
-                <div className="investigator-list">
-                  {investigators.map(inv => (
-                    <div key={inv.id} className={`investigator-card ${activeDossier?.id === inv.id ? 'active' : ''}`} onClick={() => {
-                      playSfx(inv.sound);
-                      clearCenter();
-                      setActiveDossier(inv);
-                    }}>
-                      <img src={inv.image} alt={inv.name} className="inv-thumb" loading="lazy" />
-                      <div className="inv-info">
-                        <div className="inv-name">{inv.name}</div>
-                        <div className="inv-role">{inv.role}</div>
+            <div className="sidebar-scroll-content">
+              {/* 1. Investigator List */}
+              {activeNav === 'investigators' && (
+                <>
+                  <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>調查員卷宗</h2>
+                  <div className="investigator-list">
+                    {investigators.map(inv => (
+                      <div key={inv.id} className={`investigator-card ${activeDossier?.id === inv.id ? 'active' : ''}`} onClick={() => {
+                        playSfx(inv.sound);
+                        clearCenter();
+                        setActiveDossier(inv);
+                      }}>
+                        <img src={inv.image} alt={inv.name} className="inv-thumb" loading="lazy" />
+                        <div className="inv-info">
+                          <div className="inv-name">{inv.name}</div>
+                          <div className="inv-role">{inv.role}</div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+                    ))}
+                  </div>
+                </>
+              )}
 
-            {/* 2. Map Sidebar (If any specific map items are needed) */}
-            {activeNav === 'map' && (
-              <>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>區域清單</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {locations.map(loc => (
-                    <div key={loc.id} className="list-item" onClick={() => handleHotspotClick(loc)}>
-                      <span>{loc.name}</span>
-                      <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>LOCATE →</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {/* 3. Clues & NPCs & Chronicle */}
-            {activeNav === 'clues' && (
-              <>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>案件線索</h2>
-                <div className="clue-list">
-                  {clues.map(c => (
-                    <div key={c.id} className={`clue-card ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
-                      clearCenter();
-                      setActiveClue(c);
-                    }}>
-                      <img src={c.image || (c.images && c.images[0])} alt={c.name} className="clue-thumb" loading="lazy" />
-                      <div className="clue-name">{c.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {activeNav === 'npcs' && (
-              <>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>人物檔案</h2>
-                <div className="suspect-list">
-                  {suspects.concat(npcs).map(s => (
-                    <div key={s.id} className={`suspect-card ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
-                      clearCenter();
-                      setActiveSuspect(s);
-                    }}>
-                      <img src={s.image} alt={s.name} className="suspect-thumb" loading="lazy" />
-                      <div className="suspect-name">{s.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {activeNav === 'chronicle' && (
-              <>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>故事事件簿</h2>
-                <div className="timeline">
-                  {storyEvents.map((ev, idx) => (
-                    <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
-                      clearCenter();
-                      setActiveEvent(ev);
-                    }}>
-                      <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
-                      <div className="timeline-content">
-                        <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
-                        <div className="timeline-title">{ev.title}</div>
-                        <div className="timeline-summary">{ev.summary}</div>
+              {/* 2. Map Sidebar (If any specific map items are needed) */}
+              {activeNav === 'map' && (
+                <>
+                  <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>區域清單</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {locations.map(loc => (
+                      <div key={loc.id} className="list-item" onClick={() => handleHotspotClick(loc)}>
+                        <span>{loc.name}</span>
+                        <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>LOCATE →</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* 3. Clues & NPCs & Chronicle */}
+              {activeNav === 'clues' && (
+                <>
+                  <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>案件線索</h2>
+                  <div className="clue-list">
+                    {clues.map(c => (
+                      <div key={c.id} className={`clue-card ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
+                        clearCenter();
+                        setActiveClue(c);
+                      }}>
+                        <img src={c.image || (c.images && c.images[0])} alt={c.name} className="clue-thumb" loading="lazy" />
+                        <div className="clue-name">{c.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {activeNav === 'npcs' && (
+                <>
+                  <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>人物檔案</h2>
+                  <div className="suspect-list">
+                    {suspects.concat(npcs).map(s => (
+                      <div key={s.id} className={`suspect-card ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
+                        clearCenter();
+                        setActiveSuspect(s);
+                      }}>
+                        <img src={s.image} alt={s.name} className="suspect-thumb" loading="lazy" />
+                        <div className="suspect-name">{s.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {activeNav === 'chronicle' && (
+                <>
+                  <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>故事事件簿</h2>
+                  <div className="timeline">
+                    {storyEvents.map((ev, idx) => (
+                      <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
+                        clearCenter();
+                        setActiveEvent(ev);
+                      }}>
+                        <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
+                        <div className="timeline-content">
+                          <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
+                          <div className="timeline-title">{ev.title}</div>
+                          <div className="timeline-summary">{ev.summary}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <footer className="app-footer">
+              <p>
+                本作品採用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" style={{ color: 'var(--gold-accent)', textDecoration: 'underline' }}>
+                創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
+              </p>
+              <p>© 2024 - 2026 跑團兄弟</p>
+            </footer>
           </aside>
         </div>
       </main>
@@ -1227,14 +1235,6 @@ function App() {
           {!isRolling && <div className="roll-footer">點擊任意處繼續</div>}
         </div>
       )}
-
-      <footer className="app-footer" style={{ textAlign: 'center', padding: '30px 20px', fontSize: '0.85rem', opacity: 0.7, borderTop: '1px solid rgba(212,175,55,0.1)', color: 'var(--gold-accent)', marginTop: 'auto' }}>
-        <p style={{ margin: '0 0 8px 0' }}>
-          本作品採用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" style={{ color: 'var(--gold-accent)', textDecoration: 'underline' }}>
-          創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
-        </p>
-        <p style={{ margin: 0 }}>© 2024 - 2026 跑團兄弟</p>
-      </footer>
     </div>
   );
 }

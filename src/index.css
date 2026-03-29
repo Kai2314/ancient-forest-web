@@ -1399,3 +1399,78 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   to { opacity: 1; transform: translateY(0); }
 }
 
+
+/* --- Sidebar Footer Relocation --- */
+.dynamic-sidebar {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  background: rgba(10, 31, 20, 0.95);
+  border-left: 2px solid var(--gold-accent);
+}
+
+.sidebar-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+.app-footer {
+  padding: 20px 25px !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+  background: rgba(0,0,0,0.4) !important;
+  text-align: right !important;
+  font-size: 0.75rem !important;
+  opacity: 0.7;
+  width: 100%;
+}
+
+.app-footer p {
+  margin: 0 !important;
+  line-height: 1.6;
+}
+
+/* --- Final Footer Refinement (Pinned & Premium Typography) --- */
+.dynamic-sidebar {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.sidebar-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+.app-footer {
+  margin-top: auto;
+  padding: 20px 25px !important;
+  border-top: 2px solid rgba(212, 175, 55, 0.15) !important;
+  background: rgba(0,0,0,0.6) !important;
+  text-align: right !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.75rem !important;
+  color: rgba(212, 175, 55, 0.9) !important;
+  letter-spacing: 0.5px;
+  z-index: 10;
+}
+
+.app-footer p {
+  margin: 0 0 5px 0 !important;
+  line-height: 1.6;
+}
+
+.app-footer a {
+  color: var(--gold-accent);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(212, 175, 55, 0.5);
+  transition: all 0.3s ease;
+}
+
+.app-footer a:hover {
+  color: #fff;
+  border-bottom-style: solid;
+  border-bottom-color: #fff;
+}
