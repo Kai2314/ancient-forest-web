@@ -804,46 +804,46 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* 1. Far-left Navigation Bar (Distressed Leather) */}
+      {/* 1. First-Column: Navigation Menu (Distressed Leather) */}
       <nav className="sidebar-nav">
         <div 
           className={`nav-item ${activeNav === 'investigators' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('investigators'); setMobilePanelView('left'); }}
-          title="調查小組"
         >
-          🕵️
+          <span className="nav-icon">🕵️</span>
+          <span className="nav-text">調查小組</span>
         </div>
         <div 
           className={`nav-item ${activeNav === 'map' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('map'); setMobilePanelView('center'); clearCenter(); }}
-          title="古茂密林地圖"
         >
-          🗺️
+          <span className="nav-icon">🗺️</span>
+          <span className="nav-text">古茂密林地圖</span>
         </div>
         <div 
           className={`nav-item ${activeNav === 'clues' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('clues'); setRightTab('clues'); setMobilePanelView('right'); }}
-          title="案件線索"
         >
-          📜
+          <span className="nav-icon">📜</span>
+          <span className="nav-text">案件線索</span>
         </div>
         <div 
           className={`nav-item ${activeNav === 'npcs' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('npcs'); setRightTab('suspects'); setMobilePanelView('right'); }}
-          title="人物檔案"
         >
-          👥
+          <span className="nav-icon">👥</span>
+          <span className="nav-text">人物檔案</span>
         </div>
         <div 
           className={`nav-item ${activeNav === 'chronicle' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('chronicle'); setRightTab('story'); setMobilePanelView('right'); }}
-          title="故事事件簿"
         >
-          📖
+          <span className="nav-icon">📖</span>
+          <span className="nav-text">故事事件簿</span>
         </div>
       </nav>
 
-      {/* 2. Main Area (Center + Right Dynamic Sidebar) */}
+      {/* 2. Primary Area (Center Content + Right Dynamic Sidebar) */}
       <main className="main-content">
         <div className="top-controls">
           <button
@@ -864,86 +864,16 @@ function App() {
 
         <div className="mystery-board">
           
-          {/* --- [A] Center Stage: Map or Details --- */}
+          {/* --- [A] Center Stage: Details or Map (Conditional) --- */}
           <section className={`center-panel panel ${mobilePanelView === 'center' ? '' : 'mobile-hidden'}`} ref={centerPanelRef}>
-            {!activeDossier && !activeClue && !activeSuspect && !activeEvent ? (
-              <div className="map-view">
-                <h2 className="panel-title" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                  {isEditMode ? '地圖編輯模式' : '探險區域：古茂密林'}
-                </h2>
-                <div 
-                  className="map-container-wrapper" 
-                  ref={mapContainerRef}
-                  onMouseMove={handleMapMouseMove}
-                  onMouseUp={handleMapMouseUp}
-                  onMouseLeave={handleMapMouseUp}
-                >
-                  <div className="map-fog"></div>
-                  <div className="map-vignette"></div>
-                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
-                  
-                  {locations.map(loc => (
-                    <div 
-                      key={loc.id}
-                      className={`map-hotspot ${isEditMode ? 'edit-mode' : ''} ${draggedId === loc.id ? 'dragging' : ''}`}
-                      style={{ top: loc.top, left: loc.left }}
-                      onClick={() => handleHotspotClick(loc)}
-                      onMouseDown={(e) => handleMapMouseDown(e, loc.id)}
-                      onMouseEnter={() => !isEditMode && setHoveredHotspot(loc.id)}
-                      onMouseLeave={() => !isEditMode && setHoveredHotspot(null)}
-                    >
-                      {!isEditMode && <div className="hotspot-pulse"></div>}
-                      <span className="hotspot-label">{loc.name}</span>
-                      
-                      {!isEditMode && hoveredHotspot === loc.id && (
-                        <div 
-                          className="hotspot-tooltip"
-                          style={{ 
-                            top: `-110px`, 
-                            left: '50%',
-                            transform: 'translateX(-50%)'
-                          }}
-                        >
-                          <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} loading="lazy" />
-                          <div style={{ padding: '8px' }}>
-                            <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-accent)', fontSize: '0.8rem' }}>{loc.name}</div>
-                            <div style={{ fontSize: '0.6rem', color: '#888' }}>{loc.nameEn}</div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {isEditMode && (
-                  <div className="edit-coordinates-panel">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--gold-accent)' }}>熱點座標調試器 (Debug)</h3>
-                      <button className="copy-coords-btn" onClick={() => {
-                        const code = locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n');
-                        navigator.clipboard.writeText(code);
-                        alert('座標已複製到剪貼板！');
-                      }}>複製 JSON 資料</button>
-                    </div>
-                    <pre className="coords-code-block">
-                      {locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n')}
-                    </pre>
-                  </div>
-                )}
-                {!isEditMode && (
-                  <div className="map-interaction-prompt">
-                    點擊地圖標記獲取詳細線索或劇情
-                  </div>
-                )}
-              </div>
-            ) : (
+            {activeDossier || activeClue || activeSuspect || activeEvent ? (
               <div className="detail-view">
                 <button 
                   className="close-detail-btn" 
                   onClick={clearCenter}
                   style={{ position: 'absolute', top: '15px', right: '15px', padding: '8px 15px', background: 'rgba(139,0,0,0.4)', border: '1px solid var(--blood-ochre)', color: '#fff', cursor: 'pointer', zIndex: 50 }}
                 >
-                  🔙 返回主舞台
+                  🔙 返回主導航
                 </button>
 
                 {/* Dossier Detail */}
@@ -1049,6 +979,82 @@ function App() {
                   </div>
                 )}
               </div>
+            ) : activeNav === 'map' ? (
+              <div className="map-view">
+                <h2 className="panel-title" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                  {isEditMode ? '地圖編輯模式' : '探險區域：古茂密林'}
+                </h2>
+                <div 
+                  className="map-container-wrapper" 
+                  ref={mapContainerRef}
+                  onMouseMove={handleMapMouseMove}
+                  onMouseUp={handleMapMouseUp}
+                  onMouseLeave={handleMapMouseUp}
+                >
+                  <div className="map-fog"></div>
+                  <div className="map-vignette"></div>
+                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
+                  
+                  {locations.map(loc => (
+                    <div 
+                      key={loc.id}
+                      className={`map-hotspot ${isEditMode ? 'edit-mode' : ''} ${draggedId === loc.id ? 'dragging' : ''}`}
+                      style={{ top: loc.top, left: loc.left }}
+                      onClick={() => handleHotspotClick(loc)}
+                      onMouseDown={(e) => handleMapMouseDown(e, loc.id)}
+                      onMouseEnter={() => !isEditMode && setHoveredHotspot(loc.id)}
+                      onMouseLeave={() => !isEditMode && setHoveredHotspot(null)}
+                    >
+                      {!isEditMode && <div className="hotspot-pulse"></div>}
+                      <span className="hotspot-label">{loc.name}</span>
+                      
+                      {!isEditMode && hoveredHotspot === loc.id && (
+                        <div 
+                          className="hotspot-tooltip"
+                          style={{ 
+                            top: `-110px`, 
+                            left: '50%',
+                            transform: 'translateX(-50%)'
+                          }}
+                        >
+                          <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} loading="lazy" />
+                          <div style={{ padding: '8px' }}>
+                            <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-accent)', fontSize: '0.8rem' }}>{loc.name}</div>
+                            <div style={{ fontSize: '0.6rem', color: '#888' }}>{loc.nameEn}</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {isEditMode && (
+                  <div className="edit-coordinates-panel">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--gold-accent)' }}>熱點座標調試器 (Debug)</h3>
+                      <button className="copy-coords-btn" onClick={() => {
+                        const code = locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n');
+                        navigator.clipboard.writeText(code);
+                        alert('座標已複製到剪貼板！');
+                      }}>複製 JSON 資料</button>
+                    </div>
+                    <pre className="coords-code-block">
+                      {locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n')}
+                    </pre>
+                  </div>
+                )}
+                {!isEditMode && (
+                  <div className="map-interaction-prompt">
+                    點擊地圖標記獲取詳細線索或劇情
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="landing-view" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', opacity: 0.5 }}>
+                <div style={{ fontSize: '5rem', marginBottom: '20px' }}>🌑</div>
+                <h2 style={{ fontFamily: 'Cinzel', fontSize: '1.5rem', letterSpacing: '4px' }}>請從左側選單選擇調查項目</h2>
+                <p style={{ marginTop: '10px' }}>或是點擊「地圖」查看當前位置</p>
+              </div>
             )}
           </section>
 
@@ -1075,67 +1081,78 @@ function App() {
               </>
             )}
 
-            {/* 2. Clues & NPCs & Chronicle (Tab-based legacy fallback or integrated) */}
-            {(activeNav === 'clues' || activeNav === 'npcs' || activeNav === 'chronicle') && (
+            {/* 2. Map Sidebar (If any specific map items are needed) */}
+            {activeNav === 'map' && (
               <>
-                <div className="tab-bar" style={{ marginBottom: '20px' }}>
-                  <button className={`tab-btn ${rightTab === 'clues' ? 'active' : ''}`} onClick={() => {setPointNav('clues'); setRightTab('clues'); setActiveNav('clues');}}>線索</button>
-                  <button className={`tab-btn ${rightTab === 'suspects' ? 'active' : ''}`} onClick={() => {setPointNav('npcs'); setRightTab('suspects'); setActiveNav('npcs');}}>人物</button>
-                  <button className={`tab-btn ${rightTab === 'story' ? 'active' : ''}`} onClick={() => {setPointNav('chronicle'); setRightTab('story'); setActiveNav('chronicle');}}>事件</button>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>區域清單</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {locations.map(loc => (
+                    <div key={loc.id} className="list-item" onClick={() => handleHotspotClick(loc)}>
+                      <span>{loc.name}</span>
+                      <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>LOCATE →</span>
+                    </div>
+                  ))}
                 </div>
-                
-                <div style={{ flex: 1, overflowY: 'auto', paddingRight: '5px' }}>
-                  {rightTab === 'clues' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      {clues.map(c => (
-                        <div key={c.id} className={`list-item clue-item ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
-                          clearCenter();
-                          setActiveClue(c);
-                        }}>
-                          <span>{c.name}</span>
-                          <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>VIEW →</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              </>
+            )}
 
-                  {rightTab === 'suspects' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--gold-accent)', borderBottom: '1px solid rgba(212,175,55,0.2)', paddingBottom: '8px', letterSpacing: '1px' }}>嫌疑人 & 關鍵對象</div>
-                      {suspects.concat(npcs).map(s => (
-                        <div key={s.id} className={`suspect-item list-item ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
-                          clearCenter();
-                          setActiveSuspect(s);
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <img src={s.image} alt={s.name} style={{ width: '45px', height: '45px', borderRadius: '4px', objectFit: 'cover', border: '1px solid #555' }} loading="lazy" />
-                            <div>
-                              <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{s.name}</div>
-                              <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>{s.role}</div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+            {/* 3. Clues & NPCs & Chronicle */}
+            {activeNav === 'clues' && (
+              <>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>案件線索</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {clues.map(c => (
+                    <div key={c.id} className={`list-item clue-item ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
+                      clearCenter();
+                      setActiveClue(c);
+                    }}>
+                      <span>{c.name}</span>
+                      <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>VIEW →</span>
                     </div>
-                  )}
+                  ))}
+                </div>
+              </>
+            )}
 
-                  {rightTab === 'story' && (
-                    <div className="timeline">
-                      {storyEvents.map((ev, idx) => (
-                        <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
-                          clearCenter();
-                          setActiveEvent(ev);
-                        }}>
-                          <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
-                          <div className="timeline-content">
-                            <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
-                            <div className="timeline-title">{ev.title}</div>
-                            <div className="timeline-summary">{ev.summary}</div>
-                          </div>
+            {activeNav === 'npcs' && (
+              <>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>人物檔案</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  {suspects.concat(npcs).map(s => (
+                    <div key={s.id} className={`suspect-item list-item ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
+                      clearCenter();
+                      setActiveSuspect(s);
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <img src={s.image} alt={s.name} style={{ width: '45px', height: '45px', borderRadius: '4px', objectFit: 'cover', border: '1px solid #555' }} loading="lazy" />
+                        <div>
+                          <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{s.name}</div>
+                          <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>{s.role}</div>
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  )}
+                  ))}
+                </div>
+              </>
+            )}
+
+            {activeNav === 'chronicle' && (
+              <>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>故事事件簿</h2>
+                <div className="timeline">
+                  {storyEvents.map((ev, idx) => (
+                    <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
+                      clearCenter();
+                      setActiveEvent(ev);
+                    }}>
+                      <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
+                      <div className="timeline-content">
+                        <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
+                        <div className="timeline-title">{ev.title}</div>
+                        <div className="timeline-summary">{ev.summary}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </>
             )}
