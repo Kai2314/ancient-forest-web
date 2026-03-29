@@ -145,6 +145,10 @@ function App() {
   const [mobilePanelView, setMobilePanelView] = useState('center');
   const [previousPanelView, setPreviousPanelView] = useState('center');
   const [activeNav, setActiveNav] = useState('investigators'); // Default to investigators for the right sidebar
+
+  useEffect(() => {
+    console.log("Ancient Forest UI v6.2 (Refined Nav) Loaded");
+  }, []);
   const centerPanelRef = useRef(null);
   const mapContainerRef = useRef(null);
   const ambientRef = useRef(null);
@@ -802,9 +806,6 @@ function App() {
     );
   }
 
-  useEffect(() => {
-    console.log("Ancient Forest UI v6.2 (Refined Nav) Loaded");
-  }, []);
 
   return (
     <div className="app-container">
