@@ -144,6 +144,7 @@ function App() {
   const [isFateRevealed, setIsFateRevealed] = useState(false);
   const [mobilePanelView, setMobilePanelView] = useState('center');
   const [previousPanelView, setPreviousPanelView] = useState('center');
+  const [activeNav, setActiveNav] = useState('investigators'); // Default to investigators for the right sidebar
   const centerPanelRef = useRef(null);
   const mapContainerRef = useRef(null);
   const ambientRef = useRef(null);
@@ -803,230 +804,86 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="top-controls">
-        <button
-          className="music-toggle-btn"
-          onClick={() => setIsMusicOn(!isMusicOn)}
-          title={isMusicOn ? "關閉環境音" : "開啟環境音"}
+      {/* 1. Far-left Navigation Bar (Distressed Leather) */}
+      <nav className="sidebar-nav">
+        <div 
+          className={`nav-item ${activeNav === 'investigators' ? 'active' : ''}`} 
+          onClick={() => { setActiveNav('investigators'); setMobilePanelView('left'); }}
+          title="調查小組"
         >
-          {isMusicOn ? "背景音效: ON 🔊" : "背景音效: OFF 🔇"}
-        </button>
-        <button
-          className="edit-toggle-btn"
-          onClick={() => setIsEditMode(!isEditMode)}
-          style={{ background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)' }}
+          🕵️
+        </div>
+        <div 
+          className={`nav-item ${activeNav === 'map' ? 'active' : ''}`} 
+          onClick={() => { setActiveNav('map'); setMobilePanelView('center'); clearCenter(); }}
+          title="古茂密林地圖"
         >
-          {isEditMode ? "🛠️ 結束編輯" : "🛠️ 編輯熱點"}
-        </button>
-      </div>
+          🗺️
+        </div>
+        <div 
+          className={`nav-item ${activeNav === 'clues' ? 'active' : ''}`} 
+          onClick={() => { setActiveNav('clues'); setRightTab('clues'); setMobilePanelView('right'); }}
+          title="案件線索"
+        >
+          📜
+        </div>
+        <div 
+          className={`nav-item ${activeNav === 'npcs' ? 'active' : ''}`} 
+          onClick={() => { setActiveNav('npcs'); setRightTab('suspects'); setMobilePanelView('right'); }}
+          title="人物檔案"
+        >
+          👥
+        </div>
+        <div 
+          className={`nav-item ${activeNav === 'chronicle' ? 'active' : ''}`} 
+          onClick={() => { setActiveNav('chronicle'); setRightTab('story'); setMobilePanelView('right'); }}
+          title="故事事件簿"
+        >
+          📖
+        </div>
+      </nav>
 
-      <div className="mystery-board">
-        {/* Sidebar: Investigators */}
-        <div className={`panel ${mobilePanelView !== 'left' ? 'mobile-hidden' : ''}`}>
-          <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>調查小組 (Investigators)</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
-            {investigators.map(inv => (
-              <div key={inv.id} className="character-card" onClick={() => {
-                playSfx(inv.sound, 3000);
-                clearCenter();
-                setActiveDossier(inv);
-                if (window.innerWidth <= 768) {
-                  setPreviousPanelView('left');
-                  setMobilePanelView('center');
-                }
-              }}>
-                <img src={inv.image} alt={inv.name} className="dossier-image" loading="lazy" />
-                <div className="dossier-name">{inv.name}</div>
-                {inv.fate && (
-                  <div className="fate-tag" style={{ background: inv.fate.color }}>{inv.fate.status}</div>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* 2. Main Area (Center + Right Dynamic Sidebar) */}
+      <main className="main-content">
+        <div className="top-controls">
+          <button
+            className="music-toggle-btn"
+            onClick={() => setIsMusicOn(!isMusicOn)}
+            title={isMusicOn ? "關閉環境音" : "開啟環境音"}
+          >
+            {isMusicOn ? "背景音效: ON 🔊" : "背景音效: OFF 🔇"}
+          </button>
+          <button
+            className="edit-toggle-btn"
+            onClick={() => setIsEditMode(!isEditMode)}
+            style={{ background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)' }}
+          >
+            {isEditMode ? "🛠️ 結束編輯" : "🛠️ 編輯熱點"}
+          </button>
         </div>
 
-        {/* Center: Main Focus */}
-        <div className={`panel center-panel ${mobilePanelView !== 'center' ? 'mobile-hidden' : ''}`} ref={centerPanelRef} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', position: 'relative', paddingTop: '40px', overflowY: 'auto' }}>
-          {activeDossier ? (
-            <div className="dossier-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(1deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)' }}>
-              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid #222' }}>{activeDossier.name}</h1>
-              <p style={{ marginTop: '15px', fontStyle: 'italic', color: '#555' }}>{activeDossier.role}</p>
-
-              {activeDossier.stats && (
-                <div style={{ marginTop: '20px', padding: '15px', border: '1px solid #ccc', background: 'rgba(0,0,0,0.05)' }}>
-                  <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--blood-ochre)' }}>能力屬性 (Ability Attributes)</h3>
-                  {Object.entries(activeDossier.stats).map(([stat, val]) => (
-                    <div key={stat} style={{ marginBottom: '8px', position: 'relative' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '2px', alignItems: 'center' }}>
-                        <span>{stat}</span>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <span style={{ fontWeight: 'bold', color: 'var(--blood-ochre)' }}>{val}</span>
-                          <button
-                            className="roll-btn"
-                            onClick={() => handleRoll(stat, val)}
-                            title={`進行 ${stat} 檢定`}
-                          >
-                            🎲
-                          </button>
-                        </div>
-                      </div>
-                      <div style={{ width: '100%', height: '6px', background: '#ddd', borderRadius: '3px' }}>
-                        <div style={{ width: `${val}%`, height: '100%', background: 'var(--blood-ochre)', borderRadius: '3px' }}></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <p style={{ marginTop: '20px', lineHeight: '1.6', fontSize: '0.95rem' }}>{activeDossier.desc}</p>
-
-              {activeDossier.fate && (
-                <div className="fate-reveal-container">
-                  <div
-                    className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`}
-                    onClick={() => { if (!isFateRevealed) { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); } }}
-                  >
-                    <span>點擊撕開命運真相</span>
-                  </div>
-                  <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`}>
-                    <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px' }}>
-                      <span className="fate-tag" style={{ background: activeDossier.fate.color, display: 'inline-block', marginRight: '8px' }}>{activeDossier.fate.status}</span>
-                      最終命運
-                    </h3>
-                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeDossier.fate.detail}</p>
-                  </div>
-                </div>
-              )}
-
-              <button
-                onClick={() => {
-                  setActiveDossier(null);
-                  setRollResult(null);
-                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
-                }}
-                style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
-              >
-                關閉卷宗
-              </button>
-            </div>
-          ) : activeSuspect ? (
-            <div className="suspect-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(-2deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)', border: '2px solid var(--blood-ochre)' }}>
-              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid var(--blood-ochre)', color: 'var(--blood-ochre)' }}>{activeSuspect.name}</h1>
-              <p style={{ marginTop: '15px', fontStyle: 'italic' }}>{activeSuspect.role}</p>
-              {activeSuspect.fate && (
-                <div className="fate-tag" style={{ background: activeSuspect.fate.color, display: 'inline-block', marginTop: '10px' }}>{activeSuspect.fate.status}</div>
-              )}
-              <p style={{ marginTop: '20px', lineHeight: '1.6' }}>{activeSuspect.desc}</p>
-              {activeSuspect.fate?.detail && (
-                <div className="fate-reveal-container">
-                  <div
-                    className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`}
-                    onClick={() => { if (!isFateRevealed) { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); } }}
-                  >
-                    <span>點擊撕開命運真相</span>
-                  </div>
-                  <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`}>
-                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeSuspect.fate.detail}</p>
-                  </div>
-                </div>
-              )}
-              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
-              <button
-                onClick={() => {
-                  setActiveSuspect(null);
-                  setRollResult(null);
-                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
-                }}
-                style={{ marginTop: '30px', background: '#333', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
-              >
-                {npcs.some(n => n.id === activeSuspect.id) ? "隱藏關鍵人物" : "隱藏嫌疑人"}
-              </button>
-            </div>
-          ) : activeClue ? (
-            <div className="clue-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '20px', maxWidth: '600px', transform: 'rotate(-1deg)', textAlign: 'center' }}>
-              <h1 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #222', marginBottom: '15px' }}>{activeClue.name}</h1>
-              {activeClue.images ? (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px' }}>
-                  {activeClue.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
-                  ))}
-                </div>
-              ) : (
-                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
-              )}
-              <p style={{ marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold' }}>{activeClue.desc}</p>
-              {activeClue.details && (
-                <ul style={{ textAlign: 'left', marginTop: '15px', paddingLeft: '20px', listStyleType: 'square' }}>
-                  {activeClue.details.map((detail, idx) => (
-                    <li key={idx} style={{ marginBottom: '10px', fontSize: '0.95rem', lineHeight: '1.5' }}>{detail}</li>
-                  ))}
-                </ul>
-              )}
-              <button
-                onClick={() => {
-                  setActiveClue(null);
-                  setRollResult(null);
-                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
-                }}
-                style={{ marginTop: '20px', background: '#333', color: 'white', border: 'none', padding: '8px 15px', cursor: 'pointer' }}
-              >
-                收回線索
-              </button>
-            </div>
-          ) : activeEvent ? (
-            <div className="event-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '600px', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #222', paddingBottom: '10px' }}>
-                <h1 style={{ fontFamily: 'Cinzel', fontSize: '1.3rem' }}>{activeEvent.title}</h1>
-                <span style={{ fontFamily: 'Cinzel', fontSize: '0.8rem', color: 'var(--blood-ochre)' }}>{activeEvent.chapter}</span>
-              </div>
-              <p style={{ marginTop: '10px', fontStyle: 'italic', color: '#888', fontSize: '0.85rem' }}>📅 {activeEvent.date}</p>
-              {activeEvent.images ? (
-                <div style={{ display: 'grid', gridTemplateColumns: activeEvent.images.length >= 3 ? 'repeat(3, 1fr)' : activeEvent.images.length > 1 ? '1fr 1fr' : '1fr', gap: '10px', marginTop: '15px' }}>
-                  {activeEvent.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
-                  ))}
-                </div>
-              ) : activeEvent.image && (
-                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
-              )}
-              <p style={{ marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem' }}>{activeEvent.detail}</p>
-              <button
-                onClick={() => {
-                  setActiveEvent(null);
-                  setRollResult(null);
-                  if (window.innerWidth <= 768) setMobilePanelView(previousPanelView);
-                }}
-                style={{ marginTop: '30px', background: 'var(--blood-ochre)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', fontFamily: 'Cinzel' }}
-              >
-                關閉事件
-              </button>
-            </div>
-          ) : (
-            <div className="map-view">
-              <div className="map-container-wrapper">
-                <div className="map-fog"></div>
-                <div className="map-vignette"></div>
-                <div
+        <div className="mystery-board">
+          
+          {/* --- [A] Center Stage: Map or Details --- */}
+          <section className={`center-panel panel ${mobilePanelView === 'center' ? '' : 'mobile-hidden'}`} ref={centerPanelRef}>
+            {!activeDossier && !activeClue && !activeSuspect && !activeEvent ? (
+              <div className="map-view">
+                <h2 className="panel-title" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                  {isEditMode ? '地圖編輯模式' : '探險區域：古茂密林'}
+                </h2>
+                <div 
+                  className="map-container-wrapper" 
                   ref={mapContainerRef}
                   onMouseMove={handleMapMouseMove}
                   onMouseUp={handleMapMouseUp}
                   onMouseLeave={handleMapMouseUp}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    aspectRatio: '16/10',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: isEditMode ? '2px solid red' : '2px solid var(--gold-accent)',
-                    position: 'relative',
-                    cursor: isEditMode ? 'crosshair' : 'default',
-                    overflow: 'visible'
-                  }}
                 >
+                  <div className="map-fog"></div>
+                  <div className="map-vignette"></div>
                   <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
-
-                  {/* Interactive Hotspots */}
+                  
                   {locations.map(loc => (
-                    <div
+                    <div 
                       key={loc.id}
                       className={`map-hotspot ${isEditMode ? 'edit-mode' : ''} ${draggedId === loc.id ? 'dragging' : ''}`}
                       style={{ top: loc.top, left: loc.left }}
@@ -1035,216 +892,299 @@ function App() {
                       onMouseEnter={() => !isEditMode && setHoveredHotspot(loc.id)}
                       onMouseLeave={() => !isEditMode && setHoveredHotspot(null)}
                     >
-                      <div className="hotspot-pulse"></div>
-                      <div className="hotspot-label">{loc.name}</div>
+                      {!isEditMode && <div className="hotspot-pulse"></div>}
+                      <span className="hotspot-label">{loc.name}</span>
+                      
                       {!isEditMode && hoveredHotspot === loc.id && (
-                        <div className={`hotspot-tooltip tooltip-${loc.tooltipPos}`}>
-                          <img src={loc.image} alt={loc.name} className="tooltip-image" loading="lazy" />
-                          <div className="tooltip-info">
-                            <div className="tooltip-name">{loc.name}</div>
-                            <div className="tooltip-name-en">{loc.nameEn}</div>
+                        <div 
+                          className="hotspot-tooltip"
+                          style={{ 
+                            top: `-110px`, 
+                            left: '50%',
+                            transform: 'translateX(-50%)'
+                          }}
+                        >
+                          <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} loading="lazy" />
+                          <div style={{ padding: '8px' }}>
+                            <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-accent)', fontSize: '0.8rem' }}>{loc.name}</div>
+                            <div style={{ fontSize: '0.6rem', color: '#888' }}>{loc.nameEn}</div>
                           </div>
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
-              </div>
 
-              <div className="map-interaction-prompt">
-                點擊地圖上的閃爍熱點查看場景細節
-              </div>
-
-              {isEditMode && (
-                <div className="edit-coordinates-panel">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                    <h3 style={{ margin: 0, fontSize: '1rem' }}>📍 熱點座標更新 (更新後請複製)</h3>
-                    <button
-                      onClick={() => {
+                {isEditMode && (
+                  <div className="edit-coordinates-panel">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--gold-accent)' }}>熱點座標調試器 (Debug)</h3>
+                      <button className="copy-coords-btn" onClick={() => {
                         const code = locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n');
                         navigator.clipboard.writeText(code);
-                        alert('座標已複製到剪貼簿！');
-                      }}
-                      className="copy-coords-btn"
-                    >
-                      📋 點我複製全部
-                    </button>
+                        alert('座標已複製到剪貼板！');
+                      }}>複製 JSON 資料</button>
+                    </div>
+                    <pre className="coords-code-block">
+                      {locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n')}
+                    </pre>
                   </div>
-                  <pre className="coords-code-block">
-                    {locations.map(loc => `  { id: '${loc.id}', top: '${loc.top}', left: '${loc.left}' },`).join('\n')}
-                  </pre>
-                  <p style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '5px' }}>※ 拖曳地圖上的紅圈即可即時更新上方數值</p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Right: Tabbed Panel */}
-        <div className={`panel ${mobilePanelView !== 'right' ? 'mobile-hidden' : ''}`} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          {/* Tab Bar */}
-          <div className="tab-bar">
-            <button className={`tab-btn ${rightTab === 'clues' ? 'active' : ''}`} onClick={() => setRightTab('clues')}>📜 線索</button>
-            <button className={`tab-btn ${rightTab === 'suspects' ? 'active' : ''}`} onClick={() => setRightTab('suspects')}>🕵️ 人物</button>
-            <button className={`tab-btn ${rightTab === 'chronicle' ? 'active' : ''}`} onClick={() => setRightTab('chronicle')}>📖 事件簿</button>
-          </div>
-
-          {/* Tab Content */}
-          <div style={{ overflowY: 'auto', flex: 1, paddingTop: '15px' }}>
-            {rightTab === 'clues' && (
-              <div>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>案件線索 (Clues)</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {clues.map(clue => (
-                    <div
-                      key={clue.id}
-                      className="list-item clue-item"
-                      onClick={() => {
-                        playSfx(SFX.PARCHMENT);
-                        clearCenter();
-                        setActiveClue(clue);
-                        if (window.innerWidth <= 768) {
-                          setPreviousPanelView('right');
-                          setMobilePanelView('center');
-                        }
-                      }}
-                    >
-                      {clue.name}
-                    </div>
-                  ))}
-                </div>
+                )}
+                {!isEditMode && (
+                  <div className="map-interaction-prompt">
+                    點擊地圖標記獲取詳細線索或劇情
+                  </div>
+                )}
               </div>
-            )}
+            ) : (
+              <div className="detail-view">
+                <button 
+                  className="close-detail-btn" 
+                  onClick={clearCenter}
+                  style={{ position: 'absolute', top: '15px', right: '15px', padding: '8px 15px', background: 'rgba(139,0,0,0.4)', border: '1px solid var(--blood-ochre)', color: '#fff', cursor: 'pointer', zIndex: 50 }}
+                >
+                  🔙 返回主舞台
+                </button>
 
-            {rightTab === 'suspects' && (
-              <div>
-                <h2 style={{ color: 'var(--blood-ochre)', marginBottom: '15px' }}>嫌疑人 (Suspects)</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '25px' }}>
-                  {suspects.map(suspect => (
-                    <div
-                      key={suspect.id}
-                      className="list-item suspect-item"
-                      onClick={() => {
-                        playSfx(suspect.sound || SFX.PARCHMENT, 3000);
-                        clearCenter();
-                        setActiveSuspect(suspect);
-                        if (window.innerWidth <= 768) {
-                          setPreviousPanelView('right');
-                          setMobilePanelView('center');
-                        }
-                      }}
-                    >
-                      <span>{suspect.name}</span>
-                      {suspect.fate && (
-                        <span className="fate-tag-small" style={{ background: suspect.fate.color }}>{suspect.fate.status}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <h2 style={{ color: '#7986cb', marginBottom: '15px' }}>關鍵人物 (Key NPCs)</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {npcs.map(npc => (
-                    <div
-                      key={npc.id}
-                      className="list-item npc-item"
-                      onClick={() => {
-                        playSfx(npc.sound || SFX.PARCHMENT, 3000);
-                        clearCenter();
-                        setActiveSuspect(npc);
-                        if (window.innerWidth <= 768) {
-                          setPreviousPanelView('right');
-                          setMobilePanelView('center');
-                        }
-                      }}
-                    >
-                      <span>{npc.name}</span>
-                      {npc.fate && (
-                        <span className="fate-tag-small" style={{ background: npc.fate.color }}>{npc.fate.status}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {rightTab === 'chronicle' && (
-              <div>
-                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '15px' }}>事件簿 (Chronicle)</h2>
-                <div className="timeline">
-                  {storyEvents.map((event, idx) => (
-                    <div
-                      key={event.id}
-                      className="timeline-event"
-                      onClick={() => {
-                        clearCenter();
-                        setActiveEvent(event);
-                        if (window.innerWidth <= 768) {
-                          setPreviousPanelView('right');
-                          setMobilePanelView('center');
-                        }
-                      }}
-                    >
-                      <div className="timeline-marker">{idx + 1}</div>
-                      <div className="timeline-content">
-                        <div className="timeline-chapter">{event.chapter} · {event.date}</div>
-                        <div className="timeline-title">{event.title}</div>
-                        <div className="timeline-summary">{event.summary}</div>
+                {/* Dossier Detail */}
+                {activeDossier && (
+                  <div className="dossier-detail" style={{ animation: 'fadeIn 0.5s ease-out' }}>
+                    <div style={{ display: 'flex', gap: '30px' }}>
+                      <img src={activeDossier.image} alt={activeDossier.name} style={{ width: '200px', height: '200px', objectFit: 'cover', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.5)' }} loading="lazy" />
+                      <div style={{ flex: 1 }}>
+                        <h2 className="dossier-name" style={{ textAlign: 'left', fontSize: '2rem', borderBottom: '1px solid #ddd' }}>{activeDossier.name}</h2>
+                        <p style={{ color: '#666', fontStyle: 'italic', marginBottom: '15px' }}>{activeDossier.role}</p>
+                        <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#333' }}>{activeDossier.desc}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div style={{ marginTop: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                      <div className="stats-box" style={{ padding: '20px', background: 'rgba(0,0,0,0.03)', borderRadius: '8px' }}>
+                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #ccc', marginBottom: '15px', color: 'var(--blood-ochre)' }}>能力數值 (Stats)</h3>
+                        {Object.entries(activeDossier.stats).map(([stat, val]) => (
+                          <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.9rem' }}>{stat}: <strong style={{color: 'var(--blood-ochre)'}}>{val}</strong></span>
+                            <button className="roll-btn" onClick={() => handleRoll(stat, val)} disabled={isRolling}>🎲 挑戰</button>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="fate-box">
+                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #ccc', marginBottom: '15px' }}>結局走向 (Fate)</h3>
+                        <div className="fate-reveal-container">
+                          <div className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`} onClick={() => { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); }}>
+                            <span>⚠️ 點擊撕開 ⚠️<br />查看最終命運</span>
+                          </div>
+                          <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`} style={{ padding: '15px' }}>
+                            <div className="fate-tag" style={{ background: activeDossier.fate.color, marginBottom: '10px' }}>{activeDossier.fate.status}</div>
+                            <p style={{ color: '#333', fontSize: '0.9rem', lineHeight: '1.5' }}>{activeDossier.fate.detail}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Clue Detail */}
+                {activeClue && (
+                  <div className="clue-detail" style={{ background: '#fdfaf0', padding: '40px', border: '1px solid #d4c4a8', boxShadow: '0 10px 40px rgba(0,0,0,0.3)', minHeight: '100%' }}>
+                    <h2 style={{ fontFamily: 'Cinzel, serif', color: '#4a3728', borderBottom: '2px double #d4c4a8', paddingBottom: '15px', marginBottom: '30px' }}>{activeClue.name}</h2>
+                    <div style={{ display: 'flex', gap: '30px', marginBottom: '30px' }}>
+                      {activeClue.image && <img src={activeClue.image} alt="Clue" style={{ width: '300px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} loading="lazy" />}
+                      {activeClue.images && (
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                           {activeClue.images.map((img, i) => <img key={i} src={img} alt="Clue" style={{ width: '180px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} loading="lazy" />)}
+                        </div>
+                      )}
+                      <div style={{ flex: 1, color: '#4a3728', fontStyle: 'italic', fontSize: '1.2rem', lineHeight: '1.6' }}>"{activeClue.desc}"</div>
+                    </div>
+                    <div className="clue-notes">
+                      <h3 style={{ color: '#8b0000', marginBottom: '15px', borderBottom: '1px dashed #8b0000', paddingBottom: '5px' }}>📜 調查筆記</h3>
+                      <ul style={{ color: '#2c2c2c', lineHeight: '1.8' }}>
+                        {activeClue.details.map((d, i) => <li key={i} style={{ marginBottom: '10px' }}>{d}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Suspect/NPC Detail */}
+                {activeSuspect && (
+                  <div className="suspect-detail" style={{ background: '#f5f5f5', color: '#222', padding: '40px', borderRadius: '5px', border: '10px solid #fff', boxShadow: '0 5px 25px rgba(0,0,0,0.2)' }}>
+                    <div style={{ display: 'flex', gap: '35px' }}>
+                      <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '220px', height: '220px', objectFit: 'cover', border: '1px solid #999' }} loading="lazy" />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ background: activeSuspect.fate?.color || '#333', color: '#fff', display: 'inline-block', padding: '4px 12px', fontSize: '0.8rem', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '1px' }}>{activeSuspect.role}</div>
+                        <h2 style={{ margin: '15px 0', fontSize: '2.5rem', fontFamily: 'Cinzel' }}>{activeSuspect.name}</h2>
+                        <div style={{ borderTop: '2px solid #ccc', paddingTop: '20px', lineHeight: '1.8', fontSize: '1.05rem' }}>{activeSuspect.desc}</div>
+                        {activeSuspect.fate && (
+                          <div style={{ marginTop: '25px', padding: '20px', background: '#e0e0e0', borderLeft: `6px solid ${activeSuspect.fate.color}` }}>
+                            <strong style={{ fontSize: '1.1rem' }}>最終結局: {activeSuspect.fate.status}</strong>
+                            {activeSuspect.fate.detail && <p style={{ fontSize: '0.95rem', marginTop: '8px' }}>{activeSuspect.fate.detail}</p>}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Event Detail */}
+                {activeEvent && (
+                  <div className="event-detail" style={{ background: '#0a1f14', color: '#e0e0e0', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--gold-accent)' }}>
+                    <div style={{ position: 'relative', width: '100%', height: '400px', background: '#000' }}>
+                      {activeEvent.image && <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />}
+                      {activeEvent.images && (
+                        <div style={{ display: 'flex', height: '100%' }}>
+                          {activeEvent.images.map((img, i) => <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', objectFit: 'cover', borderRight: i < 2 ? '1px solid #000' : 'none' }} loading="lazy" />)}
+                        </div>
+                      )}
+                      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px', background: 'linear-gradient(to top, rgba(0,0,0,0.95), transparent)' }}>
+                        <div style={{ color: 'var(--gold-accent)', fontFamily: 'Cinzel', fontSize: '1.3rem', letterSpacing: '2px' }}>{activeEvent.chapter}</div>
+                        <h2 style={{ fontSize: '3rem', margin: '10px 0', fontFamily: 'Cinzel' }}>{activeEvent.title}</h2>
+                        <div style={{ opacity: 0.7, fontSize: '0.9rem' }}>更新日期：{activeEvent.date}</div>
+                      </div>
+                    </div>
+                    <div style={{ padding: '40px' }}>
+                      <p style={{ fontSize: '1.4rem', color: 'var(--gold-accent)', marginBottom: '25px', lineHeight: '1.6', fontFamily: 'Cinzel', fontStyle: 'italic' }}>{activeEvent.summary}</p>
+                      <div style={{ height: '3px', background: 'linear-gradient(to right, var(--gold-accent), transparent)', marginBottom: '30px' }}></div>
+                      <p style={{ lineHeight: '2', fontSize: '1.1rem', opacity: 0.9 }}>{activeEvent.detail}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        </div>
-      </div>
+          </section>
 
-      {/* Mobile Navigation Bar */}
+          {/* --- [B] Dynamic Contextual Sidebar (Right) --- */}
+          <aside className={`dynamic-sidebar ${mobilePanelView === 'right' || mobilePanelView === 'left' ? '' : 'mobile-hidden'}`}>
+            
+            {/* 1. Investigator List */}
+            {activeNav === 'investigators' && (
+              <>
+                <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>調查員卷宗</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  {investigators.map(inv => (
+                    <div key={inv.id} className={`character-card ${activeDossier?.id === inv.id ? 'active' : ''}`} onClick={() => {
+                      playSfx(inv.sound);
+                      clearCenter();
+                      setActiveDossier(inv);
+                    }}>
+                      <img src={inv.image} alt={inv.name} className="dossier-image" style={{ height: '220px' }} loading="lazy" />
+                      <div className="dossier-name">{inv.name}</div>
+                      <div className="fate-tag-small" style={{ background: inv.fate.color }}>{inv.role}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* 2. Clues & NPCs & Chronicle (Tab-based legacy fallback or integrated) */}
+            {(activeNav === 'clues' || activeNav === 'npcs' || activeNav === 'chronicle') && (
+              <>
+                <div className="tab-bar" style={{ marginBottom: '20px' }}>
+                  <button className={`tab-btn ${rightTab === 'clues' ? 'active' : ''}`} onClick={() => {setPointNav('clues'); setRightTab('clues'); setActiveNav('clues');}}>線索</button>
+                  <button className={`tab-btn ${rightTab === 'suspects' ? 'active' : ''}`} onClick={() => {setPointNav('npcs'); setRightTab('suspects'); setActiveNav('npcs');}}>人物</button>
+                  <button className={`tab-btn ${rightTab === 'story' ? 'active' : ''}`} onClick={() => {setPointNav('chronicle'); setRightTab('story'); setActiveNav('chronicle');}}>事件</button>
+                </div>
+                
+                <div style={{ flex: 1, overflowY: 'auto', paddingRight: '5px' }}>
+                  {rightTab === 'clues' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {clues.map(c => (
+                        <div key={c.id} className={`list-item clue-item ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
+                          clearCenter();
+                          setActiveClue(c);
+                        }}>
+                          <span>{c.name}</span>
+                          <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>VIEW →</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {rightTab === 'suspects' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--gold-accent)', borderBottom: '1px solid rgba(212,175,55,0.2)', paddingBottom: '8px', letterSpacing: '1px' }}>嫌疑人 & 關鍵對象</div>
+                      {suspects.concat(npcs).map(s => (
+                        <div key={s.id} className={`suspect-item list-item ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
+                          clearCenter();
+                          setActiveSuspect(s);
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <img src={s.image} alt={s.name} style={{ width: '45px', height: '45px', borderRadius: '4px', objectFit: 'cover', border: '1px solid #555' }} loading="lazy" />
+                            <div>
+                              <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{s.name}</div>
+                              <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>{s.role}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {rightTab === 'story' && (
+                    <div className="timeline">
+                      {storyEvents.map((ev, idx) => (
+                        <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
+                          clearCenter();
+                          setActiveEvent(ev);
+                        }}>
+                          <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
+                          <div className="timeline-content">
+                            <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
+                            <div className="timeline-title">{ev.title}</div>
+                            <div className="timeline-summary">{ev.summary}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+            
+          </aside>
+        </div>
+      </main>
+
+      {/* 3. Mobile Navigation Bar (Always at bottom for small screens) */}
       <nav className="mobile-nav">
-        <button
-          className={`nav-item ${mobilePanelView === 'left' ? 'active' : ''}`}
-          onClick={() => setMobilePanelView('left')}
+        <button 
+          className={`mobile-nav-btn ${mobilePanelView === 'left' ? 'active' : ''}`}
+          onClick={() => { setMobilePanelView('left'); setActiveNav('investigators'); }}
         >
-          <span className="nav-icon">🕵️</span>
-          <span className="nav-label">調查員</span>
+          <span className="btn-icon">🕵️</span>
+          <span className="btn-text">角色</span>
         </button>
-        <button
-          className={`nav-item ${mobilePanelView === 'center' ? 'active' : ''}`}
-          onClick={() => setMobilePanelView('center')}
+        <button 
+          className={`mobile-nav-btn ${mobilePanelView === 'center' ? 'active' : ''}`}
+          onClick={() => { setMobilePanelView('center'); setActiveNav('map'); }}
         >
-          <span className="nav-icon">🗺️</span>
-          <span className="nav-label">地圖/詳情</span>
+          <span className="btn-icon">🗺️</span>
+          <span className="btn-text">地圖</span>
         </button>
-        <button
-          className={`nav-item ${mobilePanelView === 'right' ? 'active' : ''}`}
-          onClick={() => setMobilePanelView('right')}
+        <button 
+          className={`mobile-nav-btn ${mobilePanelView === 'right' ? 'active' : ''}`}
+          onClick={() => { setMobilePanelView('right'); setActiveNav('clues'); }}
         >
-          <span className="nav-icon">📜</span>
-          <span className="nav-label">線索/人物</span>
+          <span className="btn-icon">📜</span>
+          <span className="btn-text">搜證</span>
         </button>
       </nav>
 
-      {/* Dice Roll Overlay */}
+      {/* 4. Dice Roll Overlay (Portal-like UI) */}
       {rollResult && (
         <div className="dice-overlay" onClick={() => !isRolling && setRollResult(null)}>
-          <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '5px' }}>{rollResult.stat} 檢定</div>
-          <div className="roll-value">{rollResult.val}</div>
-          <div className="roll-target">目標值: {rollResult.target}</div>
+          <div className="roll-header">進行 [{rollResult.stat}] 檢定</div>
+          <div className={`roll-value ${rollResult.type}`}>{rollResult.val}</div>
           <div className={`roll-type ${rollResult.type}`}>
-            {rollResult.type === 'rolling' ? '擲骰中...' :
-              rollResult.type === 'critical' ? '極限大成功！' :
-                rollResult.type === 'extreme' ? '極限成功' :
-                  rollResult.type === 'hard' ? '困難成功' :
-                    rollResult.type === 'success' ? '成功' :
-                      rollResult.type === 'fumble' ? '大失敗！' : '失敗'}
+            {rollResult.type === 'rolling' ? 'DICE ROLLING...' :
+              rollResult.type === 'critical' ? '✨ 極限大成功 ✨' :
+              rollResult.type === 'fumble' ? '💀 大失敗 💀' :
+              rollResult.type === 'extreme' ? '🔥 極限成功 🔥' :
+              rollResult.type === 'hard' ? '💪 困難成功' :
+              rollResult.type === 'success' ? '✅ 成功' : '❌ 失敗'}
           </div>
-          {rollResult.narrative && (
-            <div className="roll-narrative">
-              {rollResult.narrative}
-            </div>
-          )}
-          {!isRolling && <div style={{ marginTop: '15px', fontSize: '0.7rem', color: '#666' }}>點擊關閉</div>}
+          <div className="roll-target">目標值：{rollResult.target}</div>
+          {rollResult.narrative && <div className="roll-narrative">「{rollResult.narrative}」</div>}
+          {!isRolling && <div className="roll-footer">點擊任意處繼續</div>}
         </div>
       )}
     </div>
