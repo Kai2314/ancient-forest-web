@@ -1073,16 +1073,18 @@ function App() {
             {activeNav === 'investigators' && (
               <>
                 <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>調查員卷宗</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div className="investigator-list">
                   {investigators.map(inv => (
-                    <div key={inv.id} className={`character-card ${activeDossier?.id === inv.id ? 'active' : ''}`} onClick={() => {
+                    <div key={inv.id} className={`investigator-card ${activeDossier?.id === inv.id ? 'active' : ''}`} onClick={() => {
                       playSfx(inv.sound);
                       clearCenter();
                       setActiveDossier(inv);
                     }}>
-                      <img src={inv.image} alt={inv.name} className="dossier-image" style={{ height: '220px' }} loading="lazy" />
-                      <div className="dossier-name">{inv.name}</div>
-                      <div className="fate-tag-small" style={{ background: inv.fate.color }}>{inv.role}</div>
+                      <img src={inv.image} alt={inv.name} className="inv-thumb" loading="lazy" />
+                      <div className="inv-info">
+                        <div className="inv-name">{inv.name}</div>
+                        <div className="inv-role">{inv.role}</div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1108,14 +1110,14 @@ function App() {
             {activeNav === 'clues' && (
               <>
                 <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>案件線索</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div className="clue-list">
                   {clues.map(c => (
-                    <div key={c.id} className={`list-item clue-item ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
+                    <div key={c.id} className={`clue-card ${activeClue?.id === c.id ? 'active' : ''}`} onClick={() => {
                       clearCenter();
                       setActiveClue(c);
                     }}>
-                      <span>{c.name}</span>
-                      <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>VIEW →</span>
+                      <img src={c.image || (c.images && c.images[0])} alt={c.name} className="clue-thumb" loading="lazy" />
+                      <div className="clue-name">{c.name}</div>
                     </div>
                   ))}
                 </div>
@@ -1125,19 +1127,14 @@ function App() {
             {activeNav === 'npcs' && (
               <>
                 <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>人物檔案</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div className="suspect-list">
                   {suspects.concat(npcs).map(s => (
-                    <div key={s.id} className={`suspect-item list-item ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
+                    <div key={s.id} className={`suspect-card ${activeSuspect?.id === s.id ? 'active' : ''}`} onClick={() => {
                       clearCenter();
                       setActiveSuspect(s);
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <img src={s.image} alt={s.name} style={{ width: '45px', height: '45px', borderRadius: '4px', objectFit: 'cover', border: '1px solid #555' }} loading="lazy" />
-                        <div>
-                          <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{s.name}</div>
-                          <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>{s.role}</div>
-                        </div>
-                      </div>
+                      <img src={s.image} alt={s.name} className="suspect-thumb" loading="lazy" />
+                      <div className="suspect-name">{s.name}</div>
                     </div>
                   ))}
                 </div>
