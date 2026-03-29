@@ -1227,6 +1227,14 @@ function App() {
           {!isRolling && <div className="roll-footer">點擊任意處繼續</div>}
         </div>
       )}
+
+      <footer className="app-footer" style={{ textAlign: 'center', padding: '30px 20px', fontSize: '0.85rem', opacity: 0.7, borderTop: '1px solid rgba(212,175,55,0.1)', color: 'var(--gold-accent)', marginTop: 'auto' }}>
+        <p style={{ margin: '0 0 8px 0' }}>
+          本作品採用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" style={{ color: 'var(--gold-accent)', textDecoration: 'underline' }}>
+          創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
+        </p>
+        <p style={{ margin: 0 }}>© 2024 - 2026 跑團兄弟</p>
+      </footer>
     </div>
   );
 }
