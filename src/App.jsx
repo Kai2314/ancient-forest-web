@@ -947,7 +947,7 @@ function App() {
                 {activeSuspect && (
                   <div className="suspect-detail" style={{ background: '#f5f5f5', color: '#222', padding: '40px', borderRadius: '5px', border: '10px solid #fff', boxShadow: '0 5px 25px rgba(0,0,0,0.2)' }}>
                     <div style={{ display: 'flex', gap: '35px' }}>
-                      <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '220px', height: '220px', objectFit: 'cover', border: '1px solid #999' }} loading="lazy" />
+                      <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '220px', height: '220px', objectFit: 'cover', objectPosition: 'top', border: '1px solid #999' }} loading="lazy" />
                       <div style={{ flex: 1 }}>
                         <div style={{ background: activeSuspect.fate?.color || '#333', color: '#fff', display: 'inline-block', padding: '4px 12px', fontSize: '0.8rem', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '1px' }}>{activeSuspect.role}</div>
                         <h2 style={{ margin: '15px 0', fontSize: '2.5rem', fontFamily: 'Cinzel' }}>{activeSuspect.name}</h2>
@@ -967,10 +967,10 @@ function App() {
                 {activeEvent && (
                   <div className="event-detail" style={{ background: '#0a1f14', color: '#e0e0e0', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--gold-accent)' }}>
                     <div style={{ position: 'relative', width: '100%', height: '400px', background: '#000' }}>
-                      {activeEvent.image && <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />}
+                      {activeEvent.image && <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} loading="lazy" />}
                       {activeEvent.images && (
                         <div style={{ display: 'flex', height: '100%' }}>
-                          {activeEvent.images.map((img, i) => <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', objectFit: 'cover', borderRight: i < 2 ? '1px solid #000' : 'none' }} loading="lazy" />)}
+                          {activeEvent.images.map((img, i) => <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', objectFit: 'cover', objectPosition: 'top', borderRight: i < 2 ? '1px solid #000' : 'none' }} loading="lazy" />)}
                         </div>
                       )}
                       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px', background: 'linear-gradient(to top, rgba(0,0,0,0.95), transparent)' }}>
