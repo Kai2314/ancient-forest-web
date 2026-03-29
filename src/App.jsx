@@ -1251,8 +1251,8 @@ function App() {
       <footer className="footer-license">
         <p>
           本作品採用 <a rel="license noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
-          創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
-          作者：跑團兄弟
+            創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
+          © 2024 - 2026 跑團兄弟
         </p>
       </footer>
     </div>
