@@ -1247,6 +1247,14 @@ function App() {
           {!isRolling && <div style={{ marginTop: '15px', fontSize: '0.7rem', color: '#666' }}>點擊關閉</div>}
         </div>
       )}
+      {/* License Footer */}
+      <footer className="footer-license">
+        <p>
+          本作品採用 <a rel="license noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
+          創用 CC 姓名標示-非商業性-禁止改作 4.0 國際 授權條款</a> 釋出。
+          作者：跑團兄弟
+        </p>
+      </footer>
     </div>
   );
 }

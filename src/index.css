@@ -989,3 +989,39 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   letter-spacing: 1px;
 }
 
+/* ===== Footer License ===== */
+.footer-license {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  margin-top: 20px;
+  z-index: 50;
+}
+
+.footer-license p {
+  font-size: 0.8rem;
+  color: rgba(224, 224, 224, 0.6);
+  line-height: 1.6;
+}
+
+.footer-license a {
+  color: var(--gold-accent);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-license a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 10px var(--gold-accent);
+}
+
+/* 確保底部的間距足夠（特別是手機版） */
+@media (max-width: 768px) {
+  .footer-license {
+    padding-bottom: 90px;
+  }
+}
+
