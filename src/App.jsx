@@ -447,7 +447,7 @@ function App() {
       chapter: '第二章',
       title: '密林入口',
       date: '6月20日 中午',
-      image: 'event_chapter2_v7.webp',
+      image: 'event_chapter2_v7.png',
       summary: '調查員抵達密林入口，斯科特發現血跡與腳印，提議搜救追蹤方向。',
       detail: '中午12時，搜救小隊抵達班寧頓森林西南入口。斯科特在路邊發現了連串的足跡與斑駁的血跡，經過冷靜觀察後，他精確地指出了綁匪逃竄的方向，並向眾人提議以此作為追蹤目標展開搜救。'
     },
@@ -474,7 +474,7 @@ function App() {
       chapter: '第五章',
       title: '調查員內戰-有功夫無懦夫',
       date: '6月20日 深夜',
-      image: 'event_chapter5_v1.png',
+      image: 'event_chapter5_v1.webp',
       summary: '營地爭吵引發內戰，蒼浩展示功夫壓制大B，隊伍在緊繃中紮營。',
       detail: '夜幕降臨，衆人在森林中紮營升起營火。由於大B的傲慢與種族偏見言論，引發蒼浩強烈不滿。雙方爆發衝突，蒼浩以驚人的功夫身手迅速壓制大B，令其啞口無言。儘管內部關係緊繃，衆人仍意識到森林潛在的威脅（包括喬治提到的精神感應異常），最終決定輪流守夜，在不安中迎接森林的第一個夜晚。'
     },
@@ -492,7 +492,7 @@ function App() {
       chapter: '第七章',
       title: '藝術家營地的預兆',
       date: '6月21日',
-      image: 'event_chapter7_v2.png',
+      image: 'event_chapter7_v2.webp',
       summary: '發現失蹤藝術家的營地和屍體。更驚人的是，他們的畫作精確描繪了調查員們的噩夢場景。斯科特因看到湖中恐怖存在的畫作而短暫陷入瘋狂。',
       detail: '營地中散落的畫作包括：停在樹梢的貓頭鷹、枯萎樹林中的小路、月光閃耀的森林、荒廢小屋中的人影、以及湖畔恐怖存在升起的場景。這些畫與夢境的驚人吻合令所有人崩潰。蒼浩認出畫中場景就是自己的噩夢。斯科特直接瘋狂——尖叫後呆坐在地，暫時失去記憶。'
     },
@@ -591,7 +591,7 @@ function App() {
       chapter: '第十八章',
       title: '分頭突圍',
       date: '6月22日',
-      images: ['event_chapter18_v1_new.png', 'event_chapter18_annie_escape.png'],
+      images: ['event_chapter18_v1_new.webp', 'event_chapter18_annie_escape.png'],
       summary: '礦區混亂之際，各路人馬分別逃脫，斯科特、簡小姐、大 B 以及獵人霍爾父子趁亂逃出，安妮則往湖泊方向逃跑。',
       detail: '藉由安妮製造的爆破，斯科特、簡小姐與大 B 及獵人霍爾父子趁亂從木屋後方的側邊小路逃出了礦區。安妮則獨自往湖泊方向逃跑，背後則有活屍和礦工們的追趕。'
     },
@@ -600,7 +600,7 @@ function App() {
       chapter: '第十九章',
       title: '湖畔的意外重逢',
       date: '6月22日',
-      image: 'event_chapter19_v3.png',
+      image: 'event_chapter19_v3.webp',
       summary: '安妮獨自往湖泊側邊的小路逃跑，並在礦區外圍遇見了剛從湖邊趕來的蒼浩與米勒。',
       detail: '眾人在礦區外圍和湖畔旁的小路中短暫重逢。安妮將礦區爆炸的情況告知兩人，面對背後源源不斷傳來的非人咆哮，這支殘破的小隊決定先離開這個是非之地。'
     },
