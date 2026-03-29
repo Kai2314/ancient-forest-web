@@ -802,10 +802,17 @@ function App() {
     );
   }
 
+  useEffect(() => {
+    console.log("Ancient Forest UI v6.2 (Refined Nav) Loaded");
+  }, []);
+
   return (
     <div className="app-container">
       {/* 1. First-Column: Navigation Menu (Distressed Leather) */}
       <nav className="sidebar-nav">
+        <div className="menu-header" style={{ color: 'var(--gold-accent)', fontSize: '0.6rem', padding: '0 1.5rem', marginBottom: '10px', opacity: 0.5 }}>
+          VERSION 6.2 - REFINED
+        </div>
         <div 
           className={`nav-item ${activeNav === 'investigators' ? 'active' : ''}`} 
           onClick={() => { setActiveNav('investigators'); setMobilePanelView('left'); }}
