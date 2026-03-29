@@ -991,37 +991,37 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
 
 /* ===== Footer License ===== */
 .footer-license {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  padding: 20px;
+  padding: 10px 0;
   text-align: center;
-  background: rgba(0, 0, 0, 0.4);
-  border-top: 1px solid rgba(212, 175, 55, 0.2);
-  margin-top: 20px;
-  z-index: 50;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  z-index: 1000;
+  pointer-events: none;
 }
 
 .footer-license p {
-  font-size: 0.8rem;
-  color: rgba(224, 224, 224, 0.6);
-  line-height: 1.6;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .footer-license a {
   color: var(--gold-accent);
   text-decoration: none;
+  pointer-events: auto;
   transition: all 0.3s;
 }
 
 .footer-license a:hover {
-  text-decoration: underline;
   text-shadow: 0 0 10px var(--gold-accent);
 }
 
 /* 確保底部的間距足夠（特別是手機版） */
 @media (max-width: 768px) {
   .footer-license {
-    padding-bottom: 90px;
+    bottom: 70px; /* 避開手機版底部導航藍 */
   }
 }
 
