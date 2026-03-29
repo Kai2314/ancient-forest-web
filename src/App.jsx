@@ -811,49 +811,48 @@ function App() {
     <div className="app-container">
       {/* 1. First-Column: Navigation Menu (Distressed Leather) */}
       <nav className="sidebar-nav">
-        <div className="menu-header" style={{ color: 'var(--gold-accent)', fontSize: '0.6rem', padding: '0 1.5rem', marginBottom: '10px', opacity: 0.5 }}>
-          VERSION 6.2 - REFINED
+        <div className="sidebar-content">
+          <div className="menu-header" style={{ color: 'var(--gold-accent)', fontSize: '0.6rem', padding: '0 1.5rem', marginBottom: '10px', opacity: 0.5 }}>
+            VERSION 6.2 - REFINED
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'investigators' ? 'active' : ''}`} 
+            onClick={() => { setActiveNav('investigators'); setMobilePanelView('left'); }}
+          >
+            <span className="nav-icon">🕵️</span>
+            <span className="nav-text">調查小組</span>
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'map' ? 'active' : ''}`} 
+            onClick={() => { setActiveNav('map'); setMobilePanelView('center'); clearCenter(); }}
+          >
+            <span className="nav-icon">🗺️</span>
+            <span className="nav-text">古茂密林地圖</span>
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'clues' ? 'active' : ''}`} 
+            onClick={() => { setActiveNav('clues'); setRightTab('clues'); setMobilePanelView('right'); }}
+          >
+            <span className="nav-icon">📜</span>
+            <span className="nav-text">案件線索</span>
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'npcs' ? 'active' : ''}`} 
+            onClick={() => { setActiveNav('npcs'); setRightTab('suspects'); setMobilePanelView('right'); }}
+          >
+            <span className="nav-icon">👥</span>
+            <span className="nav-text">人物檔案</span>
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'chronicle' ? 'active' : ''}`} 
+            onClick={() => { setActiveNav('chronicle'); setRightTab('story'); setMobilePanelView('right'); }}
+          >
+            <span className="nav-icon">📖</span>
+            <span className="nav-text">故事事件簿</span>
+          </div>
         </div>
-        <div 
-          className={`nav-item ${activeNav === 'investigators' ? 'active' : ''}`} 
-          onClick={() => { setActiveNav('investigators'); setMobilePanelView('left'); }}
-        >
-          <span className="nav-icon">🕵️</span>
-          <span className="nav-text">調查小組</span>
-        </div>
-        <div 
-          className={`nav-item ${activeNav === 'map' ? 'active' : ''}`} 
-          onClick={() => { setActiveNav('map'); setMobilePanelView('center'); clearCenter(); }}
-        >
-          <span className="nav-icon">🗺️</span>
-          <span className="nav-text">古茂密林地圖</span>
-        </div>
-        <div 
-          className={`nav-item ${activeNav === 'clues' ? 'active' : ''}`} 
-          onClick={() => { setActiveNav('clues'); setRightTab('clues'); setMobilePanelView('right'); }}
-        >
-          <span className="nav-icon">📜</span>
-          <span className="nav-text">案件線索</span>
-        </div>
-        <div 
-          className={`nav-item ${activeNav === 'npcs' ? 'active' : ''}`} 
-          onClick={() => { setActiveNav('npcs'); setRightTab('suspects'); setMobilePanelView('right'); }}
-        >
-          <span className="nav-icon">👥</span>
-          <span className="nav-text">人物檔案</span>
-        </div>
-        <div 
-          className={`nav-item ${activeNav === 'chronicle' ? 'active' : ''}`} 
-          onClick={() => { setActiveNav('chronicle'); setRightTab('story'); setMobilePanelView('right'); }}
-        >
-          <span className="nav-icon">📖</span>
-          <span className="nav-text">故事事件簿</span>
-        </div>
-      </nav>
 
-      {/* 2. Primary Area (Center Content + Right Dynamic Sidebar) */}
-      <main className="main-content">
-        <div className="top-controls">
+        <div className="sidebar-footer">
           <button
             className="music-toggle-btn"
             onClick={() => setIsMusicOn(!isMusicOn)}
@@ -866,9 +865,13 @@ function App() {
             onClick={() => setIsEditMode(!isEditMode)}
             style={{ background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)' }}
           >
-            {isEditMode ? "🛠️ 結束編輯" : "🛠️ 編輯熱點"}
+            {isEditMode ? "🛠️ 結束編輯模式" : "🛠️ 編輯地圖熱點"}
           </button>
         </div>
+      </nav>
+
+      {/* 2. Primary Area (Center Content + Right Dynamic Sidebar) */}
+      <main className="main-content">
 
         <div className="mystery-board">
           
@@ -965,24 +968,39 @@ function App() {
 
                 {/* Event Detail */}
                 {activeEvent && (
-                  <div className="event-detail" style={{ background: '#0a1f14', color: '#e0e0e0', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--gold-accent)' }}>
-                    <div style={{ position: 'relative', width: '100%', height: '400px', background: '#000' }}>
-                      {activeEvent.image && <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} loading="lazy" />}
+                  <div className="event-detail">
+                    {/* Top: Image Section (Separated) */}
+                    <div className="event-image-container">
+                      {activeEvent.image && (
+                        <img src={activeEvent.image} alt={activeEvent.title} className="event-full-image" loading="lazy" />
+                      )}
                       {activeEvent.images && (
-                        <div style={{ display: 'flex', height: '100%' }}>
-                          {activeEvent.images.map((img, i) => <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', objectFit: 'cover', objectPosition: 'top', borderRight: i < 2 ? '1px solid #000' : 'none' }} loading="lazy" />)}
+                        <div style={{ display: 'flex', width: '100%', gap: '2px' }}>
+                          {activeEvent.images.map((img, i) => (
+                            <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', height: 'auto', maxHeight: '50vh', objectFit: 'contain' }} loading="lazy" />
+                          ))}
                         </div>
                       )}
-                      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px', background: 'linear-gradient(to top, rgba(0,0,0,0.95), transparent)' }}>
-                        <div style={{ color: 'var(--gold-accent)', fontFamily: 'Cinzel', fontSize: '1.3rem', letterSpacing: '2px' }}>{activeEvent.chapter}</div>
-                        <h2 style={{ fontSize: '3rem', margin: '10px 0', fontFamily: 'Cinzel' }}>{activeEvent.title}</h2>
-                        <div style={{ opacity: 0.7, fontSize: '0.9rem' }}>更新日期：{activeEvent.date}</div>
-                      </div>
                     </div>
-                    <div style={{ padding: '40px' }}>
-                      <p style={{ fontSize: '1.4rem', color: 'var(--gold-accent)', marginBottom: '25px', lineHeight: '1.6', fontFamily: 'Cinzel', fontStyle: 'italic' }}>{activeEvent.summary}</p>
-                      <div style={{ height: '3px', background: 'linear-gradient(to right, var(--gold-accent), transparent)', marginBottom: '30px' }}></div>
-                      <p style={{ lineHeight: '2', fontSize: '1.1rem', opacity: 0.9 }}>{activeEvent.detail}</p>
+
+                    {/* Bottom: Text Section */}
+                    <div className="event-text-content">
+                      <div className="event-header-info">
+                        <div style={{ color: 'var(--gold-accent)', fontFamily: 'Cinzel', fontSize: '1.1rem', letterSpacing: '3px', marginBottom: '8px' }}>
+                          {activeEvent.chapter}
+                        </div>
+                        <h2 style={{ fontSize: '3rem', margin: '0 0 10px 0', fontFamily: 'Cinzel', color: '#fff' }}>
+                          {activeEvent.title}
+                        </h2>
+                        <div style={{ opacity: 0.5, fontSize: '0.85rem' }}>更新日期：{activeEvent.date}</div>
+                      </div>
+
+                      <p style={{ fontSize: '1.4rem', color: 'var(--gold-accent)', marginBottom: '30px', lineHeight: '1.6', fontFamily: 'Cinzel', fontStyle: 'italic', borderLeft: '4px solid var(--gold-accent)', paddingLeft: '20px' }}>
+                        {activeEvent.summary}
+                      </p>
+                      <p style={{ lineHeight: '2.2', fontSize: '1.15rem', opacity: 0.9, letterSpacing: '0.5px' }}>
+                        {activeEvent.detail}
+                      </p>
                     </div>
                   </div>
                 )}

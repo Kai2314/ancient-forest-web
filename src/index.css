@@ -48,6 +48,33 @@ body {
   border-right: 3px solid rgba(0,0,0,0.5);
   position: relative;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px 0;
+}
+
+.sidebar-footer {
+  padding: 20px 15px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(0,0,0,0.3);
+}
+
+.sidebar-footer .music-toggle-btn,
+.sidebar-footer .edit-toggle-btn {
+  width: 100%;
+  position: static; /* Remove fixed/absolute positioning */
+  padding: 10px;
+  font-size: 0.75rem;
 }
 
 .nav-item {
@@ -606,6 +633,39 @@ body {
 /* ===== Event Detail ===== */
 .event-detail {
   animation: fadeIn 0.3s ease;
+  background: rgba(0,0,0,0.4) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-image-container {
+  width: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid var(--gold-accent);
+}
+
+.event-full-image {
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+}
+
+.event-text-content {
+  padding: 40px;
+  background: linear-gradient(to bottom, rgba(10, 31, 20, 0.8), transparent);
+}
+
+.event-header-info {
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 20px;
 }
 
 @keyframes fadeIn {
@@ -764,12 +824,7 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
 
 /* --- Edit Mode Styles --- */
 .top-controls {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 9999;
-  display: flex;
-  gap: 10px;
+  display: none; /* Hidden as they moved to sidebar */
 }
 
 .music-toggle-btn, .edit-toggle-btn {
