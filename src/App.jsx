@@ -893,30 +893,30 @@ function App() {
                     <div style={{ display: 'flex', gap: '30px' }}>
                       <img src={activeDossier.image} alt={activeDossier.name} style={{ width: '200px', height: '200px', objectFit: 'cover', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.5)' }} loading="lazy" />
                       <div style={{ flex: 1 }}>
-                        <h2 className="dossier-name" style={{ textAlign: 'left', fontSize: '2rem', borderBottom: '1px solid #ddd' }}>{activeDossier.name}</h2>
-                        <p style={{ color: '#666', fontStyle: 'italic', marginBottom: '15px' }}>{activeDossier.role}</p>
-                        <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#333' }}>{activeDossier.desc}</p>
+                        <h2 className="dossier-name" style={{ textAlign: 'left', fontSize: '2rem', borderBottom: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>{activeDossier.name}</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.7)', fontStyle: 'italic', marginBottom: '15px' }}>{activeDossier.role}</p>
+                        <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#eee' }}>{activeDossier.desc}</p>
                       </div>
                     </div>
                     <div style={{ marginTop: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                      <div className="stats-box" style={{ padding: '20px', background: 'rgba(0,0,0,0.03)', borderRadius: '8px' }}>
-                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #ccc', marginBottom: '15px', color: 'var(--blood-ochre)' }}>能力數值 (Stats)</h3>
+                      <div className="stats-box" style={{ padding: '20px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid rgba(255,255,255,0.2)', marginBottom: '15px', color: 'var(--gold-accent)' }}>能力數值 (Stats)</h3>
                         {Object.entries(activeDossier.stats).map(([stat, val]) => (
                           <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', alignItems: 'center' }}>
-                            <span style={{ fontSize: '0.9rem' }}>{stat}: <strong style={{color: 'var(--blood-ochre)'}}>{val}</strong></span>
+                            <span style={{ fontSize: '0.95rem', color: '#ddd' }}>{stat}: <strong style={{color: 'var(--gold-accent)'}}>{val}</strong></span>
                             <button className="roll-btn" onClick={() => handleRoll(stat, val)} disabled={isRolling}>🎲 挑戰</button>
                           </div>
                         ))}
                       </div>
                       <div className="fate-box">
-                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid #ccc', marginBottom: '15px' }}>結局走向 (Fate)</h3>
+                        <h3 style={{ fontFamily: 'Cinzel', borderBottom: '1px solid rgba(255,255,255,0.2)', marginBottom: '15px', color: '#fff' }}>結局走向 (Fate)</h3>
                         <div className="fate-reveal-container">
                           <div className={`fate-cover ${isFateRevealed ? 'torn-off' : ''}`} onClick={() => { playSfx(SFX.PAPER_TEAR); setIsFateRevealed(true); }}>
                             <span>⚠️ 點擊撕開 ⚠️<br />查看最終命運</span>
                           </div>
-                          <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`} style={{ padding: '15px' }}>
+                          <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`} style={{ padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
                             <div className="fate-tag" style={{ background: activeDossier.fate.color, marginBottom: '10px' }}>{activeDossier.fate.status}</div>
-                            <p style={{ color: '#333', fontSize: '0.9rem', lineHeight: '1.5' }}>{activeDossier.fate.detail}</p>
+                            <p style={{ color: '#eee', fontSize: '1rem', lineHeight: '1.6' }}>{activeDossier.fate.detail}</p>
                           </div>
                         </div>
                       </div>
