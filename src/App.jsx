@@ -153,6 +153,21 @@ function App() {
   const mapContainerRef = useRef(null);
   const ambientRef = useRef(null);
 
+  // Image preloader utility
+  const preloadedImages = useRef(new Set());
+  const preloadImage = useCallback((src) => {
+    if (!src) return;
+    const srcs = Array.isArray(src) ? src : [src];
+    srcs.forEach(s => {
+      if (!preloadedImages.current.has(s)) {
+        const img = new Image();
+        img.src = s;
+        preloadedImages.current.add(s);
+        console.log(`Preloading: ${s}`);
+      }
+    });
+  }, []);
+
   // Initialize and handle Ambient Music
   useEffect(() => {
     // Initial loading timer
@@ -164,6 +179,23 @@ function App() {
     audio.loop = true;
     audio.volume = 0.3;
     ambientRef.current = audio;
+
+    // Preload Critical Assets and Initial Chapters
+    const initialAssets = [
+      'cang_hao_sword.png', 
+      'scott.png', 
+      'miller.png', 
+      'bigb.png', 
+      'annie.png',
+      '/forest_map.png',
+      // Preload first 3 chapters images to improve day-1 experience
+      'event_prologue_v8.png', 
+      'event_chapter1_v13.png', 
+      'event_chapter1_v12.png',
+      'event_chapter1_v11.png',
+      'event_chapter2_v7.png'
+    ];
+    initialAssets.forEach(src => preloadImage(src));
 
     return () => {
       clearTimeout(timer);
@@ -891,7 +923,7 @@ function App() {
                 {activeDossier && (
                   <div className="dossier-detail" style={{ animation: 'fadeIn 0.5s ease-out' }}>
                     <div style={{ display: 'flex', gap: '30px' }}>
-                      <img src={activeDossier.image} alt={activeDossier.name} style={{ width: '200px', height: '200px', objectFit: 'cover', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.5)' }} loading="lazy" />
+                      <img src={activeDossier.image} alt={activeDossier.name} style={{ width: '200px', height: '200px', objectFit: 'cover', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.5)' }} />
                       <div style={{ flex: 1 }}>
                         <h2 className="dossier-name" style={{ textAlign: 'left', fontSize: '2rem', borderBottom: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>{activeDossier.name}</h2>
                         <p style={{ color: 'rgba(255,255,255,0.7)', fontStyle: 'italic', marginBottom: '15px' }}>{activeDossier.role}</p>
@@ -929,10 +961,10 @@ function App() {
                   <div className="clue-detail" style={{ background: '#fdfaf0', padding: '40px', border: '1px solid #d4c4a8', boxShadow: '0 10px 40px rgba(0,0,0,0.3)', minHeight: '100%' }}>
                     <h2 style={{ fontFamily: 'Cinzel, serif', color: '#4a3728', borderBottom: '2px double #d4c4a8', paddingBottom: '15px', marginBottom: '30px' }}>{activeClue.name}</h2>
                     <div style={{ display: 'flex', gap: '30px', marginBottom: '30px' }}>
-                      {activeClue.image && <img src={activeClue.image} alt="Clue" style={{ width: '300px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} loading="lazy" />}
+                      {activeClue.image && <img src={activeClue.image} alt="Clue" style={{ width: '300px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} />}
                       {activeClue.images && (
                         <div style={{ display: 'flex', gap: '10px' }}>
-                           {activeClue.images.map((img, i) => <img key={i} src={img} alt="Clue" style={{ width: '180px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} loading="lazy" />)}
+                           {activeClue.images.map((img, i) => <img key={i} src={img} alt="Clue" style={{ width: '180px', height: 'auto', border: '1px solid #ccc', padding: '5px', background: '#fff' }} />)}
                         </div>
                       )}
                       <div style={{ flex: 1, color: '#4a3728', fontStyle: 'italic', fontSize: '1.2rem', lineHeight: '1.6' }}>"{activeClue.desc}"</div>
@@ -950,7 +982,7 @@ function App() {
                 {activeSuspect && (
                   <div className="suspect-detail" style={{ background: '#f5f5f5', color: '#222', padding: '40px', borderRadius: '5px', border: '10px solid #fff', boxShadow: '0 5px 25px rgba(0,0,0,0.2)' }}>
                     <div style={{ display: 'flex', gap: '35px' }}>
-                      <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '220px', height: '220px', objectFit: 'cover', objectPosition: 'top', border: '1px solid #999' }} loading="lazy" />
+                      <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '220px', height: '220px', objectFit: 'cover', objectPosition: 'top', border: '1px solid #999' }} />
                       <div style={{ flex: 1 }}>
                         <div style={{ background: activeSuspect.fate?.color || '#333', color: '#fff', display: 'inline-block', padding: '4px 12px', fontSize: '0.8rem', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '1px' }}>{activeSuspect.role}</div>
                         <h2 style={{ margin: '15px 0', fontSize: '2.5rem', fontFamily: 'Cinzel' }}>{activeSuspect.name}</h2>
@@ -981,12 +1013,12 @@ function App() {
                     {/* Top: Image Section (Separated) */}
                     <div className="event-image-container">
                       {activeEvent.image && (
-                        <img src={activeEvent.image} alt={activeEvent.title} className="event-full-image" loading="lazy" />
+                        <img src={activeEvent.image} alt={activeEvent.title} className="event-full-image" />
                       )}
                       {activeEvent.images && (
                         <div style={{ display: 'flex', width: '100%', gap: '2px' }}>
                           {activeEvent.images.map((img, i) => (
-                            <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', height: 'auto', maxHeight: '50vh', objectFit: 'contain' }} loading="lazy" />
+                            <img key={i} src={img} alt="event" style={{ flex: 1, width: '33%', height: 'auto', maxHeight: '50vh', objectFit: 'contain' }} />
                           ))}
                         </div>
                       )}
@@ -1028,7 +1060,7 @@ function App() {
                 >
                   <div className="map-fog"></div>
                   <div className="map-vignette"></div>
-                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
+                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} fetchpriority="high" />
                   
                   {locations.map(loc => (
                     <div 
@@ -1052,7 +1084,7 @@ function App() {
                             transform: 'translateX(-50%)'
                           }}
                         >
-                          <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} loading="lazy" />
+                          <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                           <div style={{ padding: '8px' }}>
                             <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-accent)', fontSize: '0.8rem' }}>{loc.name}</div>
                             <div style={{ fontSize: '0.6rem', color: '#888' }}>{loc.nameEn}</div>
@@ -1107,7 +1139,7 @@ function App() {
                         clearCenter();
                         setActiveDossier(inv);
                       }}>
-                        <img src={inv.image} alt={inv.name} className="inv-thumb" loading="lazy" />
+                        <img src={inv.image} alt={inv.name} className="inv-thumb" />
                         <div className="inv-info">
                           <div className="inv-name">{inv.name}</div>
                           <div className="inv-role">{inv.role}</div>
@@ -1173,10 +1205,15 @@ function App() {
                   <h2 style={{ color: 'var(--gold-accent)', marginBottom: '25px', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px' }}>故事事件簿</h2>
                   <div className="timeline">
                     {storyEvents.map((ev, idx) => (
-                      <div key={ev.id} className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} onClick={() => {
-                        clearCenter();
-                        setActiveEvent(ev);
-                      }}>
+                      <div 
+                        key={ev.id} 
+                        className={`timeline-event ${activeEvent?.id === ev.id ? 'active' : ''}`} 
+                        onMouseEnter={() => preloadImage(ev.images || ev.image)}
+                        onClick={() => {
+                          clearCenter();
+                          setActiveEvent(ev);
+                        }}
+                      >
                         <div className="timeline-marker">{idx === 0 ? '序' : idx}</div>
                         <div className="timeline-content">
                           <div className="timeline-chapter">{ev.chapter} · {ev.date}</div>
