@@ -804,7 +804,7 @@ function App() {
       top: '12%', left: '79%',
       tooltipPos: 'left',
       linkType: 'clue', linkId: 'ore',
-      sound: SFX.HALLUCINATION
+      sound: null
     }
   ];
 
