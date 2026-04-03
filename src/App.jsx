@@ -188,7 +188,7 @@ function App() {
       }
     }
   }, [isMusicOn]);
-  
+
   // Preload critical gallery images
   useEffect(() => {
     const imagesToPreload = [
@@ -286,7 +286,7 @@ function App() {
       role: '武術家 / 尋人者',
       image: 'cang_hao_sword.png',
       desc: '精通武術的華人，此行主要目的是尋找三個月前失蹤的好友二虎。',
-      fate: { status: '生還', color: '#4caf50', detail: '決定寫信隱瞞好友死訊，模仿二虎筆跡定期寫信給二虎的爸媽與劉奶奶，獨自背負痛苦。' },
+      fate: { status: '生還（偽裝）', color: '#4caf50', detail: '在撤離途中，蒼浩因不忍告知二虎父母其已化作活屍的噩耗，選擇模仿二虎的筆跡寫下虛假的平安信寄回中國。隨後，他帶著沉重的秘密與二虎最後的囑託，獨自搭上離開美國的船隻。' },
       stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 },
       sound: SFX.SWORD
     },
@@ -296,7 +296,7 @@ function App() {
       role: '原住民法官',
       image: 'scott.png',
       desc: '利用法律權威取得資源，致力於維護森林的法治與秩序。',
-      fate: { status: '生還', color: '#4caf50', detail: '果斷炸毀礦坑封印邪神。簡死後，致力於以法律手段起訴盧卡斯集團，為族人奪回被侵佔的土地。' },
+      fate: { status: '生還（司法執法）', color: '#4caf50', detail: '在懷中痛失愛妻簡後幾乎崩潰，但他最終選擇背負起族人的正義。他利用手中掌握的集團罪證，對盧卡斯集團發起了浩大的司法起訴，致力於奪回被非法侵佔的族人土地。' },
       stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '說服 (Persuade)': 65 },
       sound: SFX.GAVEL
     },
@@ -306,7 +306,7 @@ function App() {
       role: '賞金獵人',
       image: 'miller.png',
       desc: '經驗豐富的追蹤者，受雇前來調查連環失蹤案，對森林的危險有著直覺般的警覺。',
-      fate: { status: '生還', color: '#4caf50', detail: '利用盧卡斯的犯罪紀錄成功勒索了一萬美元賞金，隨後瀟灑地離開了貝靈頓小鎮。' },
+      fate: { status: '致富', color: '#ff9800', detail: '憑藉專業賞金獵人的直覺識破了安妮的毒殺陰謀。在眾人悲痛時，他趁亂拿走了盧卡斯集團的犯罪紀錄，並以此勒索盧卡斯。最終他從心灰意冷的盧卡斯手中得到了 10,000 美元的巨款，悄然帶著財富離開了貝靈頓小鎮。' },
       stats: { '敏捷 (DEX)': 60, '射擊 (Shoot)': 75, '偵查 (Spot)': 60, '心理 (Psych)': 45, '意志 (POW)': 55 },
       sound: SFX.SHOTGUN
     },
@@ -395,7 +395,7 @@ function App() {
       role: '綁匪首領',
       image: 'suspect2.png',
       desc: '聽信水庫挖到黃金的謠言後策劃了綁架盧卡斯之女簡的行動，索要一萬美元贖金。在森林中精神逐漸崩潰，最終在昏睡中被活捉。',
-      fate: { status: '被捕', color: '#ff9800' }
+      fate: { status: '生還（狂氣）', color: '#ff9800', detail: '當調查小組進入長生小木屋時，哈里斯正陷入嚴重的精神混亂，對著黑暗中的虛空瘋狂開火。他最終被蒼浩 (Cang Hao) 以「手刀」敲暈並綑綁。故事結束時，他仍處於對外界毫無反應的失神狀態，被搜救小組一路帶回了貝靈頓小鎮並移交給警方。' }
     },
     {
       id: 'kidnapper1',
@@ -403,7 +403,7 @@ function App() {
       role: '綁匪成員',
       image: 'suspect1.png',
       desc: '留著鬍子的綁匪，自稱被哈里斯威脅才參與綁架。在森林中與調查員對峙時，被大B的步槍轟碎了腿部，隨後投降並供出簡的藏身處。他坦承森林中有讓人精神失常的怪異力量。',
-      fate: { status: '重傷被捕', color: '#ff9800' }
+      fate: { status: '重傷生還', color: '#ff9800', detail: '在森林伏擊中，克雷頓原本想反擊，卻被大 B 以高檔步槍精準射中，子彈直接轟碎了他的腿部。在接受簡單急救後，他被作為「交易籌碼」，用來與另一支打算撤離的搜救隊換取了手槍與糧食，隨後被帶回小鎮接受就醫與受審。' }
     },
     {
       id: 'kidnapper2',
@@ -411,7 +411,7 @@ function App() {
       role: '看守人',
       image: 'suspect3.png',
       desc: '沒膽的跟屁蟲，被指派在長生小木屋看守簡。當調查員抵達時，發現他已慘遭殺害——胸膛被尖刺貫穿，屍體被釘在一棵大樹上，散發著死亡的氣息。',
-      fate: { status: '死亡', color: '#f44336' }
+      fate: { status: '死亡', color: '#f44336', detail: '多布斯被發現死在長生小木屋外的染血大樹上，胸口被一根巨大的金屬「監刺」徹底貫穿並釘死在樹幹。現場木屋牆壁佈滿了由內向外射擊的彈孔，顯示他在死前曾極度恐懼地朝著某種看不見的超自然威脅瘋狂開火。' }
     },
     {
       id: 'kimbo',
@@ -704,7 +704,7 @@ function App() {
       name: '調查員紮營地',
       nameEn: 'Investigator Campsite',
       image: '/紮營地.jpg',
-      top: '40.1%', left: '34.4%',
+      top: '55.3%', left: '41.5%',
       tooltipPos: 'top',
       linkType: 'event', linkId: 'event2',
       sound: null
@@ -714,7 +714,7 @@ function App() {
       name: '第一個森林追蹤點',
       nameEn: 'First Forest Tracking Point',
       image: '/第一個森林追蹤點.jpg',
-      top: '67.9%', left: '31.0%',
+      top: '65.0%', left: '32.5%',
       tooltipPos: 'top',
       linkType: 'event', linkId: 'event3',
       sound: null
@@ -734,9 +734,29 @@ function App() {
       name: '槍戰地點',
       nameEn: 'Gunfight Location',
       image: '/槍戰地點.jpg',
-      top: '54.9%', left: '42.0%',
+      top: '69.3%', left: '34.5%',
       tooltipPos: 'right',
       linkType: 'event', linkId: 'event4',
+      sound: null
+    },
+    {
+      id: 'casings',
+      name: '大量彈殼區',
+      nameEn: 'Casing Area',
+      image: '/loc_casing_area.png',
+      top: '42.6%', left: '53.4%',
+      tooltipPos: 'right',
+      linkType: 'event', linkId: 'event-chapter3',
+      sound: null
+    },
+    {
+      id: 'hideout',
+      name: '綁匪藏身處',
+      nameEn: "Kidnappers' Hideout",
+      image: '/loc_cabin.png',
+      top: '5.7%', left: '61.8%',
+      tooltipPos: 'right',
+      linkType: 'event', linkId: 'event-chapter12',
       sound: null
     },
     {
@@ -744,7 +764,7 @@ function App() {
       name: '湖邊獻祭場',
       nameEn: 'Lakeside Ritual Site',
       image: '/湖邊.jpg',
-      top: '64.2%', left: '63.6%',
+      top: '34.6%', left: '78.1%',
       tooltipPos: 'left',
       linkType: 'event', linkId: 'event5',
       sound: null
@@ -767,13 +787,7 @@ function App() {
     if (isEditMode) return;
     playSfx(loc.sound);
     clearCenter();
-    if (loc.linkType === 'clue') {
-      const target = clues.find(c => c.id === loc.linkId);
-      if (target) setActiveClue(target);
-    } else if (loc.linkType === 'event') {
-      const target = storyEvents.find(e => e.id === loc.linkId);
-      if (target) setActiveEvent(target);
-    }
+    
     if (window.innerWidth <= 768) {
       setMobilePanelView('center');
       // From map hotspot, we don't necessarily want to "return" to side panels
@@ -855,9 +869,6 @@ function App() {
               }}>
                 <img src={inv.image} alt={inv.name} className="dossier-image" fetchpriority="high" />
                 <div className="dossier-name">{inv.name}</div>
-                {inv.fate && (
-                  <div className="fate-tag" style={{ background: inv.fate.color }}>{inv.fate.status}</div>
-                )}
               </div>
             ))}
           </div>
@@ -931,9 +942,6 @@ function App() {
             <div className="suspect-detail" style={{ background: 'var(--parchment)', color: '#222', padding: '30px', maxWidth: '500px', transform: 'rotate(-2deg)', boxShadow: '10px 10px 30px rgba(0,0,0,0.5)', border: '2px solid var(--blood-ochre)' }}>
               <h1 style={{ fontFamily: 'Cinzel', borderBottom: '2px solid var(--blood-ochre)', color: 'var(--blood-ochre)' }}>{activeSuspect.name}</h1>
               <p style={{ marginTop: '15px', fontStyle: 'italic' }}>{activeSuspect.role}</p>
-              {activeSuspect.fate && (
-                <div className="fate-tag" style={{ background: activeSuspect.fate.color, display: 'inline-block', marginTop: '10px' }}>{activeSuspect.fate.status}</div>
-              )}
               <p style={{ marginTop: '20px', lineHeight: '1.6' }}>{activeSuspect.desc}</p>
               {activeSuspect.fate?.detail && (
                 <div className="fate-reveal-container">
@@ -944,6 +952,10 @@ function App() {
                     <span>點擊撕開命運真相</span>
                   </div>
                   <div className={`fate-detail-box ${isFateRevealed ? 'revealed' : 'hidden'}`}>
+                    <h3 style={{ fontFamily: 'Cinzel', fontSize: '0.9rem', marginBottom: '8px' }}>
+                      <span className="fate-tag" style={{ background: activeSuspect.fate.color, display: 'inline-block', marginRight: '8px' }}>{activeSuspect.fate.status}</span>
+                      最終命運
+                    </h3>
                     <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: '#444' }}>{activeSuspect.fate.detail}</p>
                   </div>
                 </div>
@@ -1153,9 +1165,6 @@ function App() {
                       }}
                     >
                       <span>{suspect.name}</span>
-                      {suspect.fate && (
-                        <span className="fate-tag-small" style={{ background: suspect.fate.color }}>{suspect.fate.status}</span>
-                      )}
                     </div>
                   ))}
                 </div>
@@ -1177,9 +1186,6 @@ function App() {
                       }}
                     >
                       <span>{npc.name}</span>
-                      {npc.fate && (
-                        <span className="fate-tag-small" style={{ background: npc.fate.color }}>{npc.fate.status}</span>
-                      )}
                     </div>
                   ))}
                 </div>
