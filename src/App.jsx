@@ -846,7 +846,10 @@ function App() {
         <button
           className="edit-toggle-btn"
           onClick={() => setIsEditMode(!isEditMode)}
-          style={{ background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)' }}
+          style={{ 
+            background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)',
+            display: 'none' // Hidden from audience, kept for future maintenance
+          }}
         >
           {isEditMode ? "🛠️ 結束編輯" : "🛠️ 編輯熱點"}
         </button>
