@@ -178,7 +178,7 @@ function App() {
 
   useEffect(() => {
     if (ambientRef.current) {
-      if (isMusicOn) {
+      if (isMusicOn && !isLoading) {
         ambientRef.current.play().catch(e => {
           console.log("Ambient play blocked:", e);
           // Fallback: try to play on next user interaction
