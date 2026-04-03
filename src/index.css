@@ -567,22 +567,70 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   margin-top: 20px;
 }
 
+.prologue-container {
+  margin-top: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 1.5s ease-out;
+  padding: 0 20px;
+}
+
+.prologue-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--gold-accent);
+  margin-bottom: 25px;
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.prologue-body {
+  text-align: justify;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+.prologue-para {
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: paraFadeIn 1s forwards;
+}
+
+/* Sequential Para Animations */
+.prologue-para:nth-child(1) { animation-delay: 0.5s; }
+.prologue-para:nth-child(2) { animation-delay: 1.8s; }
+.prologue-para:nth-child(3) { animation-delay: 3.1s; }
+
+@keyframes paraFadeIn {
+  from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0px); }
+}
+
 /* Splash Start Button */
 .start-btn {
-  margin-top: 40px;
-  padding: 15px 40px;
+  margin-top: 20px;
+  padding: 12px 60px;
   background: var(--parchment);
   color: #222;
-  border: 2px solid var(--gold-accent);
+  border: 1px solid var(--gold-accent);
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  animation: buttonPulse 2s infinite alternate;
+  animation: buttonFadeIn 1s forwards, buttonPulse 2s 4s infinite alternate;
   text-transform: uppercase;
+  opacity: 0;
+}
+
+@keyframes buttonFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .start-btn:hover {
@@ -590,7 +638,7 @@ h1, h2, h3, .tab-btn, .splash-title, .dossier-name {
   color: #000;
   box-shadow: 0 0 40px var(--gold-accent);
   transform: scale(1.05) translateY(-3px);
-  letter-spacing: 4px;
+  letter-spacing: 5px;
 }
 
 @keyframes buttonPulse {

@@ -128,6 +128,15 @@ const SKILL_NARRATIVES = {
   }
 };
 
+const PROLOGUE = {
+  title: "【序幕：古茂密林的陰影】",
+  content: [
+    "1925 年夏天，佛蒙特州的貝靈頓小鎮 (Bennington) 正被不安籠罩。當地富豪盧卡斯的獨生女簡 (Jane Strong) 遭到惡名昭彰的強盜哈里斯及其黨羽綁架。昨晚，一場贖金交換在森林邊緣演變成慘烈槍戰，綁匪帶著人質遁入東北方那片人煙罕至的——「古茂密林」。",
+    "為了尋回愛女，盧卡斯在警局開出五千美金的天價懸賞（這在當時足以買下數棟房產），吸引背景迥異的調查員集結。然而，這片森林自古流傳著膽寒的祕聞：南北戰爭的亡靈、印地安傳說中的古老惡神... 連資深獵人都不敢久留。",
+    "隨著搜救隊踏入扭曲的樹影，關於神祕藍色礦藏的貪婪謠言與侵蝕心智的集體噩夢開始交織。這支各懷鬼胎的小隊將發現，綁匪並非森林中最恐怖的威脅。某種不可名狀的力量正從湖底深處，靜候著新僕從的造訪..."
+  ]
+};
+
 function App() {
   const [activeDossier, setActiveDossier] = useState(null);
   const [activeClue, setActiveClue] = useState(null);
@@ -151,7 +160,7 @@ function App() {
 
   // Initialize and handle Ambient Music
   useEffect(() => {
-    // Initial loading timer for the progress bar
+    // Stage 1: Reading Data... then Show Prologue
     const timer = setTimeout(() => {
       setIsReady(true);
     }, 2800);
@@ -833,13 +842,23 @@ function App() {
       <div className="loading-screen">
         <div className="loading-content">
           <h1 className="splash-title">SHADOWS OF THE ANCIENT FOREST</h1>
+          
           <div className="loading-bar-container">
             <div className="loading-bar"></div>
           </div>
+
           {isReady ? (
-            <button className="start-btn" onClick={startInvestigation}>
-              進入森林 (Enter the Forest)
-            </button>
+            <div className="prologue-container">
+              <h2 className="prologue-title">{PROLOGUE.title}</h2>
+              <div className="prologue-body">
+                {PROLOGUE.content.map((para, idx) => (
+                  <p key={idx} className="prologue-para">{para}</p>
+                ))}
+              </div>
+              <button className="start-btn" onClick={startInvestigation}>
+                進入森林 (Enter the Forest)
+              </button>
+            </div>
           ) : (
             <p className="loading-text">正在讀取調查資料...</p>
           )}
