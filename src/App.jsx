@@ -141,6 +141,7 @@ function App() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [draggedId, setDraggedId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [isFateRevealed, setIsFateRevealed] = useState(false);
   const [mobilePanelView, setMobilePanelView] = useState('center');
   const [previousPanelView, setPreviousPanelView] = useState('center');
@@ -150,10 +151,10 @@ function App() {
 
   // Initialize and handle Ambient Music
   useEffect(() => {
-    // Initial loading timer
+    // Initial loading timer for the progress bar
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
+      setIsReady(true);
+    }, 2800);
 
     const audio = new Audio(SFX.AMBIENT);
     audio.loop = true;
@@ -166,6 +167,14 @@ function App() {
       ambientRef.current = null;
     };
   }, []);
+
+  const startInvestigation = () => {
+    setIsLoading(false);
+    if (isMusicOn && ambientRef.current) {
+      ambientRef.current.play().catch(e => console.log("Splash play blocked:", e));
+    }
+    playSfx(SFX.PARCHMENT); 
+  };
 
   useEffect(() => {
     if (ambientRef.current) {
@@ -827,7 +836,13 @@ function App() {
           <div className="loading-bar-container">
             <div className="loading-bar"></div>
           </div>
-          <p className="loading-text">正在讀取調查資料...</p>
+          {isReady ? (
+            <button className="start-btn" onClick={startInvestigation}>
+              進入森林 (Enter the Forest)
+            </button>
+          ) : (
+            <p className="loading-text">正在讀取調查資料...</p>
+          )}
         </div>
       </div>
     );
