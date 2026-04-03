@@ -182,7 +182,7 @@ function App() {
     if (isMusicOn && ambientRef.current) {
       ambientRef.current.play().catch(e => console.log("Splash play blocked:", e));
     }
-    playSfx(SFX.PARCHMENT); 
+    playSfx(SFX.PARCHMENT);
   };
 
   useEffect(() => {
@@ -303,7 +303,7 @@ function App() {
       name: '蒼浩 (Cang Hao)',
       role: '武術家 / 尋人者',
       image: 'cang_hao_sword.png',
-      desc: '精通武術的華人，此行主要目的是尋找三個月前失蹤的好友二虎。',
+      desc: '他是一位華人武術高手。他宣稱在「四步之內無敵」，具備極佳的反擊與搏鬥能力。他加入搜救隊的私人目的是為了尋找三個月前在森林失蹤的好兄弟二虎',
       fate: { status: '生還（偽裝）', color: '#4caf50', detail: '在撤離途中，蒼浩因不忍告知二虎父母其已化作活屍的噩耗，選擇模仿二虎的筆跡寫下虛假的平安信寄回中國。隨後，他帶著沉重的秘密與二虎最後的囑託，獨自搭上離開美國的船隻。' },
       stats: { '敏捷 (DEX)': 70, '體質 (CON)': 50, '追蹤 (Track)': 70, '心理 (Psych)': 60, '理智 (SAN)': 40 },
       sound: SFX.SWORD
@@ -313,7 +313,7 @@ function App() {
       name: '斯科特 (Scott)',
       role: '原住民法官',
       image: 'scott.png',
-      desc: '利用法律權威取得資源，致力於維護森林的法治與秩序。',
+      desc: '他是一位穿著卡其色上衣的原住民法官。在斯文冷靜的法律人外表下，隱藏著身為原住民、對這片原始森林如本能般的追蹤與隱密行動天賦。他是這次小隊中唯一對「古茂密林」有著深刻家族記憶的人，卻也是最不願意談論過去的人',
       fate: { status: '生還（司法執法）', color: '#4caf50', detail: '在懷中痛失愛妻簡後幾乎崩潰，但他最終選擇背負起族人的正義。他利用手中掌握的集團罪證，對盧卡斯集團發起了浩大的司法起訴，致力於奪回被非法侵佔的族人土地。' },
       stats: { '敏捷 (DEX)': 60, '幸運 (LUK)': 53, '聆聽 (Listen)': 70, '追蹤 (Track)': 61, '說服 (Persuade)': 65 },
       sound: SFX.GAVEL
@@ -323,7 +323,7 @@ function App() {
       name: '米勒 (Miller)',
       role: '賞金獵人',
       image: 'miller.png',
-      desc: '經驗豐富的追蹤者，受雇前來調查連環失蹤案，對森林的危險有著直覺般的警覺。',
+      desc: '他是一位專業賞金獵人。他在團隊中展現出冷靜且專業的偵察與射擊技巧，是主要的戰鬥力來源。他加入任務的主要動機是為了領取高額的懸賞金',
       fate: { status: '致富', color: '#ff9800', detail: '憑藉專業賞金獵人的直覺識破了安妮的毒殺陰謀。在眾人悲痛時，他趁亂拿走了盧卡斯集團的犯罪紀錄，並以此勒索盧卡斯。最終他從心灰意冷的盧卡斯手中得到了 10,000 美元的巨款，悄然帶著財富離開了貝靈頓小鎮。' },
       stats: { '敏捷 (DEX)': 60, '射擊 (Shoot)': 75, '偵查 (Spot)': 60, '心理 (Psych)': 45, '意志 (POW)': 55 },
       sound: SFX.SHOTGUN
@@ -333,7 +333,7 @@ function App() {
       name: '大B (Big B)',
       role: '富家子弟',
       image: 'bigb.png',
-      desc: '充滿好奇心的紈絝子弟，來到貝靈頓森林是為了尋求某種超越金錢的刺激。與簡是青梅竹馬。',
+      desc: '他是一位身穿藍色西裝的富家公子，充滿好奇心的紈絝子弟，來到貝靈頓森林是為了尋求某種超越金錢的刺激。儘管性格傲慢且常帶有種族歧視，但他具備極佳的警覺性（聆聽能力）並持有高檔武器。與簡是青梅竹馬。',
       fate: { status: '生還', color: '#4caf50', detail: '與青梅竹馬簡死別後感到深深的懺悔與遺憾，決定回到父親身邊重新開始生活。' },
       stats: { '說服 (Persuade)': 70, '隱蔽 (Stealth)': 60, '體質 (CON)': 65, '敏捷 (DEX)': 60, '幸運 (LUK)': 80 },
       sound: SFX.COIN
@@ -343,7 +343,7 @@ function App() {
       name: '安妮 (Annie)',
       role: '女僕 / 復仇者',
       image: 'annie.png',
-      desc: '外表溫柔內心堅韌的女僕，實為盧卡斯當年拋棄的私生女。在紛亂的調查中，她隱藏著驚天的復仇計畫。',
+      desc: '她是一位穿著黑白相間女僕裝的年輕女性，表面上是盧卡斯家的女僕。她在小隊中負責急救與後勤支援，並表現出對簡小姐極度的關心',
       fate: { status: '入獄', color: '#f44336', detail: '在撤離途中於飲水下毒殺害簡，被其他調查員搜出身上的毒藥。回到鎮上後被捕後預計服刑 10-15 年，也揭露自己為盧卡斯私生女的身世，盧卡斯在遺書中為她留下遺產與頂級律師團隊。' },
       stats: { '醫學 (Medicine)': 70, '投擲 (Throw)': 60, '心理 (Psych)': 65, '偵查 (Spot)': 55, '敏捷 (DEX)': 70 },
       sound: SFX.VIAL
@@ -805,7 +805,7 @@ function App() {
     if (isEditMode) return;
     playSfx(loc.sound);
     clearCenter();
-    
+
     if (window.innerWidth <= 768) {
       setMobilePanelView('center');
       // From map hotspot, we don't necessarily want to "return" to side panels
@@ -842,7 +842,7 @@ function App() {
       <div className="loading-screen">
         <div className="loading-content">
           <h1 className="splash-title">SHADOWS OF THE ANCIENT FOREST</h1>
-          
+
           <div className="loading-bar-container">
             <div className="loading-bar"></div>
           </div>
@@ -880,7 +880,7 @@ function App() {
         <button
           className="edit-toggle-btn"
           onClick={() => setIsEditMode(!isEditMode)}
-          style={{ 
+          style={{
             background: isEditMode ? 'var(--blood-ochre)' : 'rgba(0,0,0,0.7)',
             display: 'none' // Hidden from audience, kept for future maintenance
           }}
