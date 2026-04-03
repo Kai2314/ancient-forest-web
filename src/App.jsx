@@ -9,7 +9,6 @@ const SFX = {
   VIAL: '/sounds/annie_vial.mp3',
   PARCHMENT: '/sounds/parchment_rustle.mp3',
   SANITY: '/sounds/sanity_loss.mp3',
-  HALLUCINATION: '/sounds/hallucination.mp3',
   AMBIENT: '/sounds/HouseontheHill_Everet_Almond.m4a',
   DICE_ROLL: '/sounds/dice_roll.mp3',
   PAPER_TEAR: '/sounds/paper_tear.mp3'
