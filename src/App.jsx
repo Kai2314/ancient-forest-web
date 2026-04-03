@@ -188,6 +188,24 @@ function App() {
       }
     }
   }, [isMusicOn]);
+  
+  // Preload critical gallery images
+  useEffect(() => {
+    const imagesToPreload = [
+      ...investigators.map(i => i.image),
+      ...clues.flatMap(c => c.images || [c.image]),
+      ...suspects.map(s => s.image),
+      ...npcs.map(n => n.image),
+      ...storyEvents.flatMap(e => e.images || [e.image]),
+      ...initialLocations.map(l => l.image),
+      '/forest_map.png'
+    ].filter(Boolean);
+
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   // Audio player utility
   const playSfx = useCallback((path, maxDuration = null) => {
@@ -835,7 +853,7 @@ function App() {
                   setMobilePanelView('center');
                 }
               }}>
-                <img src={inv.image} alt={inv.name} className="dossier-image" loading="lazy" />
+                <img src={inv.image} alt={inv.name} className="dossier-image" fetchpriority="high" />
                 <div className="dossier-name">{inv.name}</div>
                 {inv.fate && (
                   <div className="fate-tag" style={{ background: inv.fate.color }}>{inv.fate.status}</div>
@@ -930,7 +948,7 @@ function App() {
                   </div>
                 </div>
               )}
-              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
+              <img src={activeSuspect.image} alt={activeSuspect.name} style={{ width: '100%', maxHeight: '500px', objectFit: 'contain', marginTop: '15px', border: '4px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} fetchpriority="high" />
               <button
                 onClick={() => {
                   setActiveSuspect(null);
@@ -948,11 +966,11 @@ function App() {
               {activeClue.images ? (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px', marginBottom: '15px' }}>
                   {activeClue.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
+                    <img key={idx} src={img} alt={activeClue.name} style={{ width: '100%', height: '180px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} fetchpriority="high" />
                   ))}
                 </div>
               ) : (
-                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
+                <img src={activeClue.image} alt={activeClue.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} fetchpriority="high" />
               )}
               <p style={{ marginTop: '15px', lineHeight: '1.6', fontWeight: 'bold' }}>{activeClue.desc}</p>
               {activeClue.details && (
@@ -983,11 +1001,11 @@ function App() {
               {activeEvent.images ? (
                 <div style={{ display: 'grid', gridTemplateColumns: activeEvent.images.length >= 3 ? 'repeat(3, 1fr)' : activeEvent.images.length > 1 ? '1fr 1fr' : '1fr', gap: '10px', marginTop: '15px' }}>
                   {activeEvent.images.map((img, idx) => (
-                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} loading="lazy" />
+                    <img key={idx} src={img} alt={`${activeEvent.title}-${idx}`} style={{ width: '100%', maxHeight: '220px', objectFit: 'cover', border: '3px solid #fff', boxShadow: '3px 3px 10px rgba(0,0,0,0.3)' }} fetchpriority="high" />
                   ))}
                 </div>
               ) : activeEvent.image && (
-                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} loading="lazy" />
+                <img src={activeEvent.image} alt={activeEvent.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', marginTop: '15px', border: '5px solid #fff', boxShadow: '5px 5px 15px rgba(0,0,0,0.3)' }} fetchpriority="high" />
               )}
               <p style={{ marginTop: '15px', lineHeight: '1.8', fontSize: '0.95rem' }}>{activeEvent.detail}</p>
               <button
@@ -1022,7 +1040,7 @@ function App() {
                     overflow: 'visible'
                   }}
                 >
-                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} loading="lazy" />
+                  <img src="/forest_map.png" alt="Forest Map" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} fetchpriority="high" />
 
                   {/* Interactive Hotspots */}
                   {locations.map(loc => (
@@ -1039,7 +1057,7 @@ function App() {
                       <div className="hotspot-label">{loc.name}</div>
                       {!isEditMode && hoveredHotspot === loc.id && (
                         <div className={`hotspot-tooltip tooltip-${loc.tooltipPos}`}>
-                          <img src={loc.image} alt={loc.name} className="tooltip-image" loading="lazy" />
+                          <img src={loc.image} alt={loc.name} className="tooltip-image" fetchpriority="high" />
                           <div className="tooltip-info">
                             <div className="tooltip-name">{loc.name}</div>
                             <div className="tooltip-name-en">{loc.nameEn}</div>
