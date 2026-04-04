@@ -206,23 +206,79 @@ function App() {
     }
   }, [isMusicOn]);
 
-  // Preload critical gallery images
-  useEffect(() => {
-    const imagesToPreload = [
-      ...investigators.map(i => i.image),
-      ...clues.flatMap(c => c.images || [c.image]),
-      ...suspects.map(s => s.image),
-      ...npcs.map(n => n.image),
-      ...storyEvents.flatMap(e => e.images || [e.image]),
-      ...initialLocations.map(l => l.image),
-      '/forest_map.png'
-    ].filter(Boolean);
+  // Preload Management
+  const loadedAssets = useRef(new Set());
+  const preloadQueue = useRef([]);
+  const isPreloading = useRef(false);
 
-    imagesToPreload.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
+  const startNextPreload = useCallback(() => {
+    if (preloadQueue.current.length === 0) {
+      isPreloading.current = false;
+      return;
+    }
+    
+    isPreloading.current = true;
+    const nextSrc = preloadQueue.current.shift();
+    
+    if (loadedAssets.current.has(nextSrc)) {
+      startNextPreload();
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      loadedAssets.current.add(nextSrc);
+      setTimeout(startNextPreload, 100); // 100ms gap between requests to be gentle
+    };
+    img.onerror = startNextPreload; // Continue even if one fails
+    img.src = nextSrc;
   }, []);
+
+  const addToPreloadQueue = useCallback((srcs, priority = 'low') => {
+    const newSrcs = srcs.filter(src => src && !loadedAssets.current.has(src));
+    if (priority === 'high') {
+      preloadQueue.current = [...newSrcs, ...preloadQueue.current];
+    } else {
+      preloadQueue.current = [...preloadQueue.current, ...newSrcs];
+    }
+    
+    if (!isPreloading.current) {
+      startNextPreload();
+    }
+  }, [startNextPreload]);
+
+  // Initial Preloading Strategy
+  useEffect(() => {
+    // 1. High Priority (Map & Main Characters)
+    const highPriority = [
+      '/forest_map.png',
+      ...investigators.map(i => i.image)
+    ].filter(Boolean);
+    
+    addToPreloadQueue(highPriority, 'high');
+
+    // 2. Low Priority (The rest of the chronicle)
+    // We delay the start of these to give High Priority more bandwidth
+    const timer = setTimeout(() => {
+      const lowPriority = [
+        ...clues.flatMap(c => c.images || [c.image]),
+        ...suspects.map(s => s.image),
+        ...npcs.map(n => n.image),
+        ...storyEvents.flatMap(e => e.images || [e.image]),
+        ...initialLocations.map(l => l.image)
+      ].filter(Boolean);
+      
+      addToPreloadQueue(lowPriority, 'low');
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [addToPreloadQueue]);
+
+  // Jump the Queue: prioritize images when someone clicks
+  const prioritizeImage = (imageOrImages) => {
+    const images = Array.isArray(imageOrImages) ? imageOrImages : [imageOrImages];
+    addToPreloadQueue(images, 'high');
+  };
 
   // Audio player utility
   const playSfx = useCallback((path, maxDuration = null) => {
@@ -294,6 +350,23 @@ function App() {
     setActiveEvent(null);
     setRollResult(null);
     setIsFateRevealed(false);
+  };
+
+  const handleSetActiveEvent = (ev) => {
+    if (ev?.image) prioritizeImage(ev.image);
+    if (ev?.images) prioritizeImage(ev.images);
+    setActiveEvent(ev);
+  };
+
+  const handleSetActiveClue = (clue) => {
+    if (clue?.image) prioritizeImage(clue.image);
+    if (clue?.images) prioritizeImage(clue.images);
+    setActiveClue(clue);
+  };
+
+  const handleSetActiveSuspect = (suspect) => {
+    if (suspect?.image) prioritizeImage(suspect.image);
+    setActiveSuspect(suspect);
   };
 
   const investigators = [
@@ -814,6 +887,14 @@ function App() {
     playSfx(loc.sound);
     clearCenter();
 
+    if (loc.linkType === 'event') {
+      const ev = storyEvents.find(e => e.id === loc.linkId);
+      if (ev) handleSetActiveEvent(ev);
+    } else if (loc.linkType === 'clue') {
+      const clue = clues.find(c => c.id === loc.linkId);
+      if (clue) handleSetActiveClue(clue);
+    }
+
     if (window.innerWidth <= 768) {
       setMobilePanelView('center');
       // From map hotspot, we don't necessarily want to "return" to side panels
@@ -1177,7 +1258,7 @@ function App() {
                       onClick={() => {
                         playSfx(SFX.PARCHMENT);
                         clearCenter();
-                        setActiveClue(clue);
+                        handleSetActiveClue(clue);
                         if (window.innerWidth <= 768) {
                           setPreviousPanelView('right');
                           setMobilePanelView('center');
@@ -1202,7 +1283,7 @@ function App() {
                       onClick={() => {
                         playSfx(suspect.sound || SFX.PARCHMENT, 3000);
                         clearCenter();
-                        setActiveSuspect(suspect);
+                        handleSetActiveSuspect(suspect);
                         if (window.innerWidth <= 768) {
                           setPreviousPanelView('right');
                           setMobilePanelView('center');
@@ -1223,7 +1304,7 @@ function App() {
                       onClick={() => {
                         playSfx(npc.sound || SFX.PARCHMENT, 3000);
                         clearCenter();
-                        setActiveSuspect(npc);
+                        handleSetActiveSuspect(npc);
                         if (window.innerWidth <= 768) {
                           setPreviousPanelView('right');
                           setMobilePanelView('center');
@@ -1247,7 +1328,7 @@ function App() {
                       className="timeline-event"
                       onClick={() => {
                         clearCenter();
-                        setActiveEvent(event);
+                        handleSetActiveEvent(event);
                         if (window.innerWidth <= 768) {
                           setPreviousPanelView('right');
                           setMobilePanelView('center');
